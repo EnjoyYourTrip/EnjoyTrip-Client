@@ -48,7 +48,6 @@ const logout = async () => {
   router.push({ name: 'home' });
 };
 </script>
-
 <style scoped>
 /* 기본 리셋 */
 * {
@@ -63,15 +62,15 @@ const logout = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #76b852 0%, #8dc26f 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   color: #ffffff;
 }
 
 /* 브랜드 로고 스타일 */
 .navbar-brand {
   font-size: 1.6rem;
-  color: #fff;
+  color: #ffffff;
   padding: 1rem 2rem;
   text-decoration: none;
   font-weight: bold;
@@ -80,14 +79,12 @@ const logout = async () => {
 
 .navbar-brand:hover {
   transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
 }
 
 /* 네비게이션 링크 스타일 */
 .nav {
   display: flex;
   list-style: none;
-  transition: transform 0.3s ease-in-out;
 }
 
 .nav-item {
@@ -95,38 +92,87 @@ const logout = async () => {
 }
 
 .nav-link {
+  position: relative;
   color: #ffffff;
   text-decoration: none;
   font-size: 1.1rem;
-  transition:
-    color 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
+  transition: color 0.3s;
 }
 
-.nav-link:hover {
-  color: #b2bec3;
-  transform: translateY(-3px);
-  transition:
-    color 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
+.nav-link:hover,
+.nav-link:focus {
+  color: #dfe6e9;
+  transition: color 0.3s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #fff;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
 
 /* 로그아웃 버튼 호버 효과 */
 button.nav-link:hover {
-  background-color: #b2bec3;
+  background-color: #56ab2f;
   color: #2d3436;
   border-radius: 5px;
 }
 
-/* 반응형 스타일 */
+/* 햄버거 메뉴 스타일 */
+.navbar-toggler {
+  display: none; /* Initially hidden on large screens */
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.navbar-toggler-icon {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: '';
+  background-color: #ffffff;
+  display: block;
+  width: 30px;
+  height: 3px;
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before {
+  transform: translateY(-10px);
+}
+
+.navbar-toggler-icon::after {
+  transform: translateY(10px);
+}
+
 @media (max-width: 768px) {
-  #navbar-example2 {
-    flex-direction: column;
-    padding: 1rem;
+  .navbar-toggler {
+    display: block; /* Show on small screens */
+  }
+
+  .nav-container {
+    display: none; /* Hide links by default on small screens */
   }
 
   .nav-item {
-    width: 100%; /* 모바일 화면에서는 너비를 100%로 설정 */
+    width: 100%; /* Full width for mobile menu items */
     text-align: center;
   }
 }

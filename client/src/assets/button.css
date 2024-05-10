@@ -2,9 +2,9 @@
 button {
   padding: 10px 20px;
   color: white;
-  background-color: #007BFF; /* 밝은 파란색 */
+  background-color: #28a745; /* 밝은 초록색 */
   border: none;
-  border-radius: 8px; /* 적당히 둥근 모서리 */
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   font-family: 'Arial', sans-serif;
@@ -13,13 +13,13 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3; /* 호버 상태에서는 어두운 파란색 */
+  background-color: #218838; /* 호버 상태에서는 조금 더 어두운 초록색 */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강조 */
   transform: translateY(-2px); /* 호버 시 약간 위로 올라가는 효과 */
 }
 
 button:active {
-  background-color: #004080; /* 활성 상태에서는 더 어두운 파란색 */
+  background-color: #1e7e34; /* 활성 상태에서는 더 어두운 초록색 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* 눌림 효과를 위한 그림자 */
   transform: translateY(1px); /* 눌릴 때 아래로 내려가는 효과 */
 }

@@ -152,7 +152,7 @@ input[type='password']:focus {
 button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
   border: none;
   border-radius: 8px;
@@ -161,6 +161,6 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #218838;
 }
 </style>
