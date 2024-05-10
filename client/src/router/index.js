@@ -1,28 +1,30 @@
 import { createWebHistory, createRouter } from 'vue-router';
 
 import Home from '../views/HomeView.vue';
-import Login from '../views/LoginView.vue';
-
-// import Map from '../components/Map/BoardPlan.vue'; // 이걸 어디로 옮길까
-// import CreatePlan from '../components/Map/CreatePlan';
+import Login from '../views/member/LoginView.vue';
+import ListPlan from '../views/Plan/ListPlanView.vue';
+import CreatePlan from '../views/Plan/CreatePlanView.vue';
 
 const routes = [
   {
     path: '/',
+    name: 'home',
     component: Home,
   },
-  // {
-  //   path: '/map',
-  //   component: Map,
-  // },
+  {
+    path: '/listPlan',
+    name: 'listPlan',
+    component: ListPlan,
+  },
+  {
+    path: '/createPlan',
+    name: 'createPlan',
+    component: CreatePlan,
+  },
   {
     path: '/login',
     component: Login,
   },
-  // {
-  //   path: '/createPlan',
-  //   component: CreatePlan,
-  // },
 ];
 
 const router = createRouter({

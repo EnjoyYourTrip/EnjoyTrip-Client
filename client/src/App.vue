@@ -1,21 +1,18 @@
 <template>
   <!--상단 nav-bar-->
-  <Navbar/>
+  <Navbar />
   <!--라우터로 설정한 컴포넌트들-->
-  <router-view></router-view>  
-
+  <router-view></router-view>
 </template>
 <script>
-import Navbar from './components/Navigation/Nav-bar.vue';
+import Navbar from './components/navigation/Navbar.vue';
 
 export default {
-
   name: 'App',
   components: {
     Navbar,
-  
-  }
-}
+  },
+};
 </script>
 
 <style>

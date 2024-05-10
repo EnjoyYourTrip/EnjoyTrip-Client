@@ -1,22 +1,21 @@
+// store/index.js
 import { createStore } from 'vuex';
 
 const store = createStore({
-  state() {
-    return {
-      isLoggedIn: false,
-    };
+  state: {
+    isLoggedIn: false,
   },
   mutations: {
-    setLoginState(state, status) {
+    setLoggedIn(state, status) {
       state.isLoggedIn = status;
     },
   },
   actions: {
     logIn({ commit }) {
-      commit('setLoginState', true);
+      commit('setLoggedIn', true);
     },
     logOut({ commit }) {
-      commit('setLoginState', false);
+      commit('setLoggedIn', false);
     },
   },
 });

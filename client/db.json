@@ -1,19 +1,12 @@
 {
-  "posts": [
+  "members": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "memer_id": 1,
+      "id": "ssafy",
+      "password": "1234",
+      "name": "김싸피"
+
     }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
+
 }
