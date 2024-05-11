@@ -2,11 +2,73 @@
   "members": [
     {
       "memer_id": 1,
+      "username": "김싸피",
       "id": "ssafy",
       "password": "1234",
-      "name": "김싸피"
-
+      "nickname": "싸피싸피",
+      "email": "ssafy@naver.com",
+      "createed_date": "2023-01-24",
+      "last_modified_date": "2024-10-23"
+    },
+    {
+      "id": "123",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123"
+    },
+    {
+      "id": "아아아",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123"
+    },
+    {
+      "id": "1231254",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123"
+    },
+    {
+      "id": "1231",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123"
+    },
+    {
+      "id": "1231111",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123"
+    },
+    {
+      "id": "13214",
+      "password": "123",
+      "username": "123",
+      "nickname": "123",
+      "email": "123"
+    },
+    {
+      "id": "111",
+      "password": "123",
+      "username": "123",
+      "nickname": "123",
+      "email": "123"
+    }
+  ],
+  "qna": [
+    {
+      "question_id": 6,
+      "title": "제목6",
+      "content": "내용6",
+      "member_id": "작성자ID 6",
+      "has_response": false,
+      "created_date": "2024-05-15",
+      "last_modified_date": "2024-05-15"
     }
   ]
-
 }

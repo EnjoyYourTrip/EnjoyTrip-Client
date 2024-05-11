@@ -1,6 +1,9 @@
 import axios from 'axios';
-const testUrl = 'http://localhost:5000/members';
 
 export function Login(id, password) {
-  return axios.get(testUrl, { id, password });
+  return axios.get('http://localhost:5000/members', { id, password });
+}
+
+export function regist(data) {
+  return axios.post('http://localhost:5000/members', data);
 }

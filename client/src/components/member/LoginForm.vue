@@ -45,9 +45,10 @@ const login = async () => {
 
     if (response.status === 200) {
       console.dir(response);
+      //실제 서버 연결시 아이디와 비밀번호가 일치한 데이터만 보내주면 가능한 코드(아니면 직접 찾아야함)
       if (response.data[0].id === credentials.value.id) {
         await store.dispatch('logIn'); // 로그인 액션 디스패치
-        alert(`${response.data[0].name}님 안녕하세요`);
+        alert(`${response.data[0].username}님 안녕하세요`);
         router.push({ name: 'home' }); // 라우터로 페이지 이동
       } else {
         console.log('가져온 아이디' + response.data[0].id);

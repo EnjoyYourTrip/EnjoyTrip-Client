@@ -1,7 +1,8 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import { useKakao } from 'vue3-kakao-maps/@utils';
-import './assets/button.css';
+import './assets/styles/button.css';
+import './assets/styles/table.css';
 useKakao('6d2b9c70d1cd0ec052d63b57957f6439');
 
 import 'bootstrap';

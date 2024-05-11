@@ -2,14 +2,23 @@ import { createWebHistory, createRouter } from 'vue-router';
 
 import Home from '../views/HomeView.vue';
 import Login from '../views/member/LoginView.vue';
+import Regist from '../views/member/RegistView.vue';
 import ListPlan from '../views/Plan/ListPlanView.vue';
 import CreatePlan from '../views/Plan/CreatePlanView.vue';
-
+import QnAList from '../views/QnA/QnAListView.vue';
+import QnACreate from '../views/QnA/QnACreateView.vue';
+import QnADetail from '../views/QnA/QnADetailView.vue';
+import QnAEdit from '../views/QnA/QnAEditView.vue';
 const routes = [
   {
     path: '/',
     name: 'home',
     component: Home,
+  },
+  {
+    path: '/regist',
+    name: 'regist',
+    component: Regist,
   },
   {
     path: '/listPlan',
@@ -23,7 +32,28 @@ const routes = [
   },
   {
     path: '/login',
+    name: 'login',
     component: Login,
+  },
+  {
+    path: '/QnAList',
+    name: 'QnAList',
+    component: QnAList,
+  },
+  {
+    path: '/QnACreate',
+    name: 'QnACreate',
+    component: QnACreate,
+  },
+  {
+    path: '/QnADetail/:id',
+    name: 'QnADetail',
+    component: QnADetail,
+  },
+  {
+    path: '/QnAEdit/:id',
+    name: 'QnAEdit',
+    component: QnAEdit,
   },
 ];
 

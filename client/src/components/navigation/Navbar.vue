@@ -9,14 +9,14 @@
         <router-link to="/" class="nav-link">여행 게시판</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/" class="nav-link">QnA</router-link>
+        <router-link to="/QnAList" class="nav-link">QnA</router-link>
       </li>
       <template v-if="!isLoggedIn">
         <li class="nav-item">
           <router-link to="/login" class="nav-link">로그인</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/" class="nav-link">회원가입</router-link>
+          <router-link to="/regist" class="nav-link">회원가입</router-link>
         </li>
       </template>
       <template v-else>

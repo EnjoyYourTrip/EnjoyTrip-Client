@@ -1,14 +1,14 @@
 <template>
   <div class="loginModal">
-    <login-modal />
+    <login-form></login-form>
   </div>
 </template>
 
 <script>
-import loginModal from '@/components/Login/LoginModal.vue';
+import loginForm from '@/components/member/LoginForm.vue';
 export default {
   components: {
-    loginModal,
+    loginForm,
   },
 };
 </script>
