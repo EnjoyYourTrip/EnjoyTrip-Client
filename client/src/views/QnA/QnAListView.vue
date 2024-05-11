@@ -38,6 +38,7 @@ const router = useRouter();
 const qna = ref([]);
 
 const fetchQna = async () => {
+  //왜 data가 마지막 1개 밖에 없지?
   const { data } = await getQnA();
   console.log(data);
   qna.value = data;

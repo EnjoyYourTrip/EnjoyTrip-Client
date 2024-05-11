@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ qna.question_id }}</td>
+    <td>{{ qna.id }}</td>
     <td>{{ qna.title }}</td>
     <td>{{ qna.member_id }}</td>
     <td>{{ qna.created_date }}</td>

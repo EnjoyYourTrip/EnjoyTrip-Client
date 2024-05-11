@@ -9,66 +9,53 @@
       "email": "ssafy@naver.com",
       "createed_date": "2023-01-24",
       "last_modified_date": "2024-10-23"
-    },
-    {
-      "id": "123",
-      "password": "123",
-      "name": "123",
-      "nickname": "123",
-      "email": "123"
-    },
-    {
-      "id": "아아아",
-      "password": "123",
-      "name": "123",
-      "nickname": "123",
-      "email": "123"
-    },
-    {
-      "id": "1231254",
-      "password": "123",
-      "name": "123",
-      "nickname": "123",
-      "email": "123"
-    },
-    {
-      "id": "1231",
-      "password": "123",
-      "name": "123",
-      "nickname": "123",
-      "email": "123"
-    },
-    {
-      "id": "1231111",
-      "password": "123",
-      "name": "123",
-      "nickname": "123",
-      "email": "123"
-    },
-    {
-      "id": "13214",
-      "password": "123",
-      "username": "123",
-      "nickname": "123",
-      "email": "123"
-    },
-    {
-      "id": "111",
-      "password": "123",
-      "username": "123",
-      "nickname": "123",
-      "email": "123"
     }
   ],
   "qna": [
     {
-      "question_id": 6,
+      "id": 1,
+      "title": "제목1",
+      "content": "내용1",
+      "member_id": "작성자ID 1",
+      "has_response": false,
+      "created_date": "2024-05-15",
+      "last_modified_date": "2024-05-15"
+    },
+    {
+      "id": 2,
       "title": "제목6",
       "content": "내용6",
       "member_id": "작성자ID 6",
       "has_response": false,
       "created_date": "2024-05-15",
       "last_modified_date": "2024-05-15"
+    },
+    {
+      "title": "123",
+      "content": "123",
+      "created_date": 1715456381916,
+      "member_id": "김싸피",
+      "has_response": false,
+      "last_modified_date": 1715456381916,
+      "id": 7
+    },
+    {
+      "title": "123",
+      "content": "123",
+      "created_date": 1715456439164,
+      "member_id": "김싸피",
+      "has_response": false,
+      "last_modified_date": 1715456439164,
+      "id": 8
+    },
+    {
+      "title": "으앙",
+      "content": "끄앙",
+      "created_date": 1715456636108,
+      "member_id": "김싸피",
+      "has_response": false,
+      "last_modified_date": 1715456636108,
+      "id": 9
     }
   ]
 }
