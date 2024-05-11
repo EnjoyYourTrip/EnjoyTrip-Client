@@ -1,8 +1,8 @@
 <template>
   <div class="content-wrapper">
-    <h2 class="title">제목</h2>
+    <h2 class="title">{{ post.title }}</h2>
     <p class="date">2020-01-01</p>
-    <p class="content">내용</p>
+    <p class="content">{{ post.content }}</p>
     <hr class="divider" />
     <div class="button-container">
       <div class="navigation-buttons">
@@ -20,11 +20,23 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-
+import { ref } from 'vue';
+import { getQnAById } from '@/api/qna';
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
+// const id = route.params.id;
+// const props = defineProps({
+//   id: Number,
+// });
+console.log('받은 id : ' + id);
+const post = ref({});
 
+const fetchPost = async () => {
+  const { data } = await getQnAById(id);
+  post.value = { ...data };
+};
+fetchPost();
 const goListPage = () => router.push({ name: 'QnAList' });
 const goEditPage = () => router.push({ name: 'QnAEdit', params: { id } });
 const goPrevious = () => console.log('Go to previous post');

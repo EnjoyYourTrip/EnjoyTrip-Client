@@ -17,9 +17,10 @@
       <tbody>
         <QnAItem
           v-for="item in qna"
-          :key="item.question_id"
+          :key="item.id"
           :qna="item"
-          @click="goPage(item.question_id)"
+          :id="item.id"
+          @click="goPage(item.id)"
         />
       </tbody>
     </table>
@@ -52,8 +53,12 @@ const goCreate = () => {
 };
 
 //상세페이지 이동
-const goPage = question_id => {
-  router.push(`/QnADetail/${question_id}`);
+const goPage = id => {
+  console.log('전달되기 직전 id:', id);
+  router.push({
+    name: 'QnADetail',
+    params: { id },
+  });
 };
 </script>
 <style lang="scss" scoped></style>
