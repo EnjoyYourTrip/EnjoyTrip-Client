@@ -6,7 +6,7 @@
         <router-link to="/listPlan" class="nav-link">여행지 계획</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/" class="nav-link">여행 게시판</router-link>
+        <router-link to="/" class="nav-link">핫플레이스</router-link>
       </li>
       <li class="nav-item">
         <router-link to="/QnAList" class="nav-link">QnA</router-link>
