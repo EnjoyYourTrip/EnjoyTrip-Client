@@ -6,12 +6,11 @@
         <router-link to="/listPlan" class="nav-link">여행지 계획</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/" class="nav-link">공지사항</router-link>
-      </li>
-      <li class="nav-item">
         <router-link to="/" class="nav-link">여행 게시판</router-link>
       </li>
-
+      <li class="nav-item">
+        <router-link to="/" class="nav-link">QnA</router-link>
+      </li>
       <template v-if="!isLoggedIn">
         <li class="nav-item">
           <router-link to="/login" class="nav-link">로그인</router-link>
