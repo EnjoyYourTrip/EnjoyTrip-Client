@@ -14,15 +14,16 @@
   "qna": [
     {
       "id": 1,
-      "title": "제목1",
-      "content": "내용1",
+      "question_id": 1,
+      "title": "제목2",
+      "content": "내용2",
       "member_id": "작성자ID 1",
       "has_response": false,
       "created_date": "2024-05-15",
-      "last_modified_date": "2024-05-15"
+      "last_modified_date": "2024-05-12"
     },
     {
-      "id": 2,
+      "id": 6,
       "title": "제목6",
       "content": "내용6",
       "member_id": "작성자ID 6",
@@ -33,29 +34,11 @@
     {
       "title": "123",
       "content": "123",
-      "created_date": 1715456381916,
+      "created_date": "2024-05-12",
       "member_id": "김싸피",
       "has_response": false,
-      "last_modified_date": 1715456381916,
+      "last_modified_date": "2024-05-12",
       "id": 7
-    },
-    {
-      "title": "123",
-      "content": "123",
-      "created_date": 1715456439164,
-      "member_id": "김싸피",
-      "has_response": false,
-      "last_modified_date": 1715456439164,
-      "id": 8
-    },
-    {
-      "title": "으앙",
-      "content": "끄앙",
-      "created_date": 1715456636108,
-      "member_id": "김싸피",
-      "has_response": false,
-      "last_modified_date": 1715456636108,
-      "id": 9
     }
   ]
 }

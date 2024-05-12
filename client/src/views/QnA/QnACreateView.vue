@@ -44,15 +44,15 @@ const form = ref({
   title: null,
   content: null,
 });
-
+const currentDate = new Date().toISOString().substring(0, 10);
 const save = () => {
   const data = {
     //서버 연결 전에 데이터 형식에 맞게 수정하렴
     ...form.value,
-    created_date: Date.now(), // 날짜와 시간을 기록
+    created_date: currentDate, // 날짜와 시간을 기록
     member_id: '김싸피',
     has_response: false,
-    last_modified_date: Date.now(),
+    last_modified_date: currentDate,
   };
   createQnA(data)
     .then(() => {

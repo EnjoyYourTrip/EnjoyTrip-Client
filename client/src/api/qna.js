@@ -15,8 +15,9 @@ export function createQnA(data) {
   return axios.post('http://localhost:5000/qna', data);
 }
 
+//게시글 수정
 export function updateQnA(id, data) {
-  return axios.put(`http://localhost:5000/qna/${id}`, data);
+  return axios.patch(`http://localhost:5000/qna/${id}`, data);
 }
 
 export function deleteQnA(id) {

@@ -2,20 +2,30 @@
   <div>
     <h2>게시글 수정</h2>
     <hr class="my-4" />
-    <form @submit.prevent>
+    <form @submit.prevent="goDetail">
       <div class="mb-3">
         <label for="title" class="form-label">제목</label>
-        <input type="text" class="form-control" id="title" />
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          v-model="post.title"
+        />
       </div>
       <div class="mb-3">
         <label for="content" class="form-label">내용</label>
-        <textarea class="form-control" id="content" rows="12"></textarea>
+        <textarea
+          class="form-control"
+          id="content"
+          rows="12"
+          v-model="post.content"
+        ></textarea>
       </div>
       <div class="pt-4">
         <button type="button" class="btn-outline-dark me-2" @click="goDetail">
           취소
         </button>
-        <button>등록</button>
+        <button type="submit">등록</button>
       </div>
     </form>
   </div>
@@ -23,13 +33,37 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { getQnAById, updateQnA } from '@/api/qna';
+const post = ref({});
 
 const route = useRoute();
 
 const router = useRouter();
 const id = route.params.id;
+//id에 해당하는 정보 가져오기
+const fetchPost = async () => {
+  try {
+    const { data } = await getQnAById(id);
+    post.value = { ...data };
+  } catch (error) {
+    console.error('야 수정글 못가져온다: ', error);
+  }
+};
+fetchPost();
 function goDetail() {
-  router.push({ name: 'QnADetail', params: { id } });
+  //수정날짜 갱신
+  // 수정 날짜를 ISO 형식의 날짜만 사용하도록 갱신
+  const currentDate = new Date().toISOString().substring(0, 10); // "2024-05-15" 형식
+  post.value.last_modified_date = currentDate;
+  //사용자가 작성한 값으로 수정하기
+  updateQnA(id, { ...post.value })
+    .then(() => {
+      router.push({ name: 'QnADetail', params: { id } });
+    })
+    .catch(error => {
+      console.error('업데이트 실패', error);
+    });
 }
 </script>
 <style lang="scss" scoped>
