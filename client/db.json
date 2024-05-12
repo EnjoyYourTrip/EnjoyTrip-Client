@@ -18,7 +18,7 @@
       "title": "제목2",
       "content": "내용2",
       "member_id": "작성자ID 1",
-      "has_response": false,
+      "has_response": true,
       "created_date": "2024-05-15",
       "last_modified_date": "2024-05-12"
     },
@@ -32,8 +32,8 @@
       "last_modified_date": "2024-05-15"
     },
     {
-      "title": "123",
-      "content": "123",
+      "title": "혁준",
+      "content": "혁준",
       "created_date": "2024-05-12",
       "member_id": "김싸피",
       "has_response": false,

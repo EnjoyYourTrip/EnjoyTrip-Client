@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrapper">
     <h2 class="title">{{ post.title }}</h2>
-    <p class="date">2020-01-01</p>
+    <p class="date">{{ post.last_modified_date }}</p>
     <p class="content">{{ post.content }}</p>
     <hr class="divider" />
     <div class="button-container">
@@ -21,7 +21,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { getQnAById } from '@/api/qna';
+import { getQnAById, deleteQnA } from '@/api/qna';
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
@@ -41,7 +41,16 @@ const goListPage = () => router.push({ name: 'QnAList' });
 const goEditPage = () => router.push({ name: 'QnAEdit', params: { id } });
 const goPrevious = () => console.log('Go to previous post');
 const goNext = () => console.log('Go to next post');
-const deletePost = () => console.log('Delete the post');
+const deletePost = () => {
+  deleteQnA(id)
+    .then(() => {
+      alert('삭제되었습니다.');
+      router.push({ name: 'QnAList' });
+    })
+    .catch(error => {
+      console.error('삭제 실패', error);
+    });
+};
 </script>
 
 <style lang="scss" scoped>

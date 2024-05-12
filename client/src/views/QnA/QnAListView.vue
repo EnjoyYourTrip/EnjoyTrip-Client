@@ -7,7 +7,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>번호</th>
+          <th>처리 상태</th>
           <th>제목</th>
           <th>작성자</th>
           <th>작성 일자</th>
@@ -61,4 +61,35 @@ const goPage = id => {
   });
 };
 </script>
-<style lang="scss" scoped></style>
+<style scoped>
+.table {
+  width: 100%; /* 테이블 전체 너비를 고정 */
+  table-layout: fixed; /* 테이블 레이아웃을 고정 */
+}
+
+th,
+td {
+  text-align: center; /* 모든 열의 텍스트를 중앙 정렬 */
+  vertical-align: middle; /* 셀의 내용을 수직 중앙에 위치 */
+  padding: 8px; /* 적절한 패딩을 추가하여 내용이 너무 셀 가장자리에 붙지 않도록 */
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 15%; /* 첫 번째 열의 너비를 15%로 설정 */
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 35%; /* 두 번째 열의 너비를 조정 */
+}
+
+th:nth-child(3),
+td:nth-child(3),
+th:nth-child(4),
+td:nth-child(4),
+th:nth-child(5),
+td:nth-child(5) {
+  width: 15%; /* 세 번째, 네 번째, 다섯 번째 열의 너비 */
+}
+</style>
