@@ -20,6 +20,7 @@
         {{ category.name }}
       </option>
     </select>
+
     <!-- 텍스트 입력 필드 추가 -->
     <input v-model="selected.text" placeholder="검색어 입력" />
     <!-- 검색 버튼 -->
@@ -89,25 +90,43 @@ export default {
   },
   methods: {
     async submitSelection() {
-      console.log(this.selected);
       try {
-        // 서버로 선택된 값들 보내고 데이터 가져오기
-        const response = await getAttraction({
-          params: {
-            city: this.selected.city,
-            category: this.selected.category,
-            text: this.selected.text,
-          },
-        });
-
-        // 가져온 데이터를 변수에 저장
-        const attractions = response.data.attraction;
-
-        console.log(attractions); // 확인용
-        // 여기서 attractions 변수를 다른 메소드로 넘기거나 상태 관리 로직을 추가할 수 있습니다.
+        const response = await getAttraction(
+          this.selected.city,
+          this.selected.category,
+          this.selected.text,
+        );
+        this.createMarkers(response.data); // 마커 생성 함수 호출
       } catch (error) {
         console.error('데이터를 가져오는 중 에러가 발생했습니다:', error);
       }
+    },
+    createMarkers(attractions) {
+      if (attractions.length === 0) return; // 결과가 없으면 함수 종료
+
+      var imageSrc =
+        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+      var imageSize = new kakao.maps.Size(24, 35);
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+      // 첫 번째 위치로 지도 중심 이동
+      var firstPosition = new kakao.maps.LatLng(
+        attractions[0].latitude,
+        attractions[0].longitude,
+      );
+      this.mapInstance.setCenter(firstPosition);
+
+      attractions.forEach(attraction => {
+        new kakao.maps.Marker({
+          map: this.mapInstance,
+          position: new kakao.maps.LatLng(
+            attraction.latitude,
+            attraction.longitude,
+          ),
+          title: attraction.title,
+          image: markerImage,
+        });
+      });
     },
   },
 
