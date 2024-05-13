@@ -65,5 +65,25 @@
       "last_modified_date": "2024-05-13",
       "id": 9
     }
+  ],
+  "attraction" : [{
+    "contentId": 125266,
+    "contentTypeId": 12,
+    "title": "국립 청태산자연휴양림",
+    "addr1": "강원도 횡성군 둔내면 청태산로 610",
+    "addr2": "",
+    "zipcode": "25261",
+    "tel": "",
+    "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
+    "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
+    "readcount": 92309,
+    "sidoCode": 32,
+    "gugunCode": 18,
+    "latitude": 37.52251412,
+    "longitude": 128.2919115,
+    "mlevel": "6"
+  }
+
+    
   ]
 }

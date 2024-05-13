@@ -1884,7 +1884,7 @@ vue-router@^4.3.2:
   dependencies:
     "@vue/devtools-api" "^6.5.1"
 
-vue@^3.2.0, vue@^3.2.25, vue@^3.4.21, vue@3.4.27:
+vue@^3.2.0, vue@^3.2.25, vue@^3.3.0, vue@^3.4.21, vue@3.4.27:
   version "3.4.27"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.27.tgz"
   integrity sha512-8s/56uK6r01r1icG/aEOHqyMVxd1bkYcSe9j8HcKtr/xTOFWvnzIVTehNW+5Yt89f+DLBe4A569pnZLS5HzAMA==
@@ -1901,6 +1901,11 @@ vue3-kakao-maps@^2.3.1:
   integrity sha512-XZVVdMZvKEen9+lGJThAeLz3dqXuJO/QUAyIZrYAu5yw3BQLnoro3mg6pnkrklIOgo+dLQRzCrwgBaO3cYSxCA==
   dependencies:
     kakao.maps.d.ts "^0.1.39"
+
+vuetify@^3.6.5:
+  version "3.6.5"
+  resolved "https://registry.npmjs.org/vuetify/-/vuetify-3.6.5.tgz"
+  integrity sha512-YrHTM1vb7UllAtfH9tWfTo1wYMjyCSybu4WtXrfMRpMwAaZWgfrMmqD/4Tc+0KqDsDsYMXaYs0nJ6HtdMJZbyA==
 
 vuex@^4.1.0:
   version "4.1.0"

@@ -1,36 +1,27 @@
 <template>
   <div>
-    <h2>여행지 계획 만들어봐라</h2>
+    <h2>여행지 계획</h2>
   </div>
   <div class="dropdown-menu-container">
     <!-- 첫 번째 드롭다운 버튼 -->
     <select v-model="selected.city">
       <option disabled value="">도시 선택</option>
-      <option>서울</option>
-      <option>대전</option>
-      <option>광주</option>
-      <option>구미</option>
-      <option>부산</option>
+      <option v-for="sido in sidos" :key="sido.sidoCode" :value="sido.sidoCode">
+        {{ sido.sidoName }}
+      </option>
     </select>
-
-    <!-- 두 번째 드롭다운 버튼 -->
     <select v-model="selected.category">
       <option disabled value="">카테고리 선택</option>
-      <option>관광지</option>
-      <option>문화시설</option>
-      <option>축제공연행사</option>
-      <option>여행코스</option>
+      <option
+        v-for="category in categories"
+        :key="category.code"
+        :value="category.code"
+      >
+        {{ category.name }}
+      </option>
     </select>
-
-    <!-- 세 번째 드롭다운 버튼 -->
-    <select v-model="selected.type">
-      <option disabled value="">유형 선택</option>
-      <option>스포츠</option>
-      <option>숙박</option>
-      <option>쇼핑</option>
-      <option>음식점</option>
-    </select>
-
+    <!-- 텍스트 입력 필드 추가 -->
+    <input v-model="selected.text" placeholder="검색어 입력" />
     <!-- 검색 버튼 -->
     <button @click="submitSelection">검색</button>
 
@@ -44,6 +35,7 @@
 </template>
 
 <script>
+import { getAttraction } from '@/api/map';
 export default {
   data() {
     return {
@@ -51,8 +43,37 @@ export default {
       selected: {
         city: '',
         category: '',
-        type: '',
+        text: '', // 텍스트 입력값 저장
       },
+      categories: [
+        { code: 12, name: '관광지' },
+        { code: 14, name: '문화시설' },
+        { code: 15, name: '축제공연행사' },
+        { code: 25, name: '여행코스' },
+        { code: 28, name: '레포츠' },
+        { code: 32, name: '숙박' },
+        { code: 38, name: '쇼핑' },
+        { code: 39, name: '음식점' },
+      ],
+      sidos: [
+        { sidoCode: 1, sidoName: '서울' },
+        { sidoCode: 2, sidoName: '인천' },
+        { sidoCode: 3, sidoName: '대전' },
+        { sidoCode: 4, sidoName: '대구' },
+        { sidoCode: 5, sidoName: '광주' },
+        { sidoCode: 6, sidoName: '부산' },
+        { sidoCode: 7, sidoName: '울산' },
+        { sidoCode: 8, sidoName: '세종특별자치시' },
+        { sidoCode: 31, sidoName: '경기도' },
+        { sidoCode: 32, sidoName: '강원도' },
+        { sidoCode: 33, sidoName: '충청북도' },
+        { sidoCode: 34, sidoName: '충청남도' },
+        { sidoCode: 35, sidoName: '경상북도' },
+        { sidoCode: 36, sidoName: '경상남도' },
+        { sidoCode: 37, sidoName: '전라북도' },
+        { sidoCode: 38, sidoName: '전라남도' },
+        { sidoCode: 39, sidoName: '제주도' },
+      ],
     };
   },
   mounted() {
@@ -67,17 +88,35 @@ export default {
     this.mapInstance = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
   },
   methods: {
-    submitSelection() {
+    async submitSelection() {
       console.log(this.selected);
+      try {
+        // 서버로 선택된 값들 보내고 데이터 가져오기
+        const response = await getAttraction({
+          params: {
+            city: this.selected.city,
+            category: this.selected.category,
+            text: this.selected.text,
+          },
+        });
+
+        // 가져온 데이터를 변수에 저장
+        const attractions = response.data.attraction;
+
+        console.log(attractions); // 확인용
+        // 여기서 attractions 변수를 다른 메소드로 넘기거나 상태 관리 로직을 추가할 수 있습니다.
+      } catch (error) {
+        console.error('데이터를 가져오는 중 에러가 발생했습니다:', error);
+      }
     },
-    create() {
-      alert('여행계획이 생성되었습니다.');
-      this.$router.push('/listPlan');
-    },
+  },
+
+  create() {
+    alert('여행계획이 생성되었습니다.');
+    this.$router.push('/listPlan');
   },
 };
 </script>
-
 <style>
 .dropdown-menu-container {
   display: flex;
@@ -92,10 +131,17 @@ export default {
   height: 500px; /* Fixed height for the map */
 }
 
-select {
-  padding: 8px 16px; /* Padding for better clickability and aesthetics */
+select,
+input[type='text'] {
+  padding: 8px 12px; /* Adjust padding to align heights more precisely */
   border: 1px solid #ccc; /* Border for definition */
   border-radius: 4px; /* Rounded borders for modern look */
   background-color: white; /* Background color for the elements */
+  height: 38px; /* Explicit height to ensure consistency */
+  box-sizing: border-box; /* Include padding and border in the height */
+}
+
+input[type='text'] {
+  margin-top: 0px; /* Adjust margin to better align with selects vertically */
 }
 </style>
