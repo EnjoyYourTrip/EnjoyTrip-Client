@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <h2>여행지 계획 만들어봐라</h2>
+  </div>
   <div class="dropdown-menu-container">
     <!-- 첫 번째 드롭다운 버튼 -->
     <select v-model="selected.city">
@@ -33,9 +36,10 @@
 
     <button @click.prevent="create">계획 생성하기</button>
   </div>
-
-  <div id="map-container">
-    <div id="map"></div>
+  <div class="container-fluid">
+    <div id="map-container" class="mt-3 mx-auto" style="width: 50%">
+      <div id="map" style="height: 500px"></div>
+    </div>
   </div>
 </template>
 
@@ -58,6 +62,8 @@ export default {
       center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
       level: 3, // 지도의 레벨(확대, 축소 정도)
     };
+
+    /* global kakao */
     this.mapInstance = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
   },
   methods: {
@@ -66,26 +72,30 @@ export default {
     },
     create() {
       alert('여행계획이 생성되었습니다.');
-      this.$router.push('/Map');
+      this.$router.push('/listPlan');
     },
   },
 };
 </script>
 
 <style>
-#map-container {
-  width: 100%; /* 컨테이너 너비를 부모 요소에 맞춤 */
-  height: 100vh; /* 높이를 화면의 전체 높이로 설정 */
+.dropdown-menu-container {
+  display: flex;
+  justify-content: center; /* Align items horizontally center */
+  align-items: center; /* Align items vertically center */
+  margin-top: 30px; /* Top margin for spacing from any elements above */
+  gap: 20px; /* Increase gap for better spacing */
 }
 
 #map {
-  width: 100%;
-  height: 100%;
+  width: 100%; /* Full width of its container */
+  height: 500px; /* Fixed height for the map */
 }
 
-.dropdown-menu-container {
-  display: flex;
-  margin: 30px;
-  gap: 10px; /* 버튼 사이의 간격 */
+select {
+  padding: 8px 16px; /* Padding for better clickability and aesthetics */
+  border: 1px solid #ccc; /* Border for definition */
+  border-radius: 4px; /* Rounded borders for modern look */
+  background-color: white; /* Background color for the elements */
 }
 </style>

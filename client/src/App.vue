@@ -4,6 +4,7 @@
   <!--라우터로 설정한 컴포넌트들-->
   <router-view></router-view>
 </template>
+
 <script>
 import Navbar from './components/navigation/Navbar.vue';
 

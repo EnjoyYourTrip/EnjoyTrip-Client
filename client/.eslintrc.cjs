@@ -27,7 +27,4 @@ module.exports = {
     ],
     'vue/multi-word-component-names': 'off',
   },
-  globals: {
-    kakao: 'readonly',
-  },
 };
