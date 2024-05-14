@@ -128,11 +128,10 @@ export default {
         });
       });
     },
-  },
-
-  create() {
-    alert('여행계획이 생성되었습니다.');
-    this.$router.push('/listPlan');
+    create() {
+      alert('여행계획이 생성되었습니다.');
+      this.$router.push('/listPlan');
+    },
   },
 };
 </script>
