@@ -32,6 +32,19 @@
     <div id="map-container" class="mt-3 mx-auto" style="width: 50%">
       <div id="map" style="height: 500px"></div>
     </div>
+
+    <v-slide-group v-if="showSlides">
+      <v-slide-group-item
+        v-for="attraction in attractions"
+        :key="attraction.id"
+      >
+        <v-card>
+          <v-img :src="attraction.image" height="200px"></v-img>
+          <v-card-title>{{ attraction.title }}</v-card-title>
+          <v-card-text>{{ attraction.description }}</v-card-text>
+        </v-card>
+      </v-slide-group-item>
+    </v-slide-group>
   </div>
 </template>
 
@@ -45,6 +58,8 @@ export default {
         city: '',
         category: '',
         text: '', // 텍스트 입력값 저장
+        showSlides: false, // 초기 상태는 숨김
+        attractions: [], // 검색 결과를 저장할 배열
       },
       categories: [
         { code: 12, name: '관광지' },
@@ -96,13 +111,17 @@ export default {
           this.selected.category,
           this.selected.text,
         );
+        this.attractions = response.data; // 검색 결과를 저장
+        console.log('attractions : ', this.attractions);
         this.createMarkers(response.data); // 마커 생성 함수 호출
+        this.showSlides = true; // 검색 후 슬라이드 그룹을 표시
       } catch (error) {
         console.error('데이터를 가져오는 중 에러가 발생했습니다:', error);
+        this.showSlides = false; // 에러 시 슬라이드 그룹 숨김
       }
     },
-    createMarkers(attractions) {
-      if (attractions.length === 0) return; // 결과가 없으면 함수 종료
+    createMarkers(attractionsData) {
+      if (attractionsData.length === 0) return; // 결과가 없으면 함수 종료
 
       var imageSrc =
         'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
@@ -111,12 +130,12 @@ export default {
 
       // 첫 번째 위치로 지도 중심 이동
       var firstPosition = new kakao.maps.LatLng(
-        attractions[0].latitude,
-        attractions[0].longitude,
+        attractionsData[0].latitude,
+        attractionsData[0].longitude,
       );
       this.mapInstance.setCenter(firstPosition);
 
-      attractions.forEach(attraction => {
+      attractionsData.forEach(attraction => {
         new kakao.maps.Marker({
           map: this.mapInstance,
           position: new kakao.maps.LatLng(
