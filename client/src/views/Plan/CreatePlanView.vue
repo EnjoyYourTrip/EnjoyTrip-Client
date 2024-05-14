@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>여행지 계획</h2>
+    <input v-model="titleText" placeholder="제목 입력" class="large-input" />
   </div>
   <div class="dropdown-menu-container">
     <select v-model="selected.city">
@@ -31,6 +31,7 @@
         <v-slide-group-item
           v-for="attraction in attractions"
           :key="attraction.id"
+          class="slide-item-spacing"
         >
           <v-card>
             <v-img :src="attraction.firstImage" height="200px"></v-img>
@@ -54,6 +55,7 @@ export default {
         category: '',
         text: '',
       },
+      titleText: '',
       showSlides: false, // 슬라이드 표시 상태
       attractions: [], // 검색 결과를 저장할 배열
       categories: [
@@ -204,5 +206,16 @@ input[type='text'] {
 
 .v-slide-group {
   margin: 20px 0; /* Vertical spacing for the entire slider component */
+}
+
+.slide-item-spacing {
+  margin-left: 10px; /* Adjust the left margin */
+  margin-right: 10px; /* Adjust the right margin */
+}
+.large-input {
+  width: 300px;
+  height: 80px; /* Set a larger height for better visibility and easier interaction */
+  font-size: 30px; /* Increases the font size for better readability */
+  padding: 10px; /* Optional: Adds some padding inside the input box */
 }
 </style>
