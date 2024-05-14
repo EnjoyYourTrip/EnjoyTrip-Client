@@ -1,5 +1,12 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+
+// Vuetify
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+
 import { useKakao } from 'vue3-kakao-maps/@utils';
 import './assets/styles/button.css';
 import './assets/styles/table.css';
@@ -9,5 +16,13 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import router from './router/index.js';
 import loginStore from './store/loginStore.js';
+const vuetify = createVuetify({
+  components,
+  directives,
+});
 
-createApp(App).use(loginStore).use(router).mount('#app');
+createApp(App)
+  .use(loginStore)
+  .use(router)
+  .use(vuetify) // 여기서 생성한 vuetify 인스턴스 사용
+  .mount('#app');

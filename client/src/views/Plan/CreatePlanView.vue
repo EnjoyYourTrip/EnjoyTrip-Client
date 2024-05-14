@@ -3,7 +3,6 @@
     <h2>여행지 계획</h2>
   </div>
   <div class="dropdown-menu-container">
-    <!-- 첫 번째 드롭다운 버튼 -->
     <select v-model="selected.city">
       <option disabled value="">도시 선택</option>
       <option v-for="sido in sidos" :key="sido.sidoCode" :value="sido.sidoCode">
@@ -20,36 +19,32 @@
         {{ category.name }}
       </option>
     </select>
-
-    <!-- 텍스트 입력 필드 추가 -->
     <input v-model="selected.text" placeholder="검색어 입력" />
-    <!-- 검색 버튼 -->
     <button @click="submitSelection">검색</button>
-
     <button @click.prevent="create">계획 생성하기</button>
   </div>
   <div class="container-fluid">
     <div id="map-container" class="mt-3 mx-auto" style="width: 50%">
       <div id="map" style="height: 500px"></div>
+      <!-- Vuetify Slide Group 추가 -->
+      <v-slide-group v-if="showSlides">
+        <v-slide-group-item
+          v-for="attraction in attractions"
+          :key="attraction.id"
+        >
+          <v-card>
+            <v-img :src="attraction.firstImage" height="200px"></v-img>
+            <v-card-title>{{ attraction.title }}</v-card-title>
+            <v-card-text>{{ attraction.addr1 }}</v-card-text>
+          </v-card>
+        </v-slide-group-item>
+      </v-slide-group>
     </div>
-
-    <v-slide-group v-if="showSlides">
-      <v-slide-group-item
-        v-for="attraction in attractions"
-        :key="attraction.id"
-      >
-        <v-card>
-          <v-img :src="attraction.image" height="200px"></v-img>
-          <v-card-title>{{ attraction.title }}</v-card-title>
-          <v-card-text>{{ attraction.description }}</v-card-text>
-        </v-card>
-      </v-slide-group-item>
-    </v-slide-group>
   </div>
 </template>
-
 <script>
 import { getAttraction } from '@/api/map';
+
 export default {
   data() {
     return {
@@ -57,10 +52,10 @@ export default {
       selected: {
         city: '',
         category: '',
-        text: '', // 텍스트 입력값 저장
-        showSlides: false, // 초기 상태는 숨김
-        attractions: [], // 검색 결과를 저장할 배열
+        text: '',
       },
+      showSlides: false, // 슬라이드 표시 상태
+      attractions: [], // 검색 결과를 저장할 배열
       categories: [
         { code: 12, name: '관광지' },
         { code: 14, name: '문화시설' },
@@ -93,17 +88,18 @@ export default {
     };
   },
   mounted() {
-    var container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
-    var options = {
-      // 지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
-      level: 3, // 지도의 레벨(확대, 축소 정도)
-    };
-
-    /* global kakao */
-    this.mapInstance = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
+    this.initializeMap();
   },
   methods: {
+    initializeMap() {
+      var container = document.getElementById('map');
+      var options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 3,
+      };
+      /* global kakao */
+      this.mapInstance = new kakao.maps.Map(container, options);
+    },
     async submitSelection() {
       try {
         const response = await getAttraction(
@@ -111,30 +107,25 @@ export default {
           this.selected.category,
           this.selected.text,
         );
-        this.attractions = response.data; // 검색 결과를 저장
-        console.log('attractions : ', this.attractions);
-        this.createMarkers(response.data); // 마커 생성 함수 호출
-        this.showSlides = true; // 검색 후 슬라이드 그룹을 표시
+        this.attractions = response.data;
+        this.showSlides = this.attractions.length > 0;
+        this.createMarkers(this.attractions);
       } catch (error) {
-        console.error('데이터를 가져오는 중 에러가 발생했습니다:', error);
-        this.showSlides = false; // 에러 시 슬라이드 그룹 숨김
+        console.error('Error fetching attractions:', error);
+        this.showSlides = false;
       }
     },
     createMarkers(attractionsData) {
-      if (attractionsData.length === 0) return; // 결과가 없으면 함수 종료
-
+      if (attractionsData.length === 0) return;
       var imageSrc =
         'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
       var imageSize = new kakao.maps.Size(24, 35);
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-      // 첫 번째 위치로 지도 중심 이동
       var firstPosition = new kakao.maps.LatLng(
         attractionsData[0].latitude,
         attractionsData[0].longitude,
       );
       this.mapInstance.setCenter(firstPosition);
-
       attractionsData.forEach(attraction => {
         new kakao.maps.Marker({
           map: this.mapInstance,
@@ -154,7 +145,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .dropdown-menu-container {
   display: flex;
   justify-content: center; /* Align items horizontally center */
@@ -180,5 +171,38 @@ input[type='text'] {
 
 input[type='text'] {
   margin-top: 0px; /* Adjust margin to better align with selects vertically */
+}
+
+.v-slide-group__prev,
+.v-slide-group__next {
+  z-index: 2; /* Ensure arrows are above other elements */
+  color: #353979; /* Dark color for visibility */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Light background to stand out */
+  border-radius: 50%; /* Circular buttons */
+  width: 40px; /* Consistent button size */
+  height: 40px; /* Consistent button size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px; /* Space between arrows and slide items */
+}
+
+.v-slide-group__content {
+  overflow: visible !important; /* Ensure nothing is clipped */
+}
+
+.v-slide-group__item {
+  min-width: 250px; /* Minimum width for each slide */
+  margin-right: 20px; /* Right margin for spacing between slides */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.v-slide-group {
+  margin: 20px 0; /* Vertical spacing for the entire slider component */
 }
 </style>
