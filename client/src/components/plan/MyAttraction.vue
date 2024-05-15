@@ -3,11 +3,16 @@
     <div class="header-wrapper">
       <div class="title mb-3">
         <b class="title">마커를 클릭해</b><br />
-        <b class="title">장소를 선택해주세요.</b>
+        <b class="title">여행지를 선택해주세요.</b>
       </div>
-      <v-btn variant="tonal" @click="addPlanList">여행 계획 추가</v-btn>
+      <p>방문할 여행지를 순서대로 선택하세요</p>
+      <v-btn class="custom-btn" variant="tonal" @click="addPlanList"
+        >여행 계획 추가</v-btn
+      >
       &nbsp; &nbsp;
-      <v-btn variant="tonal" @click="removePlanList">초기화</v-btn>
+      <v-btn class="custom-btn" variant="tonal" @click="removePlanList"
+        >초기화</v-btn
+      >
     </div>
 
     <div class="card-container">
@@ -31,7 +36,7 @@
             <template v-slot:activator="{ props }">
               <v-btn
                 v-bind="props"
-                class="detail-btn"
+                class="detail-btn custom-btn"
                 @click="showDetail(attraction.contentId)"
                 >자세히</v-btn
               >
@@ -56,15 +61,18 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-// import { getAttraction } from '@/api/map';
+import { useRouter } from 'vue-router';
 
 const attractions = ref([]);
 const overview = ref('');
 
-//카카오 지도에서 찍은 여행지의 id를 받아옴
+// 카카오 지도에서 찍은 여행지의 id를 받아옴
 const props = defineProps({
   attractionObject: Object,
 });
+
+// 라우터 객체 가져오기
+const router = useRouter();
 
 // 카카오 지도에서 클릭한 마커가 변하자마자
 watch(
@@ -81,7 +89,13 @@ const removePlanList = () => {
   attractions.value = [];
 };
 
-// // 자세히 버튼을 누르면 실행되는 함수
+// 여행 계획 추가 버튼을 누르면 실행되는 함수
+const addPlanList = () => {
+  alert('여행 계획이 생성되었습니다.');
+  router.push({ name: 'listPlan' });
+};
+
+// // 자세히 버튼을 누르면 실행되는 함수 => 서버 연동하고 구현할꺼임
 // const showDetail = async contentId => {
 //   try {
 //     const response = await getAttraction(contentId);
@@ -90,8 +104,6 @@ const removePlanList = () => {
 //     console.log('자세히 보기 에러', error);
 //   }
 // };
-
-const addPlanList = () => {};
 </script>
 
 <style lang="scss" scoped>
@@ -155,6 +167,18 @@ const addPlanList = () => {};
 .card-text {
   font-size: 13px;
   color: #a0a0a0;
+}
+
+.custom-btn {
+  background-color: #3aae70;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+.custom-btn:hover {
+  background-color: #36985d;
 }
 
 .detail-btn {
