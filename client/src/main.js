@@ -15,7 +15,6 @@ useKakao('6d2b9c70d1cd0ec052d63b57957f6439');
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import router from './router/index.js';
-import loginStore from './store/memberStore.js';
 
 //pinia
 import { createPinia } from 'pinia';
@@ -26,9 +25,4 @@ const vuetify = createVuetify({
   directives,
 });
 
-createApp(App)
-  .use(loginStore)
-  .use(router)
-  .use(vuetify)
-  .use(pinia)
-  .mount('#app');
+createApp(App).use(router).use(vuetify).use(pinia).mount('#app');

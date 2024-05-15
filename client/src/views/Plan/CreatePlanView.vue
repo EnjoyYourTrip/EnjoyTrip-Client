@@ -38,7 +38,6 @@
           </select>
           <input v-model="selected.text" placeholder="검색어 입력" />
           <button @click="submitSelection">검색</button>
-          <button @click.prevent="create">계획 생성하기</button>
         </div>
         <div id="map-container" class="mt-3 mx-auto" style="width: 100%">
           <div id="map" style="height: 500px"></div>
@@ -62,14 +61,14 @@
       <div
         class="col-md-2 d-flex justify-content-end align-items-start my-attraction-container"
       >
-        <my-attraction :contentId="contentId" />
+        <my-attraction :attractionObject="attractionObject" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getAttraction } from '@/api/map';
+import { attractionList } from '@/api/map';
 import MyAttraction from '@/components/plan/MyAttraction.vue';
 import { ref } from 'vue';
 export default {
@@ -87,7 +86,7 @@ export default {
       titleText: '',
       showSlides: false, // 슬라이드 표시 상태
       attractions: [], // 검색 결과를 저장할 배열
-      contentId: ref(),
+      attractionObject: ref({}),
       categories: [
         { code: 12, name: '관광지' },
         { code: 14, name: '문화시설' },
@@ -134,7 +133,7 @@ export default {
     },
     async submitSelection() {
       try {
-        const response = await getAttraction(
+        const response = await attractionList(
           this.selected.city,
           this.selected.category,
           this.selected.text,
@@ -170,6 +169,7 @@ export default {
         });
         // 마커 클릭 이벤트 추가
         kakao.maps.event.addListener(marker, 'click', () => {
+          console.log('마커 클릭시 자식으로 보낼 데이터', attraction);
           this.onMarkerClick(attraction);
         });
       });
@@ -177,11 +177,7 @@ export default {
     onMarkerClick(attraction) {
       // 마커 클릭 시 처리할 내용
       // console.log(attraction);
-      this.contentId = attraction;
-    },
-    create() {
-      alert('여행계획이 생성되었습니다.');
-      this.$router.push('/listPlan');
+      this.attractionObject = attraction; // contentId를 클릭한 id로
     },
   },
 };

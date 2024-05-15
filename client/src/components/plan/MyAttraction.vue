@@ -1,60 +1,53 @@
 <template>
   <div class="place">
-    <h4 class="title mt-3">
-      <p>나의 여행 계획</p>
-    </h4>
-    <div class="title mb-3">
-      <b class="title">원하는 장소를 추가하세요</b>
+    <div class="header-wrapper">
+      <div class="title mb-3">
+        <b class="title">마커를 클릭해</b><br />
+        <b class="title">장소를 선택해주세요.</b>
+      </div>
+      <v-btn variant="tonal" @click="addPlanList">여행 계획 추가</v-btn>
+      &nbsp; &nbsp;
+      <v-btn variant="tonal" @click="removePlanList">초기화</v-btn>
     </div>
 
-    <v-btn variant="tonal" @click="removePlanList" style="color: #8282ff"
-      >초기화</v-btn
-    >
-    <div
-      class="row col-12 mt-2 ms-4 card-table"
-      v-for="attraction in attractions"
-      :key="attraction.contentId"
-    >
+    <div class="card-container">
       <div
-        class="card col-lg-6 mb-2 mx-8"
-        style="cursor: pointer; width: 200px; background-color: #fdf5e6"
+        class="card"
+        v-for="attraction in attractions"
+        :key="attraction.contentId"
       >
         <img
-          class="card-img-top mt-2 rounded"
+          class="card-img-top rounded"
           :src="attraction.firstImage"
-          onerror="javascript:this.src='./src/assets/no_image.jpg'"
           height="100"
         />
         <div class="card-body">
           <h5 class="card-title">
             <b>{{ attraction.title }}</b>
           </h5>
-          <p style="font-size: 13px; color: #a0a0a0">{{ attraction.addr1 }}</p>
+          <p class="card-text">{{ attraction.addr1 }}</p>
           <!-- 관광지 overview-->
           <v-dialog>
             <template v-slot:activator="{ props }">
               <v-btn
                 v-bind="props"
-                style="background-color: #a0a0ff; color: white; width: 20px"
+                class="detail-btn"
                 @click="showDetail(attraction.contentId)"
                 >자세히</v-btn
               >
             </template>
-            <!-- <template v-slot:default="{ isActive }">
+            <template v-slot:default="{ isActive }">
               <v-card title="정보">
                 <v-card-text>
                   {{ overview }}
                 </v-card-text>
-
                 <v-card-actions>
                   <v-spacer></v-spacer>
-
                   <v-btn text="닫기" @click="isActive.value = false"></v-btn>
                 </v-card-actions>
               </v-card>
-            </template> -->
+            </template>
           </v-dialog>
-          &nbsp;
         </div>
       </div>
     </div>
@@ -63,53 +56,111 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-// import { useMemberStore } from '@/store/memberStore';
-import { getAttraction } from '@/api/map';
-// import { storeToRefs } from 'pinia';
+// import { getAttraction } from '@/api/map';
 
-// const { userInfo } = storeToRefs(useMemberStore);
-
-const mytrips = ref([]); // 내가 선택한 여행 계획
 const attractions = ref([]);
-const attraction = ref({});
-// const num = ref(0); // 현재 선택한 여행 계획 개수
+const overview = ref('');
 
+//카카오 지도에서 찍은 여행지의 id를 받아옴
 const props = defineProps({
-  contentId: Number,
+  attractionObject: Object,
 });
 
 // 카카오 지도에서 클릭한 마커가 변하자마자
 watch(
-  () => props.contentId,
+  () => props.attractionObject,
   newValue => {
-    console.log('가져온 여행지 id', props.contentId); // 이게 잘 찍히는지 확인 -> 잘 가져오네
-    // // 여행 계획에 추가
-    // let mytrip = {};
-    // mytrip.userMytripNo = num.value + 1;
-    // mytrip.contentId = props.contentId;
-    // mytrip.userId = userInfo.value.userId;
-
-    // mytrips.value.push(mytrip); // 여행 계획 추가하기
-
-    // contentId에 맞는 관광지 정보 가져오기
-    getAttraction(
-      newValue,
-      ({ data }) => {
-        // console.log("then => ", data);
-        attraction.value = data;
-        attractions.value.push(attraction.value);
-      },
-      error => {
-        console.log(error);
-      },
-    );
+    console.log(newValue);
+    const newAttraction = { ...newValue }; // 새 객체로 복사
+    attractions.value.push(newAttraction);
   },
 );
+
 // 초기화 버튼을 누르면 실행되는 함수
 const removePlanList = () => {
-  mytrips.value = [];
   attractions.value = [];
 };
+
+// // 자세히 버튼을 누르면 실행되는 함수
+// const showDetail = async contentId => {
+//   try {
+//     const response = await getAttraction(contentId);
+//     overview.value = response.data.overview; // 예시로 overview 데이터를 가져옴
+//   } catch (error) {
+//     console.log('자세히 보기 에러', error);
+//   }
+// };
+
+const addPlanList = () => {};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.place {
+  text-align: center;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.header-wrapper {
+  display: inline-block;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #c4ebd6;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.reset-btn {
+  margin-top: 10px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  cursor: pointer;
+  width: 200px;
+  background-color: #c4ebd6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-body {
+  padding: 10px;
+}
+
+.card-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 13px;
+  color: #a0a0a0;
+}
+
+.detail-btn {
+  background-color: #3aae70;
+  color: white;
+  width: 80px;
+  margin-top: 10px;
+}
+</style>
