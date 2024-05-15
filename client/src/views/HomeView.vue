@@ -29,7 +29,7 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img
-          src="C:\Users\SSAFY\Desktop\EnjoyTrip\EnjoyTrip-Client\client\src\assets\image1.jpg"
+          src="C:\Users\inhoh\OneDrive\바탕 화면\관통 프로젝트\EnjoyTrip-Client\client\src\assets\image1.jpg"
           class="d-block w-100"
           alt="..."
         />
@@ -39,7 +39,7 @@
       </div>
       <div class="carousel-item">
         <img
-          src="C:\Users\SSAFY\Desktop\EnjoyTrip\EnjoyTrip-Client\client\src\assets\image2.jpg"
+          src="C:\Users\inhoh\OneDrive\바탕 화면\관통 프로젝트\EnjoyTrip-Client\client\src\assets\image2.jpg"
           class="d-block w-100"
           alt="..."
         />
@@ -49,7 +49,7 @@
       </div>
       <div class="carousel-item">
         <img
-          src="C:\Users\SSAFY\Desktop\EnjoyTrip\EnjoyTrip-Client\client\src\assets\image3.jpg"
+          src="C:\Users\inhoh\OneDrive\바탕 화면\관통 프로젝트\EnjoyTrip-Client\client\src\assets\image3.jpg"
           class="d-block w-100"
           alt="..."
         />

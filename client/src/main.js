@@ -16,6 +16,11 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import router from './router/index.js';
 import loginStore from './store/loginStore.js';
+
+//pinia
+import { createPinia } from 'pinia';
+const pinia = createPinia();
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -24,5 +29,6 @@ const vuetify = createVuetify({
 createApp(App)
   .use(loginStore)
   .use(router)
-  .use(vuetify) // 여기서 생성한 vuetify 인스턴스 사용
+  .use(vuetify)
+  .use(pinia)
   .mount('#app');

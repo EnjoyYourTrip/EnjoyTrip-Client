@@ -23,6 +23,7 @@
     <button @click="submitSelection">검색</button>
     <button @click.prevent="create">계획 생성하기</button>
   </div>
+
   <div class="container-fluid">
     <div id="map-container" class="mt-3 mx-auto" style="width: 50%">
       <div id="map" style="height: 500px"></div>
@@ -41,12 +42,18 @@
         </v-slide-group-item>
       </v-slide-group>
     </div>
+    <div class="col-3">
+      <my-attraction />
+    </div>
   </div>
 </template>
 <script>
 import { getAttraction } from '@/api/map';
-
+import MyAttraction from '@/components/plan/MyAttraction.vue';
 export default {
+  components: {
+    MyAttraction,
+  },
   data() {
     return {
       mapInstance: null,

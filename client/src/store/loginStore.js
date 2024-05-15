@@ -1,23 +1,21 @@
-// store/index.js
-import { createStore } from 'vuex';
+import { createPinia, defineStore } from 'pinia';
 
-const store = createStore({
-  state: {
+// Pinia 스토어를 정의합니다.
+export const useMainStore = defineStore('main', {
+  state: () => ({
     isLoggedIn: false,
-  },
-  mutations: {
-    setLoggedIn(state, status) {
-      state.isLoggedIn = status;
-    },
-  },
+  }),
   actions: {
-    logIn({ commit }) {
-      commit('setLoggedIn', true);
+    logIn() {
+      this.isLoggedIn = true;
     },
-    logOut({ commit }) {
-      commit('setLoggedIn', false);
+    logOut() {
+      this.isLoggedIn = false;
     },
   },
 });
 
-export default store;
+// Pinia 인스턴스를 생성합니다.
+const pinia = createPinia();
+
+export default pinia;
