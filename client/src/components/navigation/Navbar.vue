@@ -33,13 +33,13 @@
 
 <script setup>
 import { computed } from 'vue';
-import { defineStore } from 'pinia';
+import { useMemberStore } from '@/store/memberStore';
 import { useRouter } from 'vue-router';
 
-const store = defineStore();
+const store = useMemberStore();
 const router = useRouter();
 
-const isLoggedIn = computed(() => store.state.isLoggedIn);
+const isLoggedIn = computed(() => store.isLoggedIn);
 
 const logout = async () => {
   await store.dispatch('logOut');
