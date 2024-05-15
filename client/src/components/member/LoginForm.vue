@@ -25,7 +25,7 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
+import { useMemberStore } from '@/store/memberStore';
 import { Login } from '@/api/member.js';
 import { useRouter } from 'vue-router';
 const credentials = ref({
@@ -33,42 +33,31 @@ const credentials = ref({
   password: '',
 });
 
-const store = useStore(); // 스토어 사용을 위한 훅
+const store = useMemberStore(); // 스토어 사용을 위한 훅
 const router = useRouter(); // 라우터 사용을 위한 훅
-
 const login = async () => {
   try {
     const response = await Login(
       credentials.value.id,
       credentials.value.password,
     );
-
     if (response.status === 200) {
-      console.dir(response);
-      //실제 서버 연결시 아이디와 비밀번호가 일치한 데이터만 보내주면 가능한 코드(아니면 직접 찾아야함)
       if (
         response.data[0].id === credentials.value.id &&
         response.data[0].password === credentials.value.password
       ) {
-        await store.dispatch('logIn'); // 로그인 액션 디스패치
+        await store.dispatch('logIn', response.data[0]);
         alert(`${response.data[0].username}님 안녕하세요`);
-        router.push({ name: 'home' }); // 라우터로 페이지 이동
+        router.push({ name: 'home' });
       } else {
-        console.log('가져온 아이디' + response.data[0].id);
-        console.log('입력한 아이디' + credentials.value.id);
-
         alert('아이디 또는 비밀번호를 확인해주세요');
       }
-
-      // alert(`${response.name}님 안녕하세요.`);
-      //서버에서 로그인 성공여부?
-    } else if (response.status === 404) {
-      console.log('404 뜬단다 고치렴');
     } else {
-      console.error('서버 꺼져있는지 확인하렴');
+      console.error('서버 오류:', response.status);
     }
   } catch (error) {
-    console.error(error);
+    console.error('로그인 처리 중 오류 발생:', error);
+    alert('로그인 처리 중 문제가 발생했습니다.');
   }
 };
 </script>

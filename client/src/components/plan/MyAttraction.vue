@@ -63,6 +63,11 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import { useMemberStore } from '@/store/memberStore';
+import { getAttraction } from '@/api/map';
+import { storeToRefs } from 'pinia';
+
+const { userInfo } = storeToRefs(useMemberStore);
 
 const mytrips = ref([]); // 내가 선택한 여행 계획
 const attractions = ref([]);
@@ -77,7 +82,7 @@ const props = defineProps({
 // 카카오 지도에서 클릭한 마커가 변하자마자
 watch(
   () => props.contentId,
-  (newValue, oldValue) => {
+  newValue => {
     // 여행 계획에 추가
     let mytrip = {};
     mytrip.userMytripNo = num.value + 1;
@@ -87,7 +92,7 @@ watch(
     mytrips.value.push(mytrip); // 여행 계획 추가하기
 
     // contentId에 맞는 관광지 정보 가져오기
-    getAttration(
+    getAttraction(
       newValue,
       ({ data }) => {
         // console.log("then => ", data);
@@ -100,6 +105,11 @@ watch(
     );
   },
 );
+// 초기화 버튼을 누르면 실행되는 함수
+const removePlanList = () => {
+  mytrips.value = [];
+  attractions.value = [];
+};
 </script>
 
 <style lang="scss" scoped></style>

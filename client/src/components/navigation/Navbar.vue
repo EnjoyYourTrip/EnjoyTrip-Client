@@ -33,10 +33,10 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { defineStore } from 'pinia';
 import { useRouter } from 'vue-router';
 
-const store = useStore();
+const store = defineStore();
 const router = useRouter();
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
