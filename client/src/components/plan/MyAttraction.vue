@@ -40,7 +40,7 @@
                 >자세히</v-btn
               >
             </template>
-            <template v-slot:default="{ isActive }">
+            <!-- <template v-slot:default="{ isActive }">
               <v-card title="정보">
                 <v-card-text>
                   {{ overview }}
@@ -52,7 +52,7 @@
                   <v-btn text="닫기" @click="isActive.value = false"></v-btn>
                 </v-card-actions>
               </v-card>
-            </template>
+            </template> -->
           </v-dialog>
           &nbsp;
         </div>
@@ -63,18 +63,17 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { useMemberStore } from '@/store/memberStore';
+// import { useMemberStore } from '@/store/memberStore';
 import { getAttraction } from '@/api/map';
-import { storeToRefs } from 'pinia';
+// import { storeToRefs } from 'pinia';
 
-const { userInfo } = storeToRefs(useMemberStore);
+// const { userInfo } = storeToRefs(useMemberStore);
 
 const mytrips = ref([]); // 내가 선택한 여행 계획
 const attractions = ref([]);
 const attraction = ref({});
-const num = ref(0); // 현재 선택한 여행 계획 개수
+// const num = ref(0); // 현재 선택한 여행 계획 개수
 
-// 카카오지도에서 클릭한 마커에 해당하는 contentId가 부모에 emit되고 props되어 넘어온다
 const props = defineProps({
   contentId: Number,
 });
@@ -83,14 +82,14 @@ const props = defineProps({
 watch(
   () => props.contentId,
   newValue => {
-    console.log(props.contentId);
-    // 여행 계획에 추가
-    let mytrip = {};
-    mytrip.userMytripNo = num.value + 1;
-    mytrip.contentId = props.contentId;
-    mytrip.userId = userInfo.value.userId;
+    console.log('가져온 여행지 id', props.contentId); // 이게 잘 찍히는지 확인 -> 잘 가져오네
+    // // 여행 계획에 추가
+    // let mytrip = {};
+    // mytrip.userMytripNo = num.value + 1;
+    // mytrip.contentId = props.contentId;
+    // mytrip.userId = userInfo.value.userId;
 
-    mytrips.value.push(mytrip); // 여행 계획 추가하기
+    // mytrips.value.push(mytrip); // 여행 계획 추가하기
 
     // contentId에 맞는 관광지 정보 가져오기
     getAttraction(
