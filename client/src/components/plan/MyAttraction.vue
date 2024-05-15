@@ -5,9 +5,13 @@
         <b class="title">마커를 클릭해</b><br />
         <b class="title">여행지를 선택해주세요.</b>
       </div>
-      <p>방문할 여행지를 순서대로 선택하세요</p>
+      <p>방문할 여행지를 순서대로 선택하세요.</p>
+      <p>
+        방문할 여행지를 모두 골랐다면<br />
+        여행 계획 생성하기를 눌러주세요.
+      </p>
       <v-btn class="custom-btn" variant="tonal" @click="addPlanList"
-        >여행 계획 추가</v-btn
+        >여행 계획 생성하기</v-btn
       >
       &nbsp; &nbsp;
       <v-btn class="custom-btn" variant="tonal" @click="removePlanList"

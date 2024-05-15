@@ -59,7 +59,7 @@
       </div>
     </div>
     <button
-      class="carousel-control-prev"
+      class="carousel-control-prev custom-carousel-btn"
       type="button"
       data-bs-target="#carouselExampleCaptions"
       data-bs-slide="prev"
@@ -68,7 +68,7 @@
       <span class="visually-hidden">Previous</span>
     </button>
     <button
-      class="carousel-control-next"
+      class="carousel-control-next custom-carousel-btn"
       type="button"
       data-bs-target="#carouselExampleCaptions"
       data-bs-slide="next"
@@ -78,12 +78,25 @@
     </button>
   </div>
 </template>
+
 <script setup></script>
 
-<style>
+<style scoped>
 .carousel-item img {
   max-height: 900px; /* 이전 값에서 높이를 늘림 */
   object-fit: cover; /* 이미지가 div의 크기에 맞추어 조정되도록 설정 */
   width: 100%; /* 이미지의 너비가 컨테이너의 100%를 차지하도록 설정 */
+}
+
+.custom-carousel-btn {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.custom-carousel-btn:hover {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
 }
 </style>
