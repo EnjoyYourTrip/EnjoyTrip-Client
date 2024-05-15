@@ -83,6 +83,7 @@ const props = defineProps({
 watch(
   () => props.contentId,
   newValue => {
+    console.log(props.contentId);
     // 여행 계획에 추가
     let mytrip = {};
     mytrip.userMytripNo = num.value + 1;

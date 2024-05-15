@@ -1,55 +1,77 @@
 <template>
-  <div>
-    <input v-model="titleText" placeholder="제목 입력" class="large-input" />
-  </div>
-  <div class="dropdown-menu-container">
-    <select v-model="selected.city">
-      <option disabled value="">도시 선택</option>
-      <option v-for="sido in sidos" :key="sido.sidoCode" :value="sido.sidoCode">
-        {{ sido.sidoName }}
-      </option>
-    </select>
-    <select v-model="selected.category">
-      <option disabled value="">카테고리 선택</option>
-      <option
-        v-for="category in categories"
-        :key="category.code"
-        :value="category.code"
-      >
-        {{ category.name }}
-      </option>
-    </select>
-    <input v-model="selected.text" placeholder="검색어 입력" />
-    <button @click="submitSelection">검색</button>
-    <button @click.prevent="create">계획 생성하기</button>
-  </div>
-
   <div class="container-fluid">
-    <div id="map-container" class="mt-3 mx-auto" style="width: 50%">
-      <div id="map" style="height: 500px"></div>
-      <!-- Vuetify Slide Group 추가 -->
-      <v-slide-group v-if="showSlides">
-        <v-slide-group-item
-          v-for="attraction in attractions"
-          :key="attraction.id"
-          class="slide-item-spacing"
-        >
-          <v-card>
-            <v-img :src="attraction.firstImage" height="200px"></v-img>
-            <v-card-title>{{ attraction.title }}</v-card-title>
-            <v-card-text>{{ attraction.addr1 }}</v-card-text>
-          </v-card>
-        </v-slide-group-item>
-      </v-slide-group>
-    </div>
-    <div class="col-3">
-      <my-attraction />
+    <div class="row justify-content-center">
+      <!-- 텍스트박스 구역 -->
+      <div class="col-md-3 d-flex flex-column align-items-center">
+        <textarea
+          class="form-control text-area-custom"
+          placeholder="작성 내용을 입력해주세요."
+        ></textarea>
+      </div>
+      <!-- 지도 검색 구역 -->
+      <div class="col-md-6 d-flex flex-column align-items-center">
+        <input
+          v-model="titleText"
+          placeholder="제목 입력"
+          class="large-input"
+        />
+        <div class="dropdown-menu-container">
+          <select v-model="selected.city">
+            <option disabled value="">도시 선택</option>
+            <option
+              v-for="sido in sidos"
+              :key="sido.sidoCode"
+              :value="sido.sidoCode"
+            >
+              {{ sido.sidoName }}
+            </option>
+          </select>
+          <select v-model="selected.category">
+            <option disabled value="">카테고리 선택</option>
+            <option
+              v-for="category in categories"
+              :key="category.code"
+              :value="category.code"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+          <input v-model="selected.text" placeholder="검색어 입력" />
+          <button @click="submitSelection">검색</button>
+          <button @click.prevent="create">계획 생성하기</button>
+        </div>
+        <div id="map-container" class="mt-3 mx-auto" style="width: 100%">
+          <div id="map" style="height: 500px"></div>
+          <!-- Vuetify Slide Group 추가 -->
+          <v-slide-group v-if="showSlides">
+            <v-slide-group-item
+              v-for="attraction in attractions"
+              :key="attraction.id"
+              class="slide-item-spacing"
+            >
+              <v-card>
+                <v-img :src="attraction.firstImage" height="200px"></v-img>
+                <v-card-title>{{ attraction.title }}</v-card-title>
+                <v-card-text>{{ attraction.addr1 }}</v-card-text>
+              </v-card>
+            </v-slide-group-item>
+          </v-slide-group>
+        </div>
+      </div>
+      <!-- 계획 추가 구역 -->
+      <div
+        class="col-md-2 d-flex justify-content-end align-items-start my-attraction-container"
+      >
+        <my-attraction :contentId="contentId" />
+      </div>
     </div>
   </div>
 </template>
+
 <script>
 import { getAttraction } from '@/api/map';
 import MyAttraction from '@/components/plan/MyAttraction.vue';
+import { ref } from 'vue';
 export default {
   components: {
     MyAttraction,
@@ -65,6 +87,7 @@ export default {
       titleText: '',
       showSlides: false, // 슬라이드 표시 상태
       attractions: [], // 검색 결과를 저장할 배열
+      contentId: ref(),
       categories: [
         { code: 12, name: '관광지' },
         { code: 14, name: '문화시설' },
@@ -136,7 +159,7 @@ export default {
       );
       this.mapInstance.setCenter(firstPosition);
       attractionsData.forEach(attraction => {
-        new kakao.maps.Marker({
+        var marker = new kakao.maps.Marker({
           map: this.mapInstance,
           position: new kakao.maps.LatLng(
             attraction.latitude,
@@ -145,7 +168,16 @@ export default {
           title: attraction.title,
           image: markerImage,
         });
+        // 마커 클릭 이벤트 추가
+        kakao.maps.event.addListener(marker, 'click', () => {
+          this.onMarkerClick(attraction);
+        });
       });
+    },
+    onMarkerClick(attraction) {
+      // 마커 클릭 시 처리할 내용
+      // console.log(attraction);
+      this.contentId = attraction;
     },
     create() {
       alert('여행계획이 생성되었습니다.');
@@ -154,75 +186,85 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .dropdown-menu-container {
   display: flex;
-  justify-content: center; /* Align items horizontally center */
-  align-items: center; /* Align items vertically center */
-  margin-top: 30px; /* Top margin for spacing from any elements above */
-  gap: 20px; /* Increase gap for better spacing */
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 20px;
 }
 
 #map {
-  width: 100%; /* Full width of its container */
-  height: 500px; /* Fixed height for the map */
+  width: 100%;
+  height: 500px;
 }
 
 select,
 input[type='text'] {
-  padding: 8px 12px; /* Adjust padding to align heights more precisely */
-  border: 1px solid #ccc; /* Border for definition */
-  border-radius: 4px; /* Rounded borders for modern look */
-  background-color: white; /* Background color for the elements */
-  height: 38px; /* Explicit height to ensure consistency */
-  box-sizing: border-box; /* Include padding and border in the height */
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  height: 38px;
+  box-sizing: border-box;
 }
 
 input[type='text'] {
-  margin-top: 0px; /* Adjust margin to better align with selects vertically */
+  margin-top: 0px;
 }
 
 .v-slide-group__prev,
 .v-slide-group__next {
-  z-index: 2; /* Ensure arrows are above other elements */
-  color: #353979; /* Dark color for visibility */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.8
-  ); /* Light background to stand out */
-  border-radius: 50%; /* Circular buttons */
-  width: 40px; /* Consistent button size */
-  height: 40px; /* Consistent button size */
+  z-index: 2;
+  color: #353979;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 10px; /* Space between arrows and slide items */
+  margin: 0 10px;
 }
 
 .v-slide-group__content {
-  overflow: visible !important; /* Ensure nothing is clipped */
+  overflow: visible !important;
 }
 
 .v-slide-group__item {
-  min-width: 250px; /* Minimum width for each slide */
-  margin-right: 20px; /* Right margin for spacing between slides */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  min-width: 250px;
+  margin-right: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .v-slide-group {
-  margin: 20px 0; /* Vertical spacing for the entire slider component */
+  margin: 20px 0;
 }
 
 .slide-item-spacing {
-  margin-left: 10px; /* Adjust the left margin */
-  margin-right: 10px; /* Adjust the right margin */
+  margin-left: 10px;
+  margin-right: 10px;
 }
+
 .large-input {
-  width: 300px;
-  height: 80px; /* Set a larger height for better visibility and easier interaction */
-  font-size: 30px; /* Increases the font size for better readability */
-  padding: 10px; /* Optional: Adds some padding inside the input box */
+  width: 100%;
+  height: 80px;
+  font-size: 30px;
+  padding: 10px;
+}
+
+.text-area-custom {
+  width: 100%; /* 가로 길이 100%로 변경 */
+  height: 500px; /* 세로 길이 */
+  margin-top: 170px; /* 상단 마진 추가 */
+  margin-left: 20px; /* 왼쪽 마진 추가 */
+  font-size: 24px; /* 폰트 크기 증가 */
+}
+
+.my-attraction-container {
+  margin-top: 170px;
+  margin-right: 30px; /* 오른쪽 마진 추가 */
 }
 </style>

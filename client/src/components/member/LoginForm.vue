@@ -23,11 +23,13 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref } from 'vue';
 import { useMemberStore } from '@/store/memberStore';
 import { Login } from '@/api/member.js';
 import { useRouter } from 'vue-router';
+
 const credentials = ref({
   id: '',
   password: '',
@@ -35,6 +37,7 @@ const credentials = ref({
 
 const store = useMemberStore(); // 스토어 사용을 위한 훅
 const router = useRouter(); // 라우터 사용을 위한 훅
+
 const login = async () => {
   try {
     const response = await Login(
@@ -46,7 +49,7 @@ const login = async () => {
         response.data[0].id === credentials.value.id &&
         response.data[0].password === credentials.value.password
       ) {
-        await store.dispatch('logIn', response.data[0]);
+        store.logIn(response.data[0]);
         alert(`${response.data[0].username}님 안녕하세요`);
         router.push({ name: 'home' });
       } else {
