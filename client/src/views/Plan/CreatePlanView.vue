@@ -42,14 +42,14 @@
         <div id="map-container" class="mt-3 mx-auto" style="width: 100%">
           <div id="map" style="height: 500px"></div>
           <!-- Vuetify Slide Group 추가 -->
-          <v-slide-group v-if="showSlides">
+          <v-slide-group v-if="showSlides" class="custom-slide-group">
             <v-slide-group-item
               v-for="attraction in attractions"
               :key="attraction.id"
-              class="slide-item-spacing"
+              class="custom-slide-item"
             >
-              <v-card>
-                <v-img :src="attraction.firstImage" height="200px"></v-img>
+              <v-card class="mx-2">
+                <v-img :src="attraction.firstImage" height="180px"></v-img>
                 <v-card-title>{{ attraction.title }}</v-card-title>
                 <v-card-text>{{ attraction.addr1 }}</v-card-text>
               </v-card>
@@ -66,124 +66,140 @@
     </div>
   </div>
 </template>
-
-<script>
-import { attractionList } from '@/api/map';
+<script setup>
+import { onMounted, ref } from 'vue';
 import MyAttraction from '@/components/plan/MyAttraction.vue';
-import { ref } from 'vue';
-export default {
-  components: {
-    MyAttraction,
-  },
-  data() {
-    return {
-      mapInstance: null,
-      selected: {
-        city: '',
-        category: '',
-        text: '',
-      },
-      titleText: '',
-      showSlides: false, // 슬라이드 표시 상태
-      attractions: [], // 검색 결과를 저장할 배열
-      attractionObject: ref({}),
-      categories: [
-        { code: 12, name: '관광지' },
-        { code: 14, name: '문화시설' },
-        { code: 15, name: '축제공연행사' },
-        { code: 25, name: '여행코스' },
-        { code: 28, name: '레포츠' },
-        { code: 32, name: '숙박' },
-        { code: 38, name: '쇼핑' },
-        { code: 39, name: '음식점' },
-      ],
-      sidos: [
-        { sidoCode: 1, sidoName: '서울' },
-        { sidoCode: 2, sidoName: '인천' },
-        { sidoCode: 3, sidoName: '대전' },
-        { sidoCode: 4, sidoName: '대구' },
-        { sidoCode: 5, sidoName: '광주' },
-        { sidoCode: 6, sidoName: '부산' },
-        { sidoCode: 7, sidoName: '울산' },
-        { sidoCode: 8, sidoName: '세종특별자치시' },
-        { sidoCode: 31, sidoName: '경기도' },
-        { sidoCode: 32, sidoName: '강원도' },
-        { sidoCode: 33, sidoName: '충청북도' },
-        { sidoCode: 34, sidoName: '충청남도' },
-        { sidoCode: 35, sidoName: '경상북도' },
-        { sidoCode: 36, sidoName: '경상남도' },
-        { sidoCode: 37, sidoName: '전라북도' },
-        { sidoCode: 38, sidoName: '전라남도' },
-        { sidoCode: 39, sidoName: '제주도' },
-      ],
-    };
-  },
-  mounted() {
-    this.initializeMap();
-  },
-  methods: {
-    initializeMap() {
-      var container = document.getElementById('map');
-      var options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      };
-      /* global kakao */
-      this.mapInstance = new kakao.maps.Map(container, options);
-    },
-    async submitSelection() {
-      try {
-        const response = await attractionList(
-          this.selected.city,
-          this.selected.category,
-          this.selected.text,
-        );
-        this.attractions = response.data;
-        this.showSlides = this.attractions.length > 0;
-        this.createMarkers(this.attractions);
-      } catch (error) {
-        console.error('Error fetching attractions:', error);
-        this.showSlides = false;
-      }
-    },
-    createMarkers(attractionsData) {
-      if (attractionsData.length === 0) return;
-      var imageSrc =
-        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
-      var imageSize = new kakao.maps.Size(24, 35);
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-      var firstPosition = new kakao.maps.LatLng(
-        attractionsData[0].latitude,
-        attractionsData[0].longitude,
-      );
-      this.mapInstance.setCenter(firstPosition);
-      attractionsData.forEach(attraction => {
-        var marker = new kakao.maps.Marker({
-          map: this.mapInstance,
-          position: new kakao.maps.LatLng(
-            attraction.latitude,
-            attraction.longitude,
-          ),
-          title: attraction.title,
-          image: markerImage,
-        });
-        // 마커 클릭 이벤트 추가
-        kakao.maps.event.addListener(marker, 'click', () => {
-          console.log('마커 클릭시 자식으로 보낼 데이터', attraction);
-          this.onMarkerClick(attraction);
-        });
-      });
-    },
-    onMarkerClick(attraction) {
-      // 마커 클릭 시 처리할 내용
-      // console.log(attraction);
-      this.attractionObject = attraction; // contentId를 클릭한 id로
-    },
-  },
+import { attractionList } from '@/api/map';
+
+const mapInstance = ref(null);
+const titleText = ref('');
+const showSlides = ref(false);
+const attractions = ref([]);
+const attractionObject = ref({});
+
+const selected = ref({
+  city: '',
+  category: '',
+  text: '',
+});
+
+const categories = [
+  { code: 12, name: '관광지' },
+  { code: 14, name: '문화시설' },
+  { code: 15, name: '축제공연행사' },
+  { code: 25, name: '여행코스' },
+  { code: 28, name: '레포츠' },
+  { code: 32, name: '숙박' },
+  { code: 38, name: '쇼핑' },
+  { code: 39, name: '음식점' },
+];
+
+const sidos = [
+  { sidoCode: 1, sidoName: '서울' },
+  { sidoCode: 2, sidoName: '인천' },
+  { sidoCode: 3, sidoName: '대전' },
+  { sidoCode: 4, sidoName: '대구' },
+  { sidoCode: 5, sidoName: '광주' },
+  { sidoCode: 6, sidoName: '부산' },
+  { sidoCode: 7, sidoName: '울산' },
+  { sidoCode: 8, sidoName: '세종특별자치시' },
+  { sidoCode: 31, sidoName: '경기도' },
+  { sidoCode: 32, sidoName: '강원도' },
+  { sidoCode: 33, sidoName: '충청북도' },
+  { sidoCode: 34, sidoName: '충청남도' },
+  { sidoCode: 35, sidoName: '경상북도' },
+  { sidoCode: 36, sidoName: '경상남도' },
+  { sidoCode: 37, sidoName: '전라북도' },
+  { sidoCode: 38, sidoName: '전라남도' },
+  { sidoCode: 39, sidoName: '제주도' },
+];
+
+onMounted(() => {
+  const container = document.getElementById('map');
+  const options = {
+    center: new kakao.maps.LatLng(33.450701, 126.570667),
+    level: 3,
+  };
+  /* global kakao */
+  mapInstance.value = new kakao.maps.Map(container, options);
+});
+
+const submitSelection = async () => {
+  try {
+    const response = await attractionList(
+      selected.value.city,
+      selected.value.category,
+      selected.value.text,
+    );
+    attractions.value = response.data;
+    showSlides.value = attractions.value.length > 0;
+    mapInstance.value.setCenter(
+      new kakao.maps.LatLng(
+        attractions.value[0].latitude,
+        attractions.value[0].longitude,
+      ),
+    );
+    createMarkers(attractions.value);
+  } catch (error) {
+    console.error('Error fetching attractions:', error);
+    showSlides.value = false;
+  }
+};
+
+const createMarkers = attractionsData => {
+  attractionsData.forEach(attraction => {
+    var marker = new kakao.maps.Marker({
+      map: mapInstance.value,
+      position: new kakao.maps.LatLng(
+        attraction.latitude,
+        attraction.longitude,
+      ),
+      title: attraction.title,
+    });
+
+    kakao.maps.event.addListener(marker, 'click', () => {
+      attractionObject.value = attraction;
+    });
+  });
 };
 </script>
-
 <style scoped>
+.wrap {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 288px;
+  height: 132px;
+  margin-left: -144px;
+  text-align: left;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.wrap * {
+  padding: 0;
+  margin: 0;
+}
+.wrap .info {
+  width: 286px;
+  height: 120px;
+  border-radius: 5px;
+  border-bottom: 2px solid #ccc;
+  border-right: 1px solid #ccc;
+  overflow: hidden;
+  background: #fff;
+}
+.wrap .info:nth-child(1) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.wrap .info .body .img {
+  float: left;
+  margin-right: 10px;
+}
+.wrap .info .body .desc {
+  overflow: hidden;
+}
 .dropdown-menu-container {
   display: flex;
   justify-content: center;
@@ -227,21 +243,28 @@ input[type='text'] {
 
 .v-slide-group__content {
   overflow: visible !important;
+  background-color: #e0f7e0; /* 연한 초록색 배경 */
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .v-slide-group__item {
   min-width: 250px;
-  margin-right: 20px;
+  margin-left: 20px; /* 좌우 간격 추가 */
+  margin-right: 20px; /* 좌우 간격 추가 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .v-slide-group {
   margin: 20px 0;
+  background-color: #e0f7e0; /* 연한 초록색 배경 */
+  padding: 10px;
+  border-radius: 8px;
 }
 
-.slide-item-spacing {
-  margin-left: 10px;
-  margin-right: 10px;
+.custom-slide-item {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .large-input {
