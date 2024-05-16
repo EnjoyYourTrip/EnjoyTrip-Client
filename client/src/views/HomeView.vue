@@ -28,31 +28,19 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img
-          src="C:\Users\inhoh\OneDrive\바탕 화면\관통 프로젝트\EnjoyTrip-Client\client\src\assets\image1.jpg"
-          class="d-block w-100"
-          alt="..."
-        />
+        <img src="@/assets/image1.jpg" class="d-block w-100" alt="..." />
         <div class="carousel-caption d-none d-md-block">
           <h1>여행가고싶어요</h1>
         </div>
       </div>
       <div class="carousel-item">
-        <img
-          src="C:\Users\inhoh\OneDrive\바탕 화면\관통 프로젝트\EnjoyTrip-Client\client\src\assets\image2.jpg"
-          class="d-block w-100"
-          alt="..."
-        />
+        <img src="@/assets/image2.jpg" class="d-block w-100" alt="..." />
         <div class="carousel-caption d-none d-md-block">
           <h1>여행페이지 개발이 아니라</h1>
         </div>
       </div>
       <div class="carousel-item">
-        <img
-          src="C:\Users\inhoh\OneDrive\바탕 화면\관통 프로젝트\EnjoyTrip-Client\client\src\assets\image3.jpg"
-          class="d-block w-100"
-          alt="..."
-        />
+        <img src="@/assets/image3.jpg" class="d-block w-100" alt="..." />
         <div class="carousel-caption d-none d-md-block">
           <h1>여행을 가고 싶어요</h1>
         </div>
