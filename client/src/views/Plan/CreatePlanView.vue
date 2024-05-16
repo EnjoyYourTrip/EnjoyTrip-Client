@@ -48,7 +48,7 @@
               :key="attraction.id"
               class="custom-slide-item"
             >
-              <v-card class="mx-2">
+              <v-card class="mx-2" @click="viewAttraction(attraction)">
                 <v-img :src="attraction.firstImage" height="180px"></v-img>
                 <v-card-title>{{ attraction.title }}</v-card-title>
                 <v-card-text>{{ attraction.addr1 }}</v-card-text>
@@ -66,8 +66,9 @@
     </div>
   </div>
 </template>
+
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import MyAttraction from '@/components/plan/MyAttraction.vue';
 import { attractionList } from '@/api/map';
 
@@ -76,7 +77,6 @@ const titleText = ref('');
 const showSlides = ref(false);
 const attractions = ref([]);
 const attractionObject = ref({});
-
 const selected = ref({
   city: '',
   category: '',
@@ -124,6 +124,34 @@ onMounted(() => {
   mapInstance.value = new kakao.maps.Map(container, options);
 });
 
+// card를 클릭하면 해당 위치로 지도를 옮기는 props 객체를 담음
+const selectAttraction = ref({
+  latitude: null,
+  longitude: null,
+}); // 초기값 설정
+
+const viewAttraction = attraction => {
+  selectAttraction.value = attraction;
+};
+
+watch(
+  () => selectAttraction.value,
+  newValue => {
+    if (newValue && newValue.latitude !== null && newValue.longitude !== null) {
+      // 이동할 위도 경도 위치를 생성합니다
+      const moveLatLon = new kakao.maps.LatLng(
+        newValue.latitude,
+        newValue.longitude,
+      );
+
+      // 지도 중심을 부드럽게 이동시킵니다
+      // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+      mapInstance.value.panTo(moveLatLon);
+    }
+  },
+  { deep: true },
+);
+
 const submitSelection = async () => {
   try {
     const response = await attractionList(
@@ -133,13 +161,20 @@ const submitSelection = async () => {
     );
     attractions.value = response.data;
     showSlides.value = attractions.value.length > 0;
-    mapInstance.value.setCenter(
-      new kakao.maps.LatLng(
-        attractions.value[0].latitude,
-        attractions.value[0].longitude,
-      ),
-    );
-    createMarkers(attractions.value);
+
+    if (attractions.value.length > 0) {
+      const firstAttraction = attractions.value[0];
+      selectAttraction.value = firstAttraction;
+
+      mapInstance.value.setCenter(
+        new kakao.maps.LatLng(
+          firstAttraction.latitude,
+          firstAttraction.longitude,
+        ),
+      );
+
+      createMarkers(attractions.value);
+    }
   } catch (error) {
     console.error('Error fetching attractions:', error);
     showSlides.value = false;
@@ -148,7 +183,7 @@ const submitSelection = async () => {
 
 const createMarkers = attractionsData => {
   attractionsData.forEach(attraction => {
-    var marker = new kakao.maps.Marker({
+    const marker = new kakao.maps.Marker({
       map: mapInstance.value,
       position: new kakao.maps.LatLng(
         attraction.latitude,
@@ -163,6 +198,7 @@ const createMarkers = attractionsData => {
   });
 };
 </script>
+
 <style scoped>
 .wrap {
   position: absolute;
