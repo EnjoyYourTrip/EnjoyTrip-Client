@@ -10,9 +10,14 @@
     </template>
     <div class="card-body">
       <h5 class="card-title text-truncate">{{ title }}</h5>
-      <p class="card-text">
-        <small class="text-muted">{{ nickname }} - {{ formattedDate }}</small>
-      </p>
+      <div class="info-row">
+        <p class="card-text">
+          작성자 : <span class="text-content">{{ nickname }}</span>
+        </p>
+        <p class="card-text">
+          작성일자 : <span class="text-content">{{ formattedDate }}</span>
+        </p>
+      </div>
     </div>
   </AppCard>
 </template>
@@ -84,8 +89,18 @@ const formattedDate = computed(() => {
   text-overflow: ellipsis;
 }
 
+.info-row {
+  display: flex;
+  flex-direction: column;
+}
+
 .card-text {
   margin-bottom: 0.75rem;
+}
+
+.text-content {
+  display: inline-block;
+  min-width: 120px; /* 최소 너비를 설정하여 동일한 시작점을 유지 */
 }
 
 .text-muted {
