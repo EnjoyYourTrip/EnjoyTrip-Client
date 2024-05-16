@@ -10,13 +10,13 @@
         방문할 여행지를 모두 골랐다면<br />
         여행 계획 생성하기를 눌러주세요.
       </p>
-      <v-btn class="custom-btn" variant="tonal" @click="addPlanList"
-        >여행 계획 생성하기</v-btn
-      >
+      <v-btn class="custom-btn" variant="tonal" @click="addPlanList">
+        여행 계획 생성하기
+      </v-btn>
       &nbsp; &nbsp;
-      <v-btn class="custom-btn" variant="tonal" @click="removePlanList"
-        >초기화</v-btn
-      >
+      <v-btn class="custom-btn" variant="tonal" @click="removePlanList">
+        초기화
+      </v-btn>
     </div>
 
     <div class="card-container">
@@ -42,8 +42,9 @@
                 v-bind="props"
                 class="detail-btn custom-btn"
                 @click="showDetail(attraction.contentId)"
-                >자세히</v-btn
               >
+                자세히
+              </v-btn>
             </template>
             <template v-slot:default="{ isActive }">
               <v-card title="정보">
@@ -66,6 +67,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const attractions = ref([]);
 const overview = ref('');
@@ -95,8 +97,16 @@ const removePlanList = () => {
 
 // 여행 계획 추가 버튼을 누르면 실행되는 함수
 const addPlanList = () => {
-  alert('여행 계획이 생성되었습니다.');
-  router.push({ name: 'listPlan' });
+  Swal.fire({
+    title: '여행 계획이 추가되었습니다.', // Alert 제목
+    text: '즐거운 여행 보내세요.', // Alert 내용
+    icon: 'success', // Alert 타입
+    customClass: {
+      confirmButton: 'custom-confirm-button',
+    },
+  }).then(() => {
+    router.push({ name: 'listPlan' });
+  });
 };
 
 // // 자세히 버튼을 누르면 실행되는 함수 => 서버 연동하고 구현할꺼임
@@ -190,5 +200,11 @@ const addPlanList = () => {
   color: white;
   width: 80px;
   margin-top: 10px;
+}
+
+/* SweetAlert2 custom button */
+.swal2-confirm.custom-confirm-button {
+  background-color: #3aae70 !important; /* 원하는 색상으로 변경 */
+  color: white !important;
 }
 </style>
