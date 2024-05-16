@@ -68,6 +68,21 @@
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
+import { createPlan } from '@/api/map';
+
+// 서버로 데이터 보내기
+async function sendPlanData(titleText, contentText, itineraryDetailList) {
+  try {
+    const response = await createPlan(
+      titleText,
+      contentText,
+      itineraryDetailList,
+    );
+    console.log('Plan created successfully:', response.data);
+  } catch (error) {
+    console.error('Error creating plan:', error);
+  }
+}
 
 const attractions = ref([]);
 const overview = ref('');
@@ -75,6 +90,8 @@ const overview = ref('');
 // 카카오 지도에서 찍은 여행지의 id를 받아옴
 const props = defineProps({
   attractionObject: Object,
+  titleText: String,
+  contentText: String,
 });
 
 // 라우터 객체 가져오기
@@ -97,6 +114,13 @@ const removePlanList = () => {
 
 // 여행 계획 추가 버튼을 누르면 실행되는 함수
 const addPlanList = () => {
+  // console.log('attractions에 담긴 아이들', attractions.value);
+
+  // attractions에서 contentId만 추출하여 itineraryDetailList 생성
+  const itineraryDetailList = attractions.value.map(attraction => ({
+    contentId: attraction.contentId,
+  }));
+  console.log('서버에 보낼 itineraryDetailList', itineraryDetailList);
   Swal.fire({
     title: '여행 계획이 추가되었습니다.', // Alert 제목
     text: '즐거운 여행 보내세요.', // Alert 내용
@@ -105,11 +129,13 @@ const addPlanList = () => {
       confirmButton: 'custom-confirm-button',
     },
   }).then(() => {
+    // 성공했으면 서버로 데이터 보내기
+    sendPlanData(props.titleText, props.contentText, itineraryDetailList);
     router.push({ name: 'listPlan' });
   });
 };
 
-// // 자세히 버튼을 누르면 실행되는 함수 => 서버 연동하고 구현할꺼임
+// // 자세히 버튼을 누르면 실행되는 함수 => 서버 연동하고 구현할 예정
 // const showDetail = async contentId => {
 //   try {
 //     const response = await getAttraction(contentId);

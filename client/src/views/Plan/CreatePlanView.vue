@@ -4,6 +4,7 @@
       <!-- 텍스트박스 구역 -->
       <div class="col-md-3 d-flex flex-column align-items-center">
         <textarea
+          v-model="contentText"
           class="form-control text-area-custom"
           placeholder="작성 내용을 입력해주세요."
         ></textarea>
@@ -61,7 +62,11 @@
       <div
         class="col-md-2 d-flex justify-content-end align-items-start my-attraction-container"
       >
-        <my-attraction :attractionObject="attractionObject" />
+        <my-attraction
+          :attractionObject="attractionObject"
+          :contentText="contentText"
+          :titleText="titleText"
+        />
       </div>
     </div>
   </div>
@@ -73,7 +78,7 @@ import MyAttraction from '@/components/plan/MyAttraction.vue';
 import { attractionList } from '@/api/map';
 
 const mapInstance = ref(null);
-const titleText = ref('');
+
 const showSlides = ref(false);
 const attractions = ref([]);
 const attractionObject = ref({});
@@ -82,6 +87,8 @@ const selected = ref({
   category: '',
   text: '',
 });
+const contentText = ref('');
+const titleText = ref('');
 
 const categories = [
   { code: 12, name: '관광지' },
@@ -159,9 +166,13 @@ const submitSelection = async () => {
       selected.value.category,
       selected.value.text,
     );
+    console.dir(response);
     attractions.value = response.data;
-    showSlides.value = attractions.value.length > 0;
 
+    attractions.value = attractions.value.data;
+
+    showSlides.value = attractions.value.length > 0;
+    console.log('attractions', attractions.value);
     if (attractions.value.length > 0) {
       const firstAttraction = attractions.value[0];
       selectAttraction.value = firstAttraction;
