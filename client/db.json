@@ -82,7 +82,7 @@
       "id": 11
     }
   ],
-  "attraction": [
+  "attraction": [ 
     {
       "id": 125266,
       "contentId": 125266,
@@ -109,6 +109,8 @@
       "addr2": "",
       "zipcode": "25261",
       "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
       "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
       "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
       "readcount": 92309,
@@ -126,6 +128,8 @@
       "addr2": "",
       "zipcode": "25261",
       "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
       "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
       "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
       "readcount": 92309,
@@ -143,6 +147,8 @@
       "addr2": "",
       "zipcode": "25261",
       "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
       "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
       "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
       "readcount": 92309,
@@ -160,6 +166,8 @@
       "addr2": "",
       "zipcode": "25261",
       "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
       "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
       "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
       "readcount": 92309,
@@ -170,60 +178,102 @@
       "mlevel": "6"
     },
     {
-      "contentId": 125405,
+      "contentId": 125266,
       "contentTypeId": 12,
-      "title": "토함산자연휴양림",
-      "addr1": "경상북도 경주시 양북면 불국로 1208-45",
+      "title": "국립 청태산자연휴양림",
+      "addr1": "강원도 횡성군 둔내면 청태산로 610",
       "addr2": "",
-      "zipcode": "38120",
+      "zipcode": "25261",
       "tel": "",
-      "firstImage": "",
-      "firstImage2": "",
-      "readcount": 142991,
-      "sidoCode": 35,
-      "gugunCode": 2,
-      "latitude": 35.7619577,
-      "longitude": 129.3655037,
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
+      "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
+      "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
+      "readcount": 92309,
+      "sidoCode": 32,
+      "gugunCode": 18,
+      "latitude": 37.52251412,
+      "longitude": 128.2919115,
       "mlevel": "6"
     },
     {
-      "title": "",
-      "content": "",
-      "itineraryDetailList": [
-        {
-          "contentId": 2849289
-        },
-        {
-          "contentId": 2849331
-        },
-        {
-          "contentId": 2849301
-        },
-        {
-          "contentId": 2850949
-        }
-      ],
-      "id": 125267
+      "contentId": 125266,
+      "contentTypeId": 12,
+      "title": "국립 청태산자연휴양림",
+      "addr1": "강원도 횡성군 둔내면 청태산로 610",
+      "addr2": "",
+      "zipcode": "25261",
+      "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
+      "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
+      "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
+      "readcount": 92309,
+      "sidoCode": 32,
+      "gugunCode": 18,
+      "latitude": 37.52251412,
+      "longitude": 128.2919115,
+      "mlevel": "6"
     },
     {
-      "title": "",
-      "content": "",
-      "itineraryDetailList": [
-        {
-          "contentId": 125266
-        }
-      ],
-      "id": 125268
+      "contentId": 125266,
+      "contentTypeId": 12,
+      "title": "국립 청태산자연휴양림",
+      "addr1": "강원도 횡성군 둔내면 청태산로 610",
+      "addr2": "",
+      "zipcode": "25261",
+      "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
+      "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
+      "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
+      "readcount": 92309,
+      "sidoCode": 32,
+      "gugunCode": 18,
+      "latitude": 37.52251412,
+      "longitude": 128.2919115,
+      "mlevel": "6"
     },
     {
-      "title": "123",
-      "content": "1234",
-      "itineraryDetailList": [
-        {
-          "contentId": 125266
-        }
-      ],
-      "id": 125269
+      "contentId": 125266,
+      "contentTypeId": 12,
+      "title": "국립 청태산자연휴양림",
+      "addr1": "강원도 횡성군 둔내면 청태산로 610",
+      "addr2": "",
+      "zipcode": "25261",
+      "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
+      "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
+      "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
+      "readcount": 92309,
+      "sidoCode": 32,
+      "gugunCode": 18,
+      "latitude": 37.52251412,
+      "longitude": 128.2919115,
+      "mlevel": "6"
+    },
+    {
+      "contentId": 125266,
+      "contentTypeId": 12,
+      "title": "국립 청태산자연휴양림",
+      "addr1": "강원도 횡성군 둔내면 청태산로 610",
+      "addr2": "",
+      "zipcode": "25261",
+      "tel": "",
+      "created_date":"2023-01-24",
+      "nickname":"싸피싸피",
+      "firstImage": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image2_1.jpg",
+      "firstImage2": "http://tong.visitkorea.or.kr/cms/resource/21/2657021_image3_1.jpg",
+      "readcount": 92309,
+      "sidoCode": 32,
+      "gugunCode": 18,
+      "latitude": 37.52251412,
+      "longitude": 128.2919115,
+      "mlevel": "6"
     }
+  
+  
+   
   ]
 }

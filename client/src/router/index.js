@@ -3,12 +3,13 @@ import { createWebHistory, createRouter } from 'vue-router';
 import Home from '../views/HomeView.vue';
 import Login from '../views/member/LoginView.vue';
 import Regist from '../views/member/RegistView.vue';
-import ListPlan from '../views/Plan/ListPlanView.vue';
-import CreatePlan from '../views/Plan/CreatePlanView.vue';
+import ListPlan from '../views/plan/ListPlanView.vue';
+import CreatePlan from '../views/plan/CreatePlanView.vue';
 import QnAList from '../views/QnA/QnAListView.vue';
 import QnACreate from '../views/QnA/QnACreateView.vue';
 import QnADetail from '../views/QnA/QnADetailView.vue';
 import QnAEdit from '../views/QnA/QnAEditView.vue';
+import DetailPlan from '../views/plan/PlanDetailView.vue';
 const routes = [
   {
     path: '/',
@@ -29,6 +30,11 @@ const routes = [
     path: '/createPlan',
     name: 'createPlan',
     component: CreatePlan,
+  },
+  {
+    path: '/detailPlan/:id',
+    name: 'DetailPlan',
+    component: DetailPlan,
   },
   {
     path: '/login',
