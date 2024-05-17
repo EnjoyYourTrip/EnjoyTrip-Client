@@ -106,9 +106,9 @@ const error = ref(null);
 const fetchPlans = async () => {
   loading.value = true;
   try {
-    const response = await getIterary(id);
-    plans.value = response.data;
-    console.log('서버에서 받아온 데이터', plans.value);
+    const { data } = await getIterary(id);
+    plans.value = data.data;
+    console.log('서버에서 받아온 데이터란다', plans.value);
   } catch (err) {
     error.value = err;
   } finally {

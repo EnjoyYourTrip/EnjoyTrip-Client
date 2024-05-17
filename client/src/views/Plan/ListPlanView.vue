@@ -23,7 +23,7 @@
             :image="item.firstImage"
             :created_date="item.createdDate"
             :nickname="item.nickname"
-            @click="goPage(item.contentId)"
+            @click="goPage(item.itineraryId)"
           ></PlanItem>
         </template>
       </AppGrid>
@@ -58,9 +58,18 @@ const error = ref(null);
 const fetchPlans = async () => {
   loading.value = true;
   try {
-    const response = await getPlanList();
-    plans.value = response.data;
-    console.log(plans.value);
+    const { data } = await getPlanList();
+
+    // response.data가 예상한 데이터 형식인지 확인
+    if (data && data.data) {
+      plans.value = data.data;
+      console.log('잘 가져온 여행계획 값', data);
+    } else {
+      console.log('이상한 여행계획 값', data);
+      throw new Error('Unexpected response format');
+    }
+
+    console.log('응답받은 리스트', plans.value);
   } catch (err) {
     error.value = err;
   } finally {
