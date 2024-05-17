@@ -36,3 +36,10 @@ export function createPlan(titleText, contentText, itineraryDetailList) {
 export function getPlanList() {
   return axios.get(`${BASE_URL}/attraction`);
 }
+
+//여행계획 상세보기 정보 받아오기
+export function getIterary(id) {
+  return axios.get(`${BASE_URL}/itinerary`, {
+    itineraryId: id,
+  });
+}

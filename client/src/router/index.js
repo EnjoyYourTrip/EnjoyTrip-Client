@@ -9,7 +9,8 @@ import QnAList from '../views/QnA/QnAListView.vue';
 import QnACreate from '../views/QnA/QnACreateView.vue';
 import QnADetail from '../views/QnA/QnADetailView.vue';
 import QnAEdit from '../views/QnA/QnAEditView.vue';
-import DetailPlan from '../views/plan/PlanDetailView.vue';
+import PlanDetailView from '../views/plan/PlanDetailView.vue';
+
 const routes = [
   {
     path: '/',
@@ -34,7 +35,7 @@ const routes = [
   {
     path: '/detailPlan/:id',
     name: 'DetailPlan',
-    component: DetailPlan,
+    component: PlanDetailView,
   },
   {
     path: '/login',

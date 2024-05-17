@@ -272,8 +272,44 @@
       "longitude": 128.2919115,
       "mlevel": "6"
     }
+
+  ],
+  "itinerary": {
+
+ "itineraryId": 1,
+        "title": "진짜 My Awesome Trip",
+        "content": "진짜 This is a detailed description of my awesome trip.",
+        "startDate": "2024-06-01",
+        "endDate": "2024-06-10",
+        "createdDate": "2024-05-17T09:06:03",
+        "nickname": "nickname2",
+        "places": [
+            {
+                "contentId": 2849289,
+                "title": "봉이밥",
+                "addr1": "서울특별시 강서구 마곡중앙로 171",
+                "firstImage": "http://tong.visitkorea.or.kr/cms/resource/80/2849280_image2_1.jpg",
+                "latitude": 37.56907903,
+                "longitude": 126.827793
+            },
+            {
+                "contentId": 2849301,
+                "title": "사모님짬뽕",
+                "addr1": "서울특별시 강서구 금낭화로18길 10",
+                "firstImage": "http://tong.visitkorea.or.kr/cms/resource/95/2849295_image2_1.jpg",
+                "latitude": 37.57513083,
+                "longitude": 126.8122776
+            },
+            {
+                "contentId": 2850949,
+                "title": "원두막",
+                "addr1": "서울특별시 양천구 신목로 56",
+                "firstImage": "http://tong.visitkorea.or.kr/cms/resource/37/2850937_image2_1.jpg",
+                "latitude": 37.51990778,
+                "longitude": 126.8729681
+            }
+        ]
+    }
+
   
-  
-   
-  ]
 }
