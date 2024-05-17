@@ -27,6 +27,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useMemberStore } from '@/store/memberStore';
+import { useMenuStore } from '@/store/menuStore';
 import { Login } from '@/api/member.js';
 import { useRouter } from 'vue-router';
 
@@ -35,8 +36,9 @@ const credentials = ref({
   password: '',
 });
 
-const store = useMemberStore(); // 스토어 사용을 위한 훅
-const router = useRouter(); // 라우터 사용을 위한 훅
+const memberStore = useMemberStore();
+const menuStore = useMenuStore();
+const router = useRouter();
 
 const login = async () => {
   try {
@@ -49,7 +51,8 @@ const login = async () => {
         response.data[0].id === credentials.value.id &&
         response.data[0].password === credentials.value.password
       ) {
-        store.logIn(response.data[0]);
+        memberStore.logIn(response.data[0]);
+        menuStore.changeMenuState(true); // 로그인 시 메뉴 상태 업데이트
         alert(`${response.data[0].username}님 안녕하세요`);
         router.push({ name: 'home' });
       } else {
@@ -64,6 +67,10 @@ const login = async () => {
   }
 };
 </script>
+
+<style scoped>
+/* 기존 스타일 유지 */
+</style>
 
 <style scoped>
 body {

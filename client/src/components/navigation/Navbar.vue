@@ -11,20 +11,19 @@
       <li class="nav-item">
         <router-link to="/QnAList" class="nav-link">QnA</router-link>
       </li>
-      <template v-if="!isLoggedIn">
-        <li class="nav-item">
-          <router-link to="/login" class="nav-link">로그인</router-link>
+      <template v-for="item in visibleMenuList" :key="item.routeName">
+        <li class="nav-item" v-if="item.routeName === 'user-mypage'">
+          <router-link :to="{ name: item.routeName }" class="nav-link">{{
+            item.name
+          }}</router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/regist" class="nav-link">회원가입</router-link>
+        <li class="nav-item" v-else-if="item.routeName === 'user-logout'">
+          <button class="nav-link" @click="logout">{{ item.name }}</button>
         </li>
-      </template>
-      <template v-else>
-        <li class="nav-item">
-          <router-link to="/" class="nav-link">마이페이지</router-link>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" @click="logout">로그아웃</button>
+        <li class="nav-item" v-else>
+          <router-link :to="{ name: item.routeName }" class="nav-link">{{
+            item.name
+          }}</router-link>
         </li>
       </template>
     </ul>
@@ -33,20 +32,23 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useMemberStore } from '@/store/memberStore';
+import { useMenuStore } from '@/store/menuStore';
 import { useRouter } from 'vue-router';
 
-const store = useMemberStore();
+const menuStore = useMenuStore();
 const router = useRouter();
 
-const isLoggedIn = computed(() => store.isLoggedIn);
+const visibleMenuList = computed(() =>
+  menuStore.menuList.filter(item => item.show),
+);
 
-const logout = async () => {
-  await store.dispatch('logOut');
+const logout = () => {
+  menuStore.logout();
   alert('로그아웃 되었습니다.');
   router.push({ name: 'home' });
 };
 </script>
+
 <style scoped>
 /* 기본 리셋 */
 * {

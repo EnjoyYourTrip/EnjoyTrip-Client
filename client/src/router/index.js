@@ -10,12 +10,17 @@ import QnACreate from '../views/QnA/QnACreateView.vue';
 import QnADetail from '../views/QnA/QnADetailView.vue';
 import QnAEdit from '../views/QnA/QnAEditView.vue';
 import PlanDetailView from '../views/plan/PlanDetailView.vue';
-
+import UserMypage from '@/views/member/MypageView.vue';
 const routes = [
   {
     path: '/',
     name: 'home',
     component: Home,
+  },
+  {
+    path: '/mypage',
+    name: 'user-mypage',
+    component: UserMypage, // 마이페이지 컴포넌트 연결
   },
   {
     path: '/regist',
