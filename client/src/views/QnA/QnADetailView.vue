@@ -16,12 +16,16 @@
       </div>
     </div>
   </div>
+  <!--관리자의 댓글-->
+  <QnACommentView :postId="id"></QnACommentView>
 </template>
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { getQnAById, deleteQnA } from '@/api/qna';
+
+import QnACommentView from './QnACommentView.vue';
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
