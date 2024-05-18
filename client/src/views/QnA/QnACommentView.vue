@@ -1,13 +1,12 @@
 <template>
   <v-container class="pa-3">
-    <!-- 답변이 존재하면 보여줄 부분 -->
-    <div v-if="answer">
-      <h3>답변</h3>
-      <p>{{ answer.content }}</p>
-      <v-btn color="red" @click="deleteAnswer">답변 삭제</v-btn>
+    <div v-if="answers.length">
+      <div v-for="answer in answers" :key="answer.id">
+        <h3>답변</h3>
+        <p>{{ answer.content }}</p>
+        <v-btn color="red" @click="deleteAnswer(answer.id)">답변 삭제</v-btn>
+      </div>
     </div>
-
-    <!-- 답변이 없을 때 보여줄 입력 폼 -->
     <div v-else>
       <v-text-field
         v-model="newAnswer"
@@ -24,34 +23,67 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import {
+  getAnswersByQnAId,
+  createAnswer,
+  deleteAnswerFromDb,
+  updateQnAResponseStatus,
+} from '@/api/qna';
 
-const answer = ref(null);
+const route = useRoute();
+const qnaId = route.params.id;
+const answers = ref([]);
 const newAnswer = ref('');
 
 onMounted(async () => {
-  await loadAnswer();
+  await loadAnswers();
 });
 
-async function loadAnswer() {
-  // 이 부분에서 실제 데이터를 가져올 수 있는 API 호출을 구현합니다.
-  // 임시 데이터를 사용합니다.
-  answer.value = { content: '이미 작성된 답변' };
+async function loadAnswers() {
+  try {
+    const response = await getAnswersByQnAId(qnaId);
+    if (response.data) {
+      answers.value = response.data;
+    }
+  } catch (error) {
+    console.error('답변 로드 실패:', error);
+  }
 }
 
-function submitAnswer() {
+async function submitAnswer() {
   if (newAnswer.value.trim() === '') {
     alert('답변을 입력해 주세요.');
     return;
   }
-  // 여기에서 답변을 저장하는 API 호출을 구현합니다.
-  answer.value = { content: newAnswer.value }; // 답변 저장
-  newAnswer.value = ''; // 입력 필드 초기화
+  try {
+    const data = { content: newAnswer.value, postId: qnaId };
+    const response = await createAnswer(data);
+    if (response.status === 201) {
+      answers.value.push(response.data);
+      newAnswer.value = '';
+      await updateQnAResponseStatus(qnaId, true);
+    }
+  } catch (error) {
+    console.error('답변 등록 실패:', error);
+  }
 }
 
-function deleteAnswer() {
-  // 여기에서 답변을 삭제하는 API 호출을 구현합니다.
-  console.log('답변 삭제');
-  answer.value = null; // 로컬 상태 업데이트
+async function deleteAnswer(answerId) {
+  try {
+    const response = await deleteAnswerFromDb(answerId);
+    if (response.status === 200) {
+      const index = answers.value.findIndex(a => a.id === answerId);
+      if (index !== -1) {
+        answers.value.splice(index, 1);
+      }
+      if (answers.value.length === 0) {
+        await updateQnAResponseStatus(qnaId, false);
+      }
+    }
+  } catch (error) {
+    console.error('답변 삭제 실패:', error);
+  }
 }
 </script>
 
