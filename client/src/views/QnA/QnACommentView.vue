@@ -57,10 +57,18 @@ async function submitAnswer() {
     return;
   }
   try {
-    const data = { content: newAnswer.value, postId: qnaId };
-    const response = await createAnswer(data);
+    const data = {
+      content: newAnswer.value,
+      postId: qnaId,
+    };
+    const response = await createAnswer(qnaId, data);
     if (response.status === 201) {
-      answers.value.push(response.data);
+      const responseData = {
+        id: response.data.id,
+        content: response.data.content,
+        postId: response.data.postId,
+      };
+      answers.value.push(responseData);
       newAnswer.value = '';
       await updateQnAResponseStatus(qnaId, true);
     }
@@ -91,14 +99,14 @@ async function deleteAnswer(answerId) {
 .v-container {
   max-width: 600px;
   margin: auto;
-  background-color: #f0f0f0; /* 연한 회색 배경 */
-  border: 1px solid #c8e6c9; /* 연한 초록색 테두리 */
+  background-color: #f0f0f0;
+  border: 1px solid #c8e6c9;
   border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 128, 0, 0.2); /* 초록색 음영 */
+  box-shadow: 0 2px 5px rgba(0, 128, 0, 0.2);
 }
 
 .v-text-field .v-label,
 .v-btn {
-  color: green; /* 요소들의 텍스트 색상 */
+  color: green;
 }
 </style>
