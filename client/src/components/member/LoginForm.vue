@@ -5,15 +5,15 @@
         <form @submit.prevent="login">
           <h2>로그인</h2>
           <div class="input-group">
-            <label for="username">아이디</label>
-            <input type="text" id="id" v-model="credentials.id" required />
+            <label for="id">아이디</label>
+            <input type="text" id="id" v-model="loginUser.id" required />
           </div>
           <div class="input-group">
             <label for="password">비밀번호</label>
             <input
               type="password"
               id="password"
-              v-model="credentials.password"
+              v-model="loginUser.password"
               required
             />
           </div>
@@ -26,51 +26,35 @@
 
 <script setup>
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useMemberStore } from '@/store/memberStore';
-import { useMenuStore } from '@/store/menuStore';
-import { Login } from '@/api/member.js';
 import { useRouter } from 'vue-router';
 
-const credentials = ref({
-  id: '',
-  password: '',
+const router = useRouter();
+const memberStore = useMemberStore();
+const { isLogin } = storeToRefs(memberStore);
+// 유저 객체
+const loginUser = ref({
+  userId: '',
+  userPwd: '',
 });
 
-const memberStore = useMemberStore();
-const menuStore = useMenuStore();
-const router = useRouter();
+const { userLogin, getUserInfo } = memberStore;
 
+// 로그인 버튼을 누르면 실행되는 함수
 const login = async () => {
-  try {
-    const response = await Login(
-      credentials.value.id,
-      credentials.value.password,
-    );
-    if (response.status === 200) {
-      if (
-        response.data[0].id === credentials.value.id &&
-        response.data[0].password === credentials.value.password
-      ) {
-        memberStore.logIn(response.data[0]);
-        menuStore.changeMenuState(true); // 로그인 시 메뉴 상태 업데이트
-        alert(`${response.data[0].username}님 안녕하세요`);
-        router.push({ name: 'home' });
-      } else {
-        alert('아이디 또는 비밀번호를 확인해주세요');
-      }
-    } else {
-      console.error('서버 오류:', response.status);
-    }
-  } catch (error) {
-    console.error('로그인 처리 중 오류 발생:', error);
-    alert('로그인 처리 중 문제가 발생했습니다.');
+  console.log('login ing!!!! !!!------------------------------------------');
+  await userLogin(loginUser.value);
+  let token = sessionStorage.getItem('accessToken');
+  console.log('111. ', token);
+  console.log('isLogin: ', isLogin);
+  if (isLogin) {
+    console.log('로그인 성공아닌가???');
+    getUserInfo(token);
   }
+  router.push('/');
 };
 </script>
-
-<style scoped>
-/* 기존 스타일 유지 */
-</style>
 
 <style scoped>
 body {
@@ -95,8 +79,8 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6); /* Dark overlay for better readability */
-  backdrop-filter: blur(5px); /* Soften the background image */
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
 }
 
 .white-bg {

@@ -2,43 +2,56 @@
   <div class="black-bg">
     <div class="white-bg">
       <div class="login-container">
-        <form @submit.prevent="save">
+        <form @submit.prevent="regist">
           <h2>회원가입</h2>
           <div class="input-group">
-            <label for="username">아이디</label>
-            <input type="text" id="id" v-model="form.id" required />
+            <label for="id">아이디</label>
+            <input type="text" id="id" v-model="member.id" required />
+            <p v-if="member.id" :style="{ color: textColor1 }">
+              {{ idcheck_msg }}
+            </p>
           </div>
           <div class="input-group">
             <label for="password">비밀번호</label>
             <input
               type="password"
               id="password"
-              v-model="form.password"
+              v-model="member.password"
               required
             />
           </div>
           <div class="input-group">
-            <label for="password">비밀번호 확인</label>
-            <input type="password" v-model="passwordCheck" required />
-          </div>
-          <!-- 조건을 세분화하여 메시지를 제어합니다. -->
-          <p v-if="form.password && passwordCheck && !check">
-            비밀번호를 일치시켜주세요.
-          </p>
-          <p v-else-if="form.password && passwordCheck && check">
-            비밀번호가 일치합니다.
-          </p>
-          <div class="input-group">
-            <label for="username">이름</label>
-            <input type="text" v-model="form.username" required />
-          </div>
-          <div class="input-group">
-            <label for="username">닉네임</label>
-            <input type="text" v-model="form.nickname" required />
+            <label for="password-check">비밀번호 확인</label>
+            <input
+              type="password"
+              id="password-check"
+              v-model="passwordCheck"
+              required
+            />
+            <p
+              v-if="member.password && passwordCheck"
+              :style="{ color: textColor2 }"
+            >
+              {{ passwordCheckMsg }}
+            </p>
           </div>
           <div class="input-group">
-            <label for="username">이메일</label>
-            <input type="text" v-model="form.email" required />
+            <label for="name">이름</label>
+            <input type="text" id="name" v-model="member.name" required />
+          </div>
+          <div class="input-group">
+            <label for="nickname">닉네임</label>
+            <input
+              type="text"
+              id="nickname"
+              v-model="member.nickname"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" v-model="member.email" required />
           </div>
           <button type="submit">회원가입</button>
         </form>
@@ -46,48 +59,91 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { regist } from '@/api/member.js';
+import { userRegist, idCheck } from '@/api/member.js';
 
 const router = useRouter();
-const form = ref({
+
+const member = ref({
   id: '',
   password: '',
-  username: '',
+  name: '',
   nickname: '',
   email: '',
 });
-const passwordCheck = ref('');
-const check = ref(false);
 
-// 비밀번호 일치 여부를 실시간으로 검사
+const passwordCheck = ref('');
+const idcheck_msg = ref('');
+const passwordCheckMsg = ref('');
+const textColor1 = ref('#8CBDED');
+const textColor2 = ref('#f57878');
+
 watch(
-  () => [form.value.password, passwordCheck.value],
-  ([newPassword, newPasswordCheck]) => {
-    check.value = newPassword === newPasswordCheck;
+  () => member.value.id,
+  async () => {
+    if (member.value.id) {
+      try {
+        const { data } = await idCheck(member.value.id);
+        if (data === 1) {
+          idcheck_msg.value = '사용할 수 없는 아이디입니다';
+        } else {
+          idcheck_msg.value = '사용할 수 있는 아이디입니다';
+        }
+        changeColor(idcheck_msg.value, textColor1);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      idcheck_msg.value = '';
+    }
   },
-  { immediate: true },
 );
 
-const save = async () => {
-  if (check.value) {
-    try {
-      await regist(form.value);
-      alert('회원가입 되었습니다.');
-      router.push({ name: 'login' });
-    } catch (error) {
-      alert('중복된 아이디입니다.');
-      console.error('회원가입 실패:', error);
+watch(
+  () => passwordCheck.value,
+  () => {
+    if (member.value.password && passwordCheck.value) {
+      if (passwordCheck.value === member.value.password) {
+        passwordCheckMsg.value = '비밀번호가 일치합니다';
+      } else {
+        passwordCheckMsg.value = '비밀번호가 틀립니다';
+      }
+      changeColor(passwordCheckMsg.value, textColor2);
+    } else {
+      passwordCheckMsg.value = '';
     }
+  },
+);
+
+const changeColor = (message, colorRef) => {
+  if (message.includes('사용할 수 있는') || message.includes('일치합니다')) {
+    colorRef.value = '#8CBDED';
   } else {
+    colorRef.value = '#f57878';
+  }
+};
+
+const regist = async () => {
+  if (passwordCheck.value !== member.value.password) {
     alert('비밀번호가 일치하지 않습니다.');
+    return;
+  }
+  try {
+    const response = await userRegist(member.value);
+    let msg = '회원가입에 실패했습니다';
+    if (response.status === 200) msg = '회원가입에 성공했습니다';
+    alert(msg);
+
+    if (response.status === 200) {
+      router.push({ name: 'login' });
+    }
+  } catch (error) {
+    console.error('회원가입 실패:', error);
   }
 };
 </script>
-
 <style scoped>
 body {
   margin: 0;
@@ -105,14 +161,6 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6); /* Dark overlay for better readability */
-  backdrop-filter: blur(5px); /* Soften the background image */
 }
 
 .white-bg {
@@ -155,7 +203,8 @@ body {
 }
 
 input[type='text'],
-input[type='password'] {
+input[type='password'],
+input[type='email'] {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -164,7 +213,8 @@ input[type='password'] {
 }
 
 input[type='text']:focus,
-input[type='password']:focus {
+input[type='password']:focus,
+input[type='email']:focus {
   border-color: #007bff;
 }
 

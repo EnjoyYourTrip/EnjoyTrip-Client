@@ -1,28 +1,50 @@
 {
-  "members": [
+  "users": [
     {
-      "memer_id": 1,
-      "username": "김싸피",
+      "id": "user1",
+      "password": "password1",
+      "username": "John Doe",
+      "nickname": "johnny",
+      "email": "john@example.com",
+      "accessToken": "access_token_example",
+      "refreshToken": "refresh_token_example"
+    },
+    {
+      "id": "user2",
+      "password": "password2",
+      "username": "Jane Doe",
+      "nickname": "jane",
+      "email": "jane@example.com",
+      "accessToken": "access_token_example",
+      "refreshToken": "refresh_token_example"
+    },
+    {
       "id": "ssafy",
       "password": "1234",
+      "username": "김싸피",
       "nickname": "싸피싸피",
-      "email": "ssafy@naver.com",
-      "created_date": "2023-01-24",
-      "last_modified_date": "2024-10-23"
+      "email": "jane@example.com",
+      "accessToken": "access_token_example",
+      "refreshToken": "refresh_token_example"
+    }
+  ],
+  "admins": [
+    {
+      "id": "admin1",
+      "password": "adminpassword",
+      "username": "Admin User",
+      "nickname": "admin",
+      "email": "admin@example.com"
+    }
+  ],
+  "profiles": [
+    {
+      "userId": "user1",
+      "profileImage": "profile_image_url_1"
     },
     {
-      "id": "ssafy123",
-      "password": "123",
-      "username": "123",
-      "nickname": "123",
-      "email": "123"
-    },
-    {
-      "id": "123",
-      "password": "123",
-      "username": "123",
-      "nickname": "123",
-      "email": "123"
+      "userId": "user2",
+      "profileImage": "profile_image_url_2"
     }
   ],
   "qna": [
