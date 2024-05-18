@@ -27,17 +27,16 @@
   ],
   "qna": [
     {
-      "id": 1,
-      "question_id": 1,
-      "title": "제목2",
-      "content": "내용2",
-      "member_id": "작성자ID 1",
+      "title": "123",
+      "content": "123",
+      "created_date": "2024-05-18",
+      "member_id": "김싸피",
       "has_response": true,
-      "created_date": "2024-05-15",
-      "last_modified_date": "2024-05-12"
+      "last_modified_date": "2024-05-18",
+      "id": 1
     },
     {
-      "title": "댓글테스트용 ",
+      "title": "12334",
       "content": "123",
       "created_date": "2024-05-18",
       "member_id": "김싸피",
@@ -46,180 +45,39 @@
       "id": 2
     },
     {
-      "title": "123",
-      "content": "123",
-      "created_date": "2024-05-18",
-      "member_id": "김싸피",
-      "has_response": false,
-      "last_modified_date": "2024-05-18",
-      "id": 3
-    },
-    {
-      "title": "123",
-      "content": "123",
-      "created_date": "2024-05-18",
-      "member_id": "김싸피",
-      "has_response": false,
-      "last_modified_date": "2024-05-18",
-      "id": 4
-    },
-    {
-      "title": "1234",
-      "content": "1234",
+      "title": "이게 맞나",
+      "content": "맞나",
       "created_date": "2024-05-18",
       "member_id": "김싸피",
       "has_response": true,
       "last_modified_date": "2024-05-18",
-      "id": 5
+      "id": 3
+    },
+    {
+      "title": "답변 안된 글 ",
+      "content": "그런게 있다",
+      "created_date": "2024-05-18",
+      "member_id": "김싸피",
+      "has_response": false,
+      "last_modified_date": "2024-05-18",
+      "id": 4
     }
   ],
   "answer": [
     {
-      "id": 1,
-      "content": "서버에서 가져온 답변이란다"
-    },
-    {
-      "id": 2,
-      "content": "서버에서 가져온 답변이란다2222"
-    },
-    {
       "content": "123",
-      "postId": "8",
-      "id": 4
+      "postId": "1",
+      "id": 1
     },
     {
-      "content": "제목6 답변 수정",
-      "postId": "6",
-      "id": 5
-    },
-    {
-      "postId": {
-        "content": "123",
-        "postId": "7"
-      },
-      "id": 6
-    },
-    {
-      "postId": {
-        "content": "123",
-        "postId": "7"
-      },
-      "id": 7
-    },
-    {
-      "postId": {
-        "content": "1",
-        "postId": "10"
-      },
-      "id": 8
-    },
-    {
-      "postId": {
-        "content": "미친거 답변",
-        "postId": "11"
-      },
-      "id": 9
-    },
-    {
-      "postId": {
-        "content": "미친거 답변",
-        "postId": "11"
-      },
-      "id": 10
-    },
-    {
-      "postId": {
-        "content": "미친거 답변?",
-        "postId": "11"
-      },
-      "id": 11
-    },
-    {
-      "postId": {
-        "content": "혁준답변",
-        "postId": "7"
-      },
-      "id": 12
-    },
-    {
-      "postId": {
-        "content": "댓글이란다",
-        "postId": "2"
-      },
-      "id": 13
-    },
-    {
-      "postId": {
-        "content": "123",
-        "postId": "1"
-      },
-      "id": 14
-    },
-    {
-      "postId": {
-        "content": "123",
-        "postId": "3"
-      },
-      "id": 15
-    },
-    {
-      "postId": {
-        "content": "123",
-        "postId": "4"
-      },
-      "id": 4
-    },
-    {
-      "content": "5",
-      "postId": "5",
-      "id": 5
-    },
-    {
-      "postId": {
-        "content": "123",
-        "postId": "3"
-      },
-      "id": 16
-    },
-    {
-      "postId": {
-        "content": "12345657",
-        "postId": "4"
-      },
-      "id": 17
-    },
-    {
-      "postId": {
-        "content": "가나다라",
-        "postId": "3"
-      },
-      "id": 18
-    },
-    {
-      "postId": {
-        "content": "1234123",
-        "postId": "2"
-      },
-      "id": 19
-    },
-    {
-      "postId": {
-        "content": "123",
-        "postId": "2"
-      },
-      "id": 20
-    },
-    {
-      "postId": {
-        "content": "1111",
-        "postId": "4"
-      },
-      "id": 21
-    },
-    {
-      "content": "테스트용",
+      "content": "1234",
       "postId": "2",
-      "id": 23
+      "id": 2
+    },
+    {
+      "content": "니가 생각하는 그게 맞아",
+      "postId": "3",
+      "id": 3
     }
   ],
   "attraction": [
