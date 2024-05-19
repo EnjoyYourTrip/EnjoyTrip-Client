@@ -2,7 +2,7 @@
   "users": [
     {
       "id": "user1",
-      "password": "password1",
+      "password": "1234",
       "username": "John Doe",
       "nickname": "johnny",
       "email": "john@example.com",
@@ -11,7 +11,7 @@
     },
     {
       "id": "user2",
-      "password": "password2",
+      "password": "1234",
       "username": "Jane Doe",
       "nickname": "jane",
       "email": "jane@example.com",
@@ -26,12 +26,19 @@
       "email": "jane@example.com",
       "accessToken": "access_token_example",
       "refreshToken": "refresh_token_example"
+    },
+    {
+      "id": "123",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
     }
   ],
   "admins": [
     {
       "id": "admin1",
-      "password": "adminpassword",
+      "password": "1234",
       "username": "Admin User",
       "nickname": "admin",
       "email": "admin@example.com"

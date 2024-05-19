@@ -11,7 +11,8 @@ import QnADetail from '../views/QnA/QnADetailView.vue';
 import QnAEdit from '../views/QnA/QnAEditView.vue';
 import PlanDetailView from '../views/plan/PlanDetailView.vue';
 import UserMypage from '@/views/member/MypageView.vue';
-import { useMemberStore } from '@/stores/memberStore';
+import { useMemberStore } from '@/store/memberStore';
+import HotplaceView from '@/views/HotPlaceView.vue';
 const onlyAuthUser = async (to, from, next) => {
   const memberStore = useMemberStore();
   let token = sessionStorage.getItem('accessToken');
@@ -34,7 +35,7 @@ const onlyAuthUser = async (to, from, next) => {
     next();
   }
 };
-
+//현재 경로들이 다 나눠져있는데, 경로들끼리 연관관계 리펙토링 예정 -> 다 바꿔야돼서 보류
 const routes = [
   {
     path: '/',
@@ -94,6 +95,27 @@ const routes = [
     name: 'QnAEdit',
     beforeEnter: onlyAuthUser, // qna 수정 전에 로그인여부 파악하기
     component: QnAEdit,
+  },
+  //hotplace 연관관계 표현
+  {
+    path: '/hotplace',
+    name: 'hotplace',
+
+    component: HotplaceView,
+    redirect: { name: 'hotplace-list' },
+    children: [
+      {
+        path: 'list',
+        name: 'hotplace-list',
+        component: () => import('@/components/hotplace/HotplaceList.vue'),
+      },
+      {
+        path: 'write',
+        name: 'hotplace-write',
+        beforeEnter: onlyAuthUser,
+        component: () => import('@/components/hotplace/HotplaceWrite.vue'),
+      },
+    ],
   },
 ];
 

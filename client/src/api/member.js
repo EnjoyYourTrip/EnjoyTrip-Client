@@ -41,6 +41,8 @@ async function logout(userid, success, fail) {
 }
 
 async function userRegist(user, success, fail) {
+  console.log('VITE_VUE_API_URL:', import.meta.env.VITE_VUE_API_URL);
+
   await local.post(`/users`, user).then(success).catch(fail);
 }
 
@@ -86,18 +88,6 @@ async function adminGetUser(userId, success, fail) {
   await local.get(`/users/${userId}`).then(success).catch(fail);
 }
 
-async function uploadProfile(formData, success, fail) {
-  console.log('upload profile', formData);
-  await local
-    .post(`/profiles`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then(success)
-    .catch(fail);
-}
-
 export {
   userConfirm,
   findById,
@@ -112,5 +102,4 @@ export {
   changePwd,
   adminDelete,
   adminGetUser,
-  uploadProfile,
 };

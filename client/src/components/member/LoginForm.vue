@@ -49,7 +49,8 @@ const login = async () => {
   console.log('111. ', token);
   console.log('isLogin: ', isLogin);
   if (isLogin) {
-    console.log('로그인 성공아닌가???');
+    console.log('로그인 성공아닌가???', token);
+
     getUserInfo(token);
   }
   router.push('/');
