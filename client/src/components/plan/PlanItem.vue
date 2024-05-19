@@ -48,7 +48,7 @@ defineEmits(['modal', 'preview']);
 
 const formattedDate = computed(() => {
   if (props.created_date) {
-    return dayjs(props.created_date).format('YYYY. MM. DD HH:mm:ss');
+    return dayjs(props.created_date).format('YYYY. MM. DD');
   }
   return '';
 });

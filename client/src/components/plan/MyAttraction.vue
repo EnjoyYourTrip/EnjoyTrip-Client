@@ -6,10 +6,15 @@
         <b class="title">여행지를 선택해주세요.</b>
       </div>
       <p>방문할 여행지를 순서대로 선택하세요.</p>
-      <p>
-        방문할 여행지를 모두 골랐다면<br />
-        여행 계획 생성하기를 눌러주세요.
-      </p>
+      <p>방문할 여행지를 모두 골랐다면<br />여행 계획 생성하기를 눌러주세요.</p>
+      <div>
+        <label for="start-date">시작일:</label>
+        <input type="date" id="start-date" v-model="planStartDate" />
+      </div>
+      <div>
+        <label for="end-date">종료일:</label>
+        <input type="date" id="end-date" v-model="planEndDate" />
+      </div>
       <v-btn class="custom-btn" variant="tonal" @click="addPlanList">
         여행 계획 생성하기
       </v-btn>
@@ -63,29 +68,16 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import { createPlan } from '@/api/map';
 
-// 서버로 데이터 보내기
-async function sendPlanData(titleText, contentText, itineraryDetailList) {
-  try {
-    const response = await createPlan(
-      titleText,
-      contentText,
-      itineraryDetailList,
-    );
-    console.log('Plan created successfully:', response.data);
-  } catch (error) {
-    console.error('Error creating plan:', error);
-  }
-}
-
 const attractions = ref([]);
 const overview = ref('');
+const planStartDate = ref('');
+const planEndDate = ref('');
 
 // 카카오 지도에서 찍은 여행지의 id를 받아옴
 const props = defineProps({
@@ -114,36 +106,50 @@ const removePlanList = () => {
 
 // 여행 계획 추가 버튼을 누르면 실행되는 함수
 const addPlanList = () => {
-  // console.log('attractions에 담긴 아이들', attractions.value);
-
-  // attractions에서 contentId만 추출하여 itineraryDetailList 생성
   const itineraryDetailList = attractions.value.map(attraction => ({
     contentId: attraction.contentId,
   }));
   console.log('서버에 보낼 itineraryDetailList', itineraryDetailList);
   Swal.fire({
-    title: '여행 계획이 추가되었습니다.', // Alert 제목
-    text: '즐거운 여행 보내세요.', // Alert 내용
-    icon: 'success', // Alert 타입
+    title: '여행 계획이 추가되었습니다.',
+    text: '즐거운 여행 보내세요.',
+    icon: 'success',
     customClass: {
       confirmButton: 'custom-confirm-button',
     },
   }).then(() => {
-    // 성공했으면 서버로 데이터 보내기
-    sendPlanData(props.titleText, props.contentText, itineraryDetailList);
+    sendPlanData(
+      props.titleText,
+      props.contentText,
+      itineraryDetailList,
+      planStartDate.value,
+      planEndDate.value,
+    );
     router.push({ name: 'listPlan' });
   });
 };
 
-// // 자세히 버튼을 누르면 실행되는 함수 => 서버 연동하고 구현할 예정
-// const showDetail = async contentId => {
-//   try {
-//     const response = await getAttraction(contentId);
-//     overview.value = response.data.overview; // 예시로 overview 데이터를 가져옴
-//   } catch (error) {
-//     console.log('자세히 보기 에러', error);
-//   }
-// };
+// 서버로 데이터 보내기
+async function sendPlanData(
+  titleText,
+  contentText,
+  itineraryDetailList,
+  startDate,
+  endDate,
+) {
+  try {
+    const response = await createPlan(
+      titleText,
+      contentText,
+      itineraryDetailList,
+      startDate,
+      endDate,
+    );
+    console.log('Plan created successfully:', response.data);
+  } catch (error) {
+    console.error('Error creating plan:', error);
+  }
+}
 </script>
 
 <style lang="scss" scoped>

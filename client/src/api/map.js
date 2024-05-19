@@ -24,12 +24,20 @@ export function getAttraction(contentId) {
 }
 
 //생성한 여행계획을 서버로 전송
-export function createPlan(titleText, contentText, itineraryDetailList) {
+export function createPlan(
+  titleText,
+  contentText,
+  itineraryDetailList,
+  startDate,
+  endDate,
+) {
   return local.post(`/itinerary`, {
     title: titleText,
     content: contentText,
-    memberId: 1,
+    memberId: 1, // 회원 ID는 예시로 1을 사용
     itineraryDetailList: itineraryDetailList,
+    startDate: startDate,
+    endDate: endDate,
   });
 }
 
@@ -40,7 +48,6 @@ export function getPlanList() {
     headers: { 'ngrok-skip-browser-warning': '69420' },
   });
 }
-//'http://localhost:5000/attraction
 //여행계획 상세보기 정보 받아오기
 export function getIterary(itineraryId) {
   return local.get(`/itinerary/${itineraryId}/details`, {
