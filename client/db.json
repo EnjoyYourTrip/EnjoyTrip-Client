@@ -1,5 +1,5 @@
 {
-  "users": [
+  "members": [
     {
       "id": "user1",
       "password": "1234",
@@ -33,6 +33,62 @@
       "name": "123",
       "nickname": "123",
       "email": "123@123.com"
+    },
+    {
+      "id": "1234",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
+    },
+    {
+      "id": "12345",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
+    },
+    {
+      "id": "inhohyun",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
+    },
+    {
+      "id": "124",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
+    },
+    {
+      "id": "123451",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
+    },
+    {
+      "id": "1111",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
+    },
+    {
+      "id": "123213213",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
+    },
+    {
+      "id": "11111111111",
+      "password": "123",
+      "name": "123",
+      "nickname": "123",
+      "email": "123@123.com"
     }
   ],
   "admins": [
@@ -60,7 +116,7 @@
       "content": "123",
       "created_date": "2024-05-18",
       "member_id": "김싸피",
-      "has_response": true,
+      "has_response": false,
       "last_modified_date": "2024-05-18",
       "id": 1
     },
@@ -94,19 +150,14 @@
   ],
   "answer": [
     {
-      "content": "123",
-      "postId": "1",
-      "id": 1
-    },
-    {
-      "content": "1234",
-      "postId": "2",
-      "id": 2
-    },
-    {
       "content": "니가 생각하는 그게 맞아",
       "postId": "3",
       "id": 3
+    },
+    {
+      "content": "55555555",
+      "postId": "2",
+      "id": 4
     }
   ],
   "attraction": [
@@ -332,6 +383,25 @@
         "firstImage": "http://tong.visitkorea.or.kr/cms/resource/37/2850937_image2_1.jpg",
         "latitude": 37.51990778,
         "longitude": 126.8729681
+      }
+    ],
+    "hotplaces": [
+      {
+        "hotplaceNo": 1,
+        "title": "Lovely Beach",
+        "content": "A wonderful place to relax and enjoy the sea breeze.",
+        "address": "123 Ocean View Blvd",
+        "recommendation": 15,
+        "saveFolder": "images",
+        "saveFile": "beach.jpg"
+      }
+    ],
+    "users": [
+      {
+        "userId": "user1",
+        "likes": [
+          1
+        ]
       }
     ]
   }

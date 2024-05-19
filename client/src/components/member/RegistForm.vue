@@ -37,7 +37,7 @@
           </div>
           <div class="input-group">
             <label for="name">이름</label>
-            <input type="text" id="name" v-model="member.name" required />
+            <input type="text" id="name" v-model="member.username" required />
           </div>
           <div class="input-group">
             <label for="nickname">닉네임</label>
@@ -62,14 +62,14 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { userRegist, idCheck } from '@/api/member.js';
+import { userRegist } from '@/api/member.js';
 
 const router = useRouter();
 
 const member = ref({
   id: '',
   password: '',
-  name: '',
+  username: '',
   nickname: '',
   email: '',
 });
@@ -80,26 +80,26 @@ const passwordCheckMsg = ref('');
 const textColor1 = ref('#8CBDED');
 const textColor2 = ref('#f57878');
 
-watch(
-  () => member.value.id,
-  async () => {
-    if (member.value.id) {
-      try {
-        const { data } = await idCheck(member.value.id);
-        if (data === 1) {
-          idcheck_msg.value = '사용할 수 없는 아이디입니다';
-        } else {
-          idcheck_msg.value = '사용할 수 있는 아이디입니다';
-        }
-        changeColor(idcheck_msg.value, textColor1);
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      idcheck_msg.value = '';
-    }
-  },
-);
+// watch(
+//   () => member.value.id,
+//   async () => {
+//     if (member.value.id) {
+//       try {
+//         const { data } = await idCheck(member.value.id);
+//         if (data === 1) {
+//           idcheck_msg.value = '사용할 수 없는 아이디입니다';
+//         } else {
+//           idcheck_msg.value = '사용할 수 있는 아이디입니다';
+//         }
+//         changeColor(idcheck_msg.value, textColor1);
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     } else {
+//       idcheck_msg.value = '';
+//     }
+//   },
+// );
 
 watch(
   () => passwordCheck.value,
@@ -125,23 +125,25 @@ const changeColor = (message, colorRef) => {
   }
 };
 
+// 회원가입
 const regist = async () => {
-  if (passwordCheck.value !== member.value.password) {
-    alert('비밀번호가 일치하지 않습니다.');
-    return;
-  }
-  try {
-    const response = await userRegist(member.value);
-    let msg = '회원가입에 실패했습니다';
-    if (response.status === 200) msg = '회원가입에 성공했습니다';
-    alert(msg);
-
-    if (response.status === 200) {
-      router.push({ name: 'login' });
-    }
-  } catch (error) {
-    console.error('회원가입 실패:', error);
-  }
+  await userRegist(
+    member.value,
+    response => {
+      // let msg = '회원가입에 실패했습니다';
+      // if (response.status == 200) msg = '회원가입에 성공했습니다';
+      console.log('회원가입 성공시 response', response);
+      let msg = '회원가입에 성공했습니다';
+      alert(msg);
+      goLoginPage();
+    },
+    error => {
+      console.log(error);
+    },
+  );
+};
+const goLoginPage = () => {
+  router.push({ name: 'login' });
 };
 </script>
 <style scoped>

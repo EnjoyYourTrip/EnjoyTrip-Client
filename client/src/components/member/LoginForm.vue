@@ -29,31 +29,33 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useMemberStore } from '@/store/memberStore';
 import { useRouter } from 'vue-router';
+import { useMenuStore } from '@/store/menuStore';
 
 const router = useRouter();
 const memberStore = useMemberStore();
+const menuStore = useMenuStore();
+
 const { isLogin } = storeToRefs(memberStore);
-// 유저 객체
+
 const loginUser = ref({
-  userId: '',
-  userPwd: '',
+  id: '',
+  password: '',
 });
 
 const { userLogin, getUserInfo } = memberStore;
 
-// 로그인 버튼을 누르면 실행되는 함수
 const login = async () => {
-  console.log('login ing!!!! !!!------------------------------------------');
+  console.log('로그인 진행 중');
   await userLogin(loginUser.value);
   let token = sessionStorage.getItem('accessToken');
-  console.log('111. ', token);
-  console.log('isLogin: ', isLogin);
-  if (isLogin) {
-    console.log('로그인 성공아닌가???', token);
-
+  if (isLogin.value) {
+    console.log('로그인 성공, 토큰:', token);
     getUserInfo(token);
+    menuStore.changeMenuState(true); // 로그인 상태에 따라 메뉴 상태 업데이트
+    router.push({ name: 'home' });
+  } else {
+    console.log('로그인 실패');
   }
-  router.push('/');
 };
 </script>
 
