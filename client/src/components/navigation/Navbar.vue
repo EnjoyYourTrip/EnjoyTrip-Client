@@ -57,7 +57,6 @@ const logout = () => {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* 네비게이션 바 전체 스타일 */

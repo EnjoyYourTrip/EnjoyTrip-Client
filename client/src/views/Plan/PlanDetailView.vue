@@ -82,7 +82,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -92,6 +91,9 @@ import AppLoading from '@/components/common/AppLoading.vue';
 const router = useRouter();
 const route = useRoute();
 const mapInstance = ref(null);
+const polylines = ref([]);
+const markers = ref([]);
+// const overlays = ref([]);
 const id = route.params.id;
 const loading = ref(true);
 const plans = ref({
@@ -125,47 +127,45 @@ const goList = () => {
 const initializeMap = () => {
   if (plans.value.places.length === 0) return;
 
-  // 위도와 경도의 합산을 위한 변수 초기화
-  let totalLat = 0;
-  let totalLng = 0;
-
-  plans.value.places.forEach(place => {
-    totalLat += place.latitude;
-    totalLng += place.longitude;
-  });
-
-  // 평균 위도와 경도 계산
-  const avgLat = totalLat / plans.value.places.length;
-  const avgLng = totalLng / plans.value.places.length;
-
   const container = document.getElementById('map');
   const options = {
-    center: new kakao.maps.LatLng(avgLat, avgLng), // 평균 위치로 중심 설정
-    level: 7, // 확대 레벨, 낮을수록 확대됨
+    /* globals kakao  */
+    center: new kakao.maps.LatLng(
+      plans.value.places[0].latitude,
+      plans.value.places[0].longitude,
+    ), // 중심점 초기 설정
+    level: 7,
   };
-  /* global kakao */
   mapInstance.value = new kakao.maps.Map(container, options);
 
-  // 마커를 추가하는 함수
+  let path = [];
   plans.value.places.forEach(place => {
-    const markerPosition = new kakao.maps.LatLng(
-      place.latitude,
-      place.longitude,
-    );
+    const latLng = new kakao.maps.LatLng(place.latitude, place.longitude);
+    path.push(latLng);
+
     const marker = new kakao.maps.Marker({
-      position: markerPosition,
+      position: latLng,
+      map: mapInstance.value,
       title: place.title,
     });
-    marker.setMap(mapInstance.value);
+    markers.value.push(marker);
   });
-};
 
-const formatAddress = address => {
-  const maxLength = 22;
-  if (address.length > maxLength) {
-    return address.slice(0, maxLength) + '<br/>' + address.slice(maxLength);
-  }
-  return address;
+  const polyline = new kakao.maps.Polyline({
+    path: path,
+    strokeWeight: 5,
+    strokeColor: '#FFAE00',
+    strokeOpacity: 0.7,
+    strokeStyle: 'solid',
+  });
+  polyline.setMap(mapInstance.value);
+  polylines.value.push(polyline);
+
+  const bounds = new kakao.maps.LatLngBounds();
+  path.forEach(point => {
+    bounds.extend(point);
+  });
+  mapInstance.value.setBounds(bounds);
 };
 
 const formatDate = date => {

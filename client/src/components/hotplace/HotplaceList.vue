@@ -7,7 +7,7 @@ import {
   getMyRecommend,
 } from '@/api/hotplace.js';
 import VSelect from '@/components/common/VSelect.vue';
-// import HotplaceListItem from '@/components/hotplace/HotplaceListItem.vue';
+// import HotplaceListItem from '@/components/hotplace/HotplaceListItem.vue'; 안씀
 import { useMemberStore } from '@/store/memberStore';
 import { storeToRefs } from 'pinia';
 const router = useRouter();
