@@ -29,20 +29,26 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="@/assets/image1.jpg" class="d-block w-100" alt="..." />
-        <div class="carousel-caption d-none d-md-block">
-          <h1>여행가고싶어요</h1>
+        <div class="carousel-caption custom-caption d-none d-md-block">
+          <h1>나만 알고 있는 여행지, 함께 공유해요</h1>
+          <p>여행의 즐거움을 다른 사람들과 나누세요</p>
+          <p>#비밀여행지 #추억공유 #여행이야기</p>
         </div>
       </div>
       <div class="carousel-item">
         <img src="@/assets/image2.jpg" class="d-block w-100" alt="..." />
-        <div class="carousel-caption d-none d-md-block">
-          <h1>여행페이지 개발이 아니라</h1>
+        <div class="carousel-caption custom-caption d-none d-md-block">
+          <h1>당신의 특별한 순간을 기록하세요</h1>
+          <p>사진과 이야기를 통해 여행을 되새기세요</p>
+          <p>#여행사진 #여행블로그 #스토리텔링</p>
         </div>
       </div>
       <div class="carousel-item">
         <img src="@/assets/image3.jpg" class="d-block w-100" alt="..." />
-        <div class="carousel-caption d-none d-md-block">
-          <h1>여행을 가고 싶어요</h1>
+        <div class="carousel-caption custom-caption d-none d-md-block">
+          <h1>함께 만들어가는 여행 커뮤니티</h1>
+          <p>다른 여행자들과 소통하며 정보를 나누세요</p>
+          <p>#커뮤니티 #여행정보 #친구찾기</p>
         </div>
       </div>
     </div>
@@ -71,7 +77,7 @@
 
 <style scoped>
 .carousel-item img {
-  max-height: 900px; /* 이전 값에서 높이를 늘림 */
+  max-height: 900px; /* 이미지 높이를 늘림 */
   object-fit: cover; /* 이미지가 div의 크기에 맞추어 조정되도록 설정 */
   width: 100%; /* 이미지의 너비가 컨테이너의 100%를 차지하도록 설정 */
 }
@@ -86,5 +92,23 @@
   background: none !important;
   border: none !important;
   padding: 0 !important;
+}
+
+.carousel-caption.custom-caption {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  text-align: left;
+  color: #fff;
+}
+
+.carousel-caption.custom-caption h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.carousel-caption.custom-caption p {
+  font-size: 1.5rem;
 }
 </style>

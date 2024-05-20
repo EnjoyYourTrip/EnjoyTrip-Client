@@ -41,19 +41,22 @@ function deleteHotplace(hotplaceno, success, fail) {
   local.delete(`/hotplace/delete/${hotplaceno}`).then(success).catch(fail);
 }
 
-function changeRecommend(hotplaceno, userId, success, fail) {
+// 핫플 찜 하기
+function changeRecommend(hotplaceId, memberId, success, fail) {
   local
-    .get(`/hotplace/recommend/${hotplaceno}/${userId}`)
+    .post(`/hotplace/heart/${hotplaceId}/${memberId}`)
     .then(success)
     .catch(fail);
 }
 
-function getMyRecommend(userId, success, fail) {
-  local.get(`/hotplace/myRecommend/${userId}`).then(success).catch(fail);
+// 찜 누른 pk들 조회
+function getMyRecommend(memberId, success, fail) {
+  local.get(`/hotplace/myHeart/${memberId}`).then(success).catch(fail);
 }
 
-function userlistRecommend(userId, success, fail) {
-  local.get(`/hotplace/myRecommendList/${userId}`).then(success).catch(fail);
+// 찜 목록 조회
+function userlistRecommend(memberId, success, fail) {
+  local.get(`/hotplace/myHeartList/${memberId}`).then(success).catch(fail);
 }
 
 function top3(success, fail) {

@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   hotplace: {
@@ -8,12 +8,18 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['likeHotplace']);
+
 const urls = ({ saveFolder, saveFile }) => {
   if (!saveFolder || !saveFile) {
     return '';
   }
   const url = `https://8655-121-147-32-101.ngrok-free.app/uploads/${saveFolder}/${saveFile}`;
   return url;
+};
+
+const handleLike = () => {
+  emit('likeHotplace', props.hotplace.hotplaceId);
 };
 </script>
 
@@ -36,6 +42,9 @@ const urls = ({ saveFolder, saveFile }) => {
           <p>{{ props.hotplace.content }}</p>
           <p>{{ props.hotplace.address }}</p>
           <p>{{ props.hotplace.createdDate }}</p>
+          <button @click="handleLike" class="like-btn">
+            Like {{ props.hotplace.recommendCount }}
+          </button>
         </div>
       </div>
     </div>
@@ -101,5 +110,18 @@ const urls = ({ saveFolder, saveFile }) => {
 .hotplace-text p {
   margin: 5px 0;
   font-size: 1em;
+}
+.like-btn {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ff6b6b;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.like-btn:hover {
+  background-color: #ff4b4b;
 }
 </style>

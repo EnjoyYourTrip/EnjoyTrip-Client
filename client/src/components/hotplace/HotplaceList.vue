@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { listHotplace } from '@/api/hotplace.js';
+import { listHotplace, changeRecommend } from '@/api/hotplace.js';
 import Item from './HotplaceListItem.vue'; // Item.vue 컴포넌트 임포트
 
 const router = useRouter();
@@ -23,7 +23,6 @@ onMounted(() => {
 });
 
 const getHotplaceList = () => {
-  console.log('서버에서 글목록 얻어오자!!!', param.value);
   listHotplace(
     param.value,
     response => {
@@ -41,6 +40,22 @@ const getHotplaceList = () => {
 const moveWrite = () => {
   router.push({ name: 'hotplace-write' });
 };
+
+const handleLikeHotplace = hotplaceId => {
+  const memberId = 1; // 실제 사용자 ID로 대체해야 합니다.
+  changeRecommend(
+    hotplaceId,
+    memberId,
+    response => {
+      console.log('좋아요를 눌렀을 때 response', response);
+      console.log('Successfully liked hotplace', hotplaceId);
+      getHotplaceList(); // 리스트를 새로고침하여 좋아요 수 업데이트
+    },
+    error => {
+      console.log('Error liking hotplace', error);
+    },
+  );
+};
 </script>
 
 <template>
@@ -54,7 +69,7 @@ const moveWrite = () => {
         :key="hotplace.hotplaceId"
         class="hotplace-item"
       >
-        <Item :hotplace="hotplace" />
+        <Item :hotplace="hotplace" @likeHotplace="handleLikeHotplace" />
       </div>
     </div>
   </div>
@@ -67,7 +82,7 @@ const moveWrite = () => {
 
 .toolbar {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Left-align the button */
   margin-bottom: 20px;
 }
 
