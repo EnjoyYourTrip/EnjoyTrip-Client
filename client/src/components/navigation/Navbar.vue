@@ -1,6 +1,6 @@
 <template>
   <nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-3">
-    <router-link to="/" class="navbar-brand">여행가고싶어요</router-link>
+    <router-link to="/" class="navbar-brand">TripHelper</router-link>
     <ul class="nav nav-pills">
       <li class="nav-item">
         <router-link to="/listPlan" class="nav-link">여행지 계획</router-link>

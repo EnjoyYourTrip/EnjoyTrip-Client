@@ -221,19 +221,13 @@ const createMarkers = attractionsData => {
       '        <div class="body">' +
       '            <div class="img">' +
       '                <img src="' +
-      `${attraction.image}` +
+      `${attraction.firstImage}` +
       '" width="73" height="70">' +
       '           </div>' +
       '            <div class="desc">' +
       '                <div class="ellipsis">' +
       `${attraction.addr1}` +
       '</div>' +
-      '                <div class="jibun ellipsis">(우편번호)' +
-      `${attraction.zipcode}` +
-      '  (지번)' +
-      `${attraction.addr2}` +
-      '</div>' +
-      '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' +
       '            </div>' +
       '        </div>' +
       '    </div>' +
@@ -243,6 +237,7 @@ const createMarkers = attractionsData => {
       content: content,
       map: map,
       position: marker.getPosition(),
+      yAnchor: 1.4, // yAnchor 값을 조정하여 오버레이를 마커 위쪽으로 이동
     });
     overlay.setMap(null);
     // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
@@ -267,42 +262,6 @@ const deleteMarkers = () => {
 </script>
 
 <style scoped>
-.wrap {
-  position: absolute;
-  left: 0;
-  bottom: 40px;
-  width: 288px;
-  height: 132px;
-  margin-left: -144px;
-  text-align: left;
-  overflow: hidden;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.wrap * {
-  padding: 0;
-  margin: 0;
-}
-.wrap .info {
-  width: 286px;
-  height: 120px;
-  border-radius: 5px;
-  border-bottom: 2px solid #ccc;
-  border-right: 1px solid #ccc;
-  overflow: hidden;
-  background: #fff;
-}
-.wrap .info:nth-child(1) {
-  border: 0;
-  box-shadow: 0px 1px 2px #888;
-}
-.wrap .info .body .img {
-  float: left;
-  margin-right: 10px;
-}
-.wrap .info .body .desc {
-  overflow: hidden;
-}
 .dropdown-menu-container {
   display: flex;
   justify-content: center;
@@ -401,7 +360,7 @@ input[type='text'] {
   text-align: left;
   overflow: hidden;
   font-size: 12px;
-  font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+
   line-height: 1.5;
 }
 .wrap * {
@@ -412,20 +371,20 @@ input[type='text'] {
   width: 286px;
   height: 120px;
   border-radius: 5px;
-  border-bottom: 2px solid #ccc;
-  border-right: 1px solid #ccc;
+  border-bottom: 2px solid #ccc !important;
+  border-right: 1px solid #ccc !important;
   overflow: hidden;
-  background: #fff;
+  background: #fff !important;
 }
 .wrap .info:nth-child(1) {
   border: 0;
-  box-shadow: 0px 1px 2px #888;
+  box-shadow: 0px 1px 2px #888 !important;
 }
 .info .title {
   padding: 5px 0 0 10px;
   height: 30px;
-  background: #eee;
-  border-bottom: 1px solid #ddd;
+  background: #eee !important;
+  border-bottom: 1px solid #ddd !important;
   font-size: 18px;
   font-weight: bold;
 }
@@ -433,7 +392,7 @@ input[type='text'] {
   position: absolute;
   top: 10px;
   right: 10px;
-  color: #888;
+  color: #888 !important;
   width: 17px;
   height: 17px;
   background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
