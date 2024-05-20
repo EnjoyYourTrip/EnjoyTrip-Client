@@ -2,18 +2,13 @@ import { localAxios } from '@/util/http-commons';
 
 const local = localAxios();
 
-//모든 리스트를 가져오기
+// 모든 리스트를 가져오기
 function listHotplace(param, success, fail) {
   console.log('Hotplace list param :', param);
   local.post(`/hotplace/list`, JSON.stringify(param)).then(success).catch(fail);
 }
 
-//이게 뭐임?
-function detailHotplace(hotplaceno, success, fail) {
-  local.get(`/hotplace/detail/${hotplaceno}`).then(success).catch(fail);
-}
-
-//핫플레이스 작성
+// 핫플레이스 작성
 async function writeHotplace(hotplace, success, fail) {
   console.log('hotplace write ', hotplace);
   await local
@@ -22,7 +17,7 @@ async function writeHotplace(hotplace, success, fail) {
     .catch(fail);
 }
 
-//핫플레이스 이미지?
+// 핫플레이스 이미지 업로드
 async function writeFileHotplace(formData, success, fail) {
   console.log('hotplace write file', formData);
   await local
@@ -67,7 +62,6 @@ function top3(success, fail) {
 
 export {
   listHotplace,
-  detailHotplace,
   writeHotplace,
   writeFileHotplace,
   modifyHotplace,

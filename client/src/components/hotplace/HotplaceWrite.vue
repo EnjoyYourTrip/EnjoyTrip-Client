@@ -2,22 +2,18 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { writeHotplace, writeFileHotplace } from '@/api/hotplace.js';
-import { useMemberStore } from '@/stores/member';
-import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 
-const memberStore = useMemberStore();
-const { userInfo } = storeToRefs(memberStore);
-
 // 핫플 객체
 const hotplace = ref({
-  userId: userInfo.value.userId,
+  memberId: 1,
   title: '',
   content: '',
   address: '',
+  heart: 0, // default 값 설정
 });
-const hotplaceNo = ref(0);
+const hotplaceId = ref(0);
 
 // 이미지 객체
 const image = ref({
@@ -27,36 +23,45 @@ const image = ref({
 
 // 파일을 첨부하면 실행되는 함수
 const onInputImg = e => {
-  image.value.file = e.target.files[0];
-  image.value.preview = URL.createObjectURL(e.target.files[0]);
+  const target = e.target;
+  if (target.files && target.files[0]) {
+    image.value.file = target.files[0];
+    image.value.preview = URL.createObjectURL(target.files[0]);
+  }
 };
 
 // 등록하기 버튼을 누르면 실행되는 함수
 const write = async () => {
-  console.log('작성할 핫플 글 -> ', hotplace);
+  console.log('작성할 핫플 글 -> ', hotplace.value);
   await writeHotplace(
     hotplace.value,
     ({ data }) => {
       console.log('write한 핫플 번호 ->', data);
-      hotplaceNo.value = data;
+      hotplaceId.value = data;
     },
     error => {
       console.log(error);
     },
   );
+
   // 파일 이미지
   const formData = new FormData();
-  formData.append('upfile', image.value.file);
-  formData.append('hotplaceNo', hotplaceNo.value);
-  await writeFileHotplace(
-    formData,
-    response => {
-      console.log(response);
-    },
-    error => {
-      console.log(error);
-    },
-  );
+  if (image.value.file) {
+    formData.append('uploadFile', image.value.file);
+    console.log('이미지와 연결된 핫플레이스 아이디', hotplaceId.value.data);
+    formData.append('hotplaceId', hotplaceId.value.data);
+
+    // 이미지 파일 업로드 요청
+    await writeFileHotplace(
+      formData,
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      },
+    );
+  }
   moveList();
 };
 
@@ -75,7 +80,7 @@ const moveList = () => {
       <div class="col-9">
         <h3 style="font-weight: bolder; margin-bottom: 30px">핫플을 올리자</h3>
         <div class="col-lg-10 text-start">
-          <form @submit.prevent="onSubmit">
+          <form @submit.prevent="write">
             <div class="mb-3">
               <label for="subject" class="form-label">장소 : </label>
               <input
@@ -120,7 +125,7 @@ const moveList = () => {
               &nbsp;&nbsp;<v-btn
                 variant="tonal"
                 @click="moveList"
-                color="#FF607F	"
+                color="#FF607F"
                 >뒤로가기</v-btn
               >
             </div>
