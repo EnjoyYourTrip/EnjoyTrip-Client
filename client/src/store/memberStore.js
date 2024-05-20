@@ -43,6 +43,7 @@ export const useMemberStore = defineStore(
         },
         error => {
           console.error('로그인 에러', error);
+          alert('아이디 혹은 비밀번호를 확인해주세요');
           isLogin.value = false;
           isLoginError.value = true;
           isValidToken.value = false;
