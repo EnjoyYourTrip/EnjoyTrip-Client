@@ -116,7 +116,7 @@
       "content": "123",
       "created_date": "2024-05-18",
       "member_id": "김싸피",
-      "has_response": false,
+      "has_response": true,
       "last_modified_date": "2024-05-18",
       "id": 1
     },
@@ -158,6 +158,11 @@
       "content": "55555555",
       "postId": "2",
       "id": 4
+    },
+    {
+      "content": "123",
+      "postId": "1",
+      "id": 5
     }
   ],
   "attraction": [
