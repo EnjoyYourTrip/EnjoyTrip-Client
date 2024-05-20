@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import './assets/styles/fonts.css';
-
+import piniaPersist from 'pinia-plugin-persist';
 // Vuetify
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
@@ -21,6 +21,7 @@ import router from './router/index.js';
 import { createPinia } from 'pinia';
 const pinia = createPinia();
 
+pinia.use(piniaPersist);
 const vuetify = createVuetify({
   components,
   directives,
