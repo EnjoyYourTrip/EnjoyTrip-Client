@@ -261,7 +261,7 @@ const deleteMarkers = () => {
 };
 </script>
 
-<style>
+<style scoped>
 .dropdown-menu-container {
   display: flex;
   justify-content: center;

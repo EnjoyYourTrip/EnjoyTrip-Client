@@ -52,6 +52,7 @@ const login = async () => {
     console.log('로그인 성공, 토큰:', token);
     getUserInfo(token);
     menuStore.changeMenuState(true); // 로그인 상태에 따라 메뉴 상태 업데이트
+    alert('로그인에 성공하셨습니다');
     router.push({ name: 'home' });
   } else {
     console.log('로그인 실패');
