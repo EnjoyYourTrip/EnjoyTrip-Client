@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 
 const props = defineProps({
   hotplace: {
@@ -10,6 +10,12 @@ const props = defineProps({
 
 const emit = defineEmits(['likeHotplace']);
 
+// 좋아요 상태를 관리할 ref 변수
+const isLiked = ref(false);
+
+// 서버에서 받아온 좋아요 상태를 초기화 (필요한 경우)
+isLiked.value = props.hotplace.isLiked;
+
 const urls = ({ saveFolder, saveFile }) => {
   if (!saveFolder || !saveFile) {
     return '';
@@ -19,6 +25,7 @@ const urls = ({ saveFolder, saveFile }) => {
 };
 
 const handleLike = () => {
+  isLiked.value = !isLiked.value;
   emit('likeHotplace', props.hotplace.hotplaceId);
 };
 </script>
@@ -42,11 +49,36 @@ const handleLike = () => {
           <p>{{ props.hotplace.content }}</p>
           <p>{{ props.hotplace.address }}</p>
           <p>{{ props.hotplace.createdDate }}</p>
-          <button @click="handleLike" class="like-btn">
-            Like {{ props.hotplace.recommendCount }}
-          </button>
         </div>
       </div>
+      <button @click="handleLike" :class="['like-btn', { liked: isLiked }]">
+        <svg
+          v-if="isLiked"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="red"
+          class="icon"
+        >
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          />
+        </svg>
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon"
+        >
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          />
+        </svg>
+      </button>
     </div>
   </div>
 </template>
@@ -112,16 +144,20 @@ const handleLike = () => {
   font-size: 1em;
 }
 .like-btn {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #ff6b6b;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
   border: none;
-  border-radius: 5px;
-  color: white;
   cursor: pointer;
+  outline: none;
 }
-
-.like-btn:hover {
-  background-color: #ff4b4b;
+.icon {
+  width: 24px;
+  height: 24px;
+}
+.liked .icon {
+  fill: red;
+  stroke: red;
 }
 </style>

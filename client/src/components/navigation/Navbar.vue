@@ -1,7 +1,10 @@
 <template>
   <nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-3">
     <router-link to="/" class="navbar-brand">TripHelper</router-link>
-    <ul class="nav nav-pills">
+    <button class="navbar-toggler" type="button" @click="toggleMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="nav nav-pills nav-container">
       <li class="nav-item">
         <router-link to="/listPlan" class="nav-link">여행지 계획</router-link>
       </li>
@@ -33,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useMenuStore } from '@/store/menuStore';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from '@/store/memberStore';
@@ -44,40 +47,41 @@ const memberStore = useMemberStore();
 const visibleMenuList = computed(() =>
   menuStore.menuList.filter(item => item.show),
 );
+const menuVisible = ref(false);
+
+const toggleMenu = () => {
+  menuVisible.value = !menuVisible.value;
+};
 
 const logout = () => {
   menuStore.logout();
   memberStore.userLogout();
-  sessionStorage.removeItem('refreshToken'); // 리프레시 토큰 삭제
-  sessionStorage.removeItem('accessToken'); // 엑세스 토큰 삭제
+  sessionStorage.removeItem('refreshToken');
+  sessionStorage.removeItem('accessToken');
   alert('로그아웃 되었습니다.');
   router.push({ name: 'home' });
 };
 </script>
 
 <style scoped>
-/* 기본 리셋 */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* 네비게이션 바 전체 스타일 */
 #navbar-example2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(135deg, #76b852 0%, #8dc26f 100%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-  color: #ffffff;
+  padding: 1rem 2rem;
 }
 
-/* 브랜드 로고 스타일 */
 .navbar-brand {
   font-size: 1.6rem;
   color: #ffffff;
-  padding: 1rem 2rem;
   text-decoration: none;
   font-weight: bold;
   transition: transform 0.3s ease-in-out;
@@ -87,14 +91,13 @@ const logout = () => {
   transform: scale(1.05);
 }
 
-/* 네비게이션 링크 스타일 */
 .nav {
   display: flex;
   list-style: none;
 }
 
 .nav-item {
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
 }
 
 .nav-link {
@@ -108,7 +111,6 @@ const logout = () => {
 .nav-link:hover,
 .nav-link:focus {
   color: #dfe6e9;
-  transition: color 0.3s;
 }
 
 .nav-link::after {
@@ -126,19 +128,26 @@ const logout = () => {
   width: 100%;
 }
 
-/* 로그아웃 버튼 호버 효과 */
+button.nav-link {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
 button.nav-link:hover {
-  background-color: #56ab2f;
-  color: #2d3436;
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
 }
 
-/* 햄버거 메뉴 스타일 */
 .navbar-toggler {
-  display: none; /* Initially hidden on large screens */
+  display: none;
   cursor: pointer;
   background: transparent;
   border: none;
+  padding: 0;
 }
 
 .navbar-toggler-icon {
@@ -147,6 +156,7 @@ button.nav-link:hover {
   height: 3px;
   background-color: #ffffff;
   position: relative;
+  transition: all 0.3s ease;
 }
 
 .navbar-toggler-icon::before,
@@ -168,18 +178,30 @@ button.nav-link:hover {
   transform: translateY(10px);
 }
 
+.nav-container {
+  display: flex;
+  list-style: none;
+}
+
 @media (max-width: 768px) {
   .navbar-toggler {
-    display: block; /* Show on small screens */
+    display: block;
   }
 
   .nav-container {
-    display: none; /* Hide links by default on small screens */
+    display: none;
+    flex-direction: column;
+    width: 100%;
   }
 
   .nav-item {
-    width: 100%; /* Full width for mobile menu items */
+    width: 100%;
     text-align: center;
+    padding: 1rem 0;
+  }
+
+  .nav-container.active {
+    display: flex;
   }
 }
 </style>
