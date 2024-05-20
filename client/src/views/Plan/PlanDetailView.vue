@@ -88,10 +88,9 @@ import { ref, onMounted, watch, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getIterary } from '@/api/map';
 import AppLoading from '@/components/common/AppLoading.vue';
-
+var map;
 const router = useRouter();
 const route = useRoute();
-const mapInstance = ref(null);
 const id = route.params.id;
 const loading = ref(true);
 const plans = ref({
@@ -141,10 +140,10 @@ const initializeMap = () => {
   const container = document.getElementById('map');
   const options = {
     center: new kakao.maps.LatLng(avgLat, avgLng), // 평균 위치로 중심 설정
-    level: 12, // 확대 레벨, 낮을수록 확대됨
+    level: 10, // 확대 레벨, 낮을수록 확대됨
   };
   /* global kakao */
-  mapInstance.value = new kakao.maps.Map(container, options);
+  map = new kakao.maps.Map(container, options);
 
   // 마커를 추가하는 함수
   plans.value.places.forEach(place => {
@@ -156,7 +155,46 @@ const initializeMap = () => {
       position: markerPosition,
       title: place.title,
     });
-    marker.setMap(mapInstance.value);
+    marker.setMap(map);
+
+    //여기에 오버레이 추가
+    var content =
+      '<div class="wrap">' +
+      '    <div class="info">' +
+      '        <div class="title">' +
+      `${place.title}` +
+      '            <div class="close" title="닫기"></div>' +
+      '        </div>' +
+      '        <div class="body">' +
+      '            <div class="img">' +
+      '                <img src="' +
+      `${place.firstImage}` +
+      '" width="73" height="70">' +
+      '           </div>' +
+      '            <div class="desc">' +
+      '                <div class="ellipsis">' +
+      `${place.addr1}` +
+      '</div>' +
+      '            </div>' +
+      '        </div>' +
+      '    </div>' +
+      '</div>';
+
+    var overlay = new kakao.maps.CustomOverlay({
+      content: content,
+      map: map,
+      position: marker.getPosition(),
+      yAnchor: 1.4, // yAnchor 값을 조정하여 오버레이를 마커 위쪽으로 이동
+    });
+    overlay.setMap(null);
+    // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+    kakao.maps.event.addListener(marker, 'mouseover', function () {
+      console.log('마우스 올려 놓음');
+      overlay.setMap(map);
+    });
+    kakao.maps.event.addListener(marker, 'mouseout', function () {
+      overlay.setMap(null);
+    });
   });
 };
 
@@ -187,7 +225,7 @@ watch(
 onMounted(fetchPlans);
 </script>
 
-<style scoped>
+<style>
 .text-green {
   color: #28a745;
 }
@@ -249,5 +287,99 @@ onMounted(fetchPlans);
   margin: 0;
   font-size: 0.8em;
   color: gray;
+}
+
+/* 오버레이 css */
+.wrap {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 288px;
+  height: 132px;
+  margin-left: -144px;
+  text-align: left;
+  overflow: hidden;
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+.wrap * {
+  padding: 0;
+  margin: 0;
+}
+.wrap .info {
+  width: 286px;
+  height: 120px;
+  border-radius: 5px;
+  border-bottom: 2px solid #ccc !important;
+  border-right: 1px solid #ccc !important;
+  overflow: hidden;
+  background: #fff !important;
+}
+.wrap .info:nth-child(1) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888 !important;
+}
+.info .title {
+  padding: 5px 0 0 10px;
+  height: 30px;
+  background: #eee !important;
+  border-bottom: 1px solid #ddd !important;
+  font-size: 18px;
+  font-weight: bold;
+}
+.info .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #888 !important;
+  width: 17px;
+  height: 17px;
+  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
+}
+.info .close:hover {
+  cursor: pointer;
+}
+.info .body {
+  position: relative;
+  overflow: hidden;
+}
+.info .desc {
+  position: relative;
+  margin: 13px 0 0 90px;
+  height: 75px;
+}
+.desc .ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.desc .jibun {
+  font-size: 11px;
+  color: #888;
+  margin-top: -2px;
+}
+.info .img {
+  position: absolute;
+  top: 6px;
+  left: 5px;
+  width: 73px;
+  height: 71px;
+  border: 1px solid #ddd;
+  color: #888;
+  overflow: hidden;
+}
+.info:after {
+  content: '';
+  position: absolute;
+  margin-left: -12px;
+  left: 50%;
+  bottom: 0;
+  width: 22px;
+  height: 12px;
+  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
+}
+.info .link {
+  color: #5085bb;
 }
 </style>
