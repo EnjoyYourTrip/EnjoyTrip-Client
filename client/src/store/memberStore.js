@@ -53,11 +53,13 @@ export const useMemberStore = defineStore(
     const getUserInfo = async token => {
       let decodeToken = jwtDecode(token);
       console.log('2. decodeToken', decodeToken);
+      //여기서 에러?
       await findById(
-        decodeToken.userId,
+        decodeToken.memberId,
         async response => {
           console.log('token 유효성 검사', response);
-          if (response.status === httpStatusCode.OK) {
+
+          if (response.status === 200) {
             userInfo.value = response.data.userInfo;
             isValidToken.value = true;
             console.log(
@@ -102,9 +104,9 @@ export const useMemberStore = defineStore(
             console.log('갱신 실패');
             // 다시 로그인 전 DB에 저장된 RefreshToken 제거.
             await logout(
-              userInfo.value.userid,
+              userInfo.value.memberId,
               response => {
-                if (response.status === httpStatusCode.OK) {
+                if (response.status === 200) {
                   console.log('리프레시 토큰 제거 성공');
                 } else {
                   console.log('리프레시 토큰 제거 실패');
@@ -113,7 +115,7 @@ export const useMemberStore = defineStore(
                 isLogin.value = false;
                 userInfo.value = null;
                 isValidToken.value = false;
-                router.push({ name: 'user-login' });
+                router.push({ name: 'login' });
               },
               error => {
                 console.error(error);
@@ -130,7 +132,7 @@ export const useMemberStore = defineStore(
       await logout(
         userid,
         response => {
-          if (response.status === httpStatusCode.OK) {
+          if (response.status === 200) {
             isLogin.value = false;
             userInfo.value = null;
             isValidToken.value = false;

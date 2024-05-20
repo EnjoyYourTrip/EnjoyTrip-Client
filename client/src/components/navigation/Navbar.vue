@@ -36,16 +36,20 @@
 import { computed } from 'vue';
 import { useMenuStore } from '@/store/menuStore';
 import { useRouter } from 'vue-router';
+import { useMemberStore } from '@/store/memberStore';
 
 const menuStore = useMenuStore();
 const router = useRouter();
-
+const memberStore = useMemberStore();
 const visibleMenuList = computed(() =>
   menuStore.menuList.filter(item => item.show),
 );
 
 const logout = () => {
   menuStore.logout();
+  memberStore.userLogout();
+  sessionStorage.removeItem('refreshToken'); // 리프레시 토큰 삭제
+  sessionStorage.removeItem('accessToken'); // 엑세스 토큰 삭제
   alert('로그아웃 되었습니다.');
   router.push({ name: 'home' });
 };

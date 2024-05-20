@@ -30,13 +30,18 @@ async function userConfirm(param, success, fail) {
 async function findById(memberId, success, fail) {
   local.defaults.headers['Authorization'] =
     sessionStorage.getItem('accessToken');
-  await local.get(`/members/${memberId}`).then(success).catch(fail);
+  await local
+    .get(`/members/${memberId}`, {
+      headers: { 'ngrok-skip-browser-warning': '69420' },
+    })
+    .then(success)
+    .catch(fail);
 }
 
-async function tokenRegeneration(user, success, fail) {
+async function tokenRegeneration(member, success, fail) {
   local.defaults.headers['refreshToken'] =
     sessionStorage.getItem('refreshToken');
-  await local.post(`/members/refresh`, user).then(success).catch(fail);
+  await local.post(`/members/refresh`, member).then(success).catch(fail);
 }
 
 async function logout(memberId, success, fail) {
