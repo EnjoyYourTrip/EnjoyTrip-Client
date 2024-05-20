@@ -1,7 +1,9 @@
 <template>
-  <div>마이페이지임</div>
+  <userMyPage></userMyPage>
 </template>
 
-<script setup></script>
+<script setup>
+import userMyPage from '@/components/member/MyPage.vue';
+</script>
 
 <style lang="scss" scoped></style>

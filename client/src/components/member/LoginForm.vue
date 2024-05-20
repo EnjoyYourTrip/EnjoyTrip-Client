@@ -23,19 +23,19 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useMemberStore } from '@/store/memberStore';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useMemberStore } from '@/store/memberStore'; // 이 경로가 정확한지 확인하세요.
 import { useMenuStore } from '@/store/menuStore';
 
 const router = useRouter();
 const memberStore = useMemberStore();
 const menuStore = useMenuStore();
 
-const { isLogin } = storeToRefs(memberStore);
+// 여기서 storeToRefs를 사용하여 store의 isLogin과 userInfo를 로컬 반응형 참조로 가져옵니다.
+const { isLogin, userInfo } = storeToRefs(memberStore);
 
 const loginUser = ref({
   id: '',
@@ -50,13 +50,21 @@ const login = async () => {
   let token = sessionStorage.getItem('accessToken');
   if (isLogin.value) {
     console.log('로그인 성공, 토큰:', token);
-    getUserInfo(token);
-    menuStore.changeMenuState(true); // 로그인 상태에 따라 메뉴 상태 업데이트
-    alert('로그인에 성공하셨습니다');
-
-    router.push({ name: 'home' });
+    await getUserInfo(token); // getUserInfo가 완료될 때까지 기다림
+    if (userInfo.value) {
+      console.log('사용자 정보 로드 완료:', userInfo.value);
+      menuStore.changeMenuState(true);
+      alert('로그인에 성공하셨습니다');
+      router.push({ name: 'home' });
+    } else {
+      console.error('사용자 정보 로드 실패');
+      console.log('userInfo', userInfo);
+      // 적절한 에러 핸들링 추가
+      alert('사용자 정보를 불러오는 데 실패했습니다.');
+    }
   } else {
     console.log('로그인 실패');
+    alert('로그인에 실패했습니다.');
   }
 };
 </script>

@@ -61,7 +61,7 @@ export const useMemberStore = defineStore(
           console.log('token 유효성 검사', response);
 
           if (response.status === 200) {
-            userInfo.value = response.data.userInfo;
+            userInfo.value = response.data;
             isValidToken.value = true;
             console.log(
               '3. getUserInfo data ------------------------>> ',
@@ -92,7 +92,7 @@ export const useMemberStore = defineStore(
       await tokenRegeneration(
         JSON.stringify(userInfo.value),
         response => {
-          if (response.status === httpStatusCode.CREATE) {
+          if (response.status === 201) {
             let accessToken = response.data.accessToken;
             console.log('재발급 완료 >> 새로운 토큰 : {}', accessToken);
             sessionStorage.setItem('accessToken', accessToken);
