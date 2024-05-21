@@ -77,9 +77,9 @@
 
 <style scoped>
 .carousel-item img {
-  max-height: 900px; /* 이미지 높이를 늘림 */
-  object-fit: cover; /* 이미지가 div의 크기에 맞추어 조정되도록 설정 */
-  width: 100%; /* 이미지의 너비가 컨테이너의 100%를 차지하도록 설정 */
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  object-fit: cover; /* Cover the entire area */
 }
 
 .custom-carousel-btn {
@@ -90,7 +90,6 @@
 
 .custom-carousel-btn:hover {
   background: none !important;
-
   padding: 0 !important;
 }
 
@@ -98,7 +97,7 @@
   position: absolute;
   top: 50%;
   left: 10%;
-
+  transform: translateY(-50%);
   text-align: left;
   color: #fff;
 }

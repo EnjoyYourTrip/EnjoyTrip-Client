@@ -74,7 +74,7 @@ export default {
 }
 .deep-chat {
   width: 100%;
-  height: 400px;
+  height: 500px; /* Adjusted the height to 500px */
 }
 .chatbot-button {
   background-color: #4caf50;
