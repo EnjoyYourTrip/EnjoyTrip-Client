@@ -13,7 +13,7 @@ const emit = defineEmits(['likeHotplace']);
 const isLiked = ref(false);
 
 // 서버에서 받아온 좋아요 상태를 초기화
-isLiked.value = props.hotplace.isLiked;
+isLiked.value = props.hotplace.isHearted;
 
 const urls = ({ saveFolder, saveFile }) => {
   if (!saveFolder || !saveFile) {

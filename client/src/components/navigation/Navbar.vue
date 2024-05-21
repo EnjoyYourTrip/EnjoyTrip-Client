@@ -55,7 +55,7 @@ const toggleMenu = () => {
 
 const logout = () => {
   menuStore.logout();
-  memberStore.userLogout();
+  memberStore.userLogout(memberStore.userInfo.memberId);
   sessionStorage.removeItem('refreshToken');
   sessionStorage.removeItem('accessToken');
   alert('로그아웃 되었습니다.');

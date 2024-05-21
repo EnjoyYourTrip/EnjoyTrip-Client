@@ -87,15 +87,20 @@ async function changePwd(user, success, fail) {
   await local.put(`/members/${user.id}/change`, user).then(success).catch(fail);
 }
 
-async function adminDelete(memberId, success, fail) {
-  console.log('관리자가 회원을 삭제한다', memberId);
-  await local.delete(`/members/${memberId}`).then(success).catch(fail);
+// 서버에 토큰과 비밀번호를 보내는 함수
+async function sendToken(passwordToken, newPassword, success, fail) {
+  await local
+    .post(`/members/reset-password`, { passwordToken, newPassword })
+    .then(success)
+    .catch(fail);
 }
 
-async function adminGetUser(memberId, success, fail) {
-  await local.get(`/members/${memberId}`).then(success).catch(fail);
+async function sendEmail(username, email, success, fail) {
+  await local
+    .post(`/members/forgot-password`, { username, email })
+    .then(success)
+    .catch(fail);
 }
-
 export {
   userConfirm,
   findById,
@@ -108,6 +113,6 @@ export {
   userList,
   idCheck,
   changePwd,
-  adminDelete,
-  adminGetUser,
+  sendToken,
+  sendEmail,
 };

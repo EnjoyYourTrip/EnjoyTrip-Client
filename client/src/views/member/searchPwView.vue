@@ -3,26 +3,19 @@
     <div class="white-bg">
       <div class="login-container">
         <form @submit.prevent="login">
-          <h2>로그인</h2>
+          <h2>비밀번호 찾기</h2>
           <div class="input-group">
-            <label for="id">아이디</label>
-            <input type="text" id="id" v-model="loginUser.id" required />
+            <label for="id">이름</label>
+            <input type="text" id="id" v-model="username" required />
           </div>
           <div class="input-group">
-            <label for="password">비밀번호</label>
-            <input
-              type="password"
-              id="password"
-              v-model="loginUser.password"
-              required
-            />
+            <label for="text">이메일</label>
+            <input type="text" id="password" v-model="email" required />
           </div>
-          <button type="submit">로그인</button>
+          <button type="submit" @click.prevent="send">메일 발송</button>
         </form>
         <div class="forgot-password">
-          <router-link to="/pwSearch"
-            ><a href="#">비밀번호 찾기</a></router-link
-          >
+          <router-link to="/login"><a href="#">돌아가기</a></router-link>
         </div>
       </div>
     </div>
@@ -31,43 +24,24 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
-import { useMemberStore } from '@/store/memberStore';
-import { useMenuStore } from '@/store/menuStore';
+import { sendEmail } from '@/api/member';
+const username = ref('');
+const email = ref('');
 
-const router = useRouter();
-const memberStore = useMemberStore();
-const menuStore = useMenuStore();
-
-const { isLogin, userInfo } = storeToRefs(memberStore);
-
-const loginUser = ref({
-  id: '',
-  password: '',
-});
-
-const { userLogin, getUserInfo } = memberStore;
-
-const login = async () => {
-  console.log('로그인 진행 중');
-  await userLogin(loginUser.value);
-  let token = sessionStorage.getItem('accessToken');
-  if (isLogin.value) {
-    console.log('로그인 성공, 토큰:', token);
-    await getUserInfo(token);
-    if (userInfo.value) {
-      console.log('사용자 정보 로드 완료:', userInfo.value);
-      menuStore.changeMenuState(true);
-      alert('로그인에 성공하셨습니다');
-      router.push({ name: 'home' });
-    } else {
-      console.error('사용자 정보 로드 실패');
-      alert('사용자 정보를 불러오는 데 실패했습니다.');
-    }
-  } else {
-    console.log('로그인 실패');
-    alert('로그인에 실패했습니다.');
+const send = async () => {
+  try {
+    await sendEmail(
+      username.value,
+      email.value,
+      () => {
+        alert('비밀번호 재설정 이메일이 발송되었습니다.');
+      },
+      error => {
+        throw error; // 에러를 던져 catch 블록에서 처리되도록 함
+      },
+    );
+  } catch (error) {
+    alert('이메일 발송에 실패했습니다. 다시 시도해 주세요.');
   }
 };
 </script>

@@ -17,6 +17,7 @@ const param = ref({
   spp: VITE_ARTICLE_LIST_SIZE,
   key: '',
   word: '',
+  memberId: null,
 });
 
 // 사용자 정보가 로드되었는지 확인하는 함수
@@ -27,24 +28,25 @@ const waitForUserInfo = async () => {
   return memberStore.userInfo;
 };
 
-onMounted(async () => {
-  const userInfo = await waitForUserInfo();
-  if (userInfo) {
-    console.log('list의 memberId', userInfo.data.id);
-  } else {
-    console.log('null뜬다');
+const getHotplaceList = async () => {
+  const userInfo = memberStore.userInfo;
+  if (userInfo && userInfo.data && userInfo.data.memberId) {
+    param.value.memberId = userInfo.data.memberId;
   }
-  getHotplaceList();
-});
-
-const getHotplaceList = () => {
   listHotplace(
     param.value,
     response => {
       const data = response.data;
-      hotplaces.value = data.data.hotplaces;
-      currentPage.value = data.data.currentPage;
-      totalPage.value = data.data.totalPageCount;
+      console.log('리스트 데이터', param.value);
+      if (data && data.data && data.data.hotplaces) {
+        hotplaces.value = data.data.hotplaces;
+        currentPage.value = data.data.currentPage;
+        totalPage.value = data.data.totalPageCount;
+
+        console.log('서버에 보낼 memberId', param.value.memberId);
+      } else {
+        console.error('Invalid data structure:', data);
+      }
     },
     error => {
       console.log(error);
@@ -52,12 +54,26 @@ const getHotplaceList = () => {
   );
 };
 
+onMounted(async () => {
+  const userInfo = await waitForUserInfo();
+  if (userInfo) {
+    console.log('list의 memberId', userInfo.data.memberId);
+  } else {
+    console.log('null뜬다');
+  }
+  getHotplaceList(); // 사용자 정보가 없더라도 리스트를 불러옴
+});
+
 const moveWrite = () => {
   router.push({ name: 'hotplace-write' });
 };
 
 const handleLikeHotplace = hotplaceId => {
-  const memberId = memberStore.userInfo.data.memberId; // 실제 사용자 ID로 대체해야 합니다.
+  const memberId = memberStore.userInfo?.data?.memberId;
+  if (!memberId) {
+    console.log('로그인이 필요합니다.');
+    return;
+  }
   console.log('idid', memberId);
   changeRecommend(
     hotplaceId,

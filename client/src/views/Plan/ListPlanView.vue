@@ -56,10 +56,10 @@ const loading = ref(true);
 const error = ref(null);
 
 const fetchPlans = async () => {
-  loading.value = true;
+  // loading.value = true;
   try {
     const { data } = await getPlanList();
-
+    console.log('찍어볼게');
     // response.data가 예상한 데이터 형식인지 확인
     if (data && data.data) {
       plans.value = data.data;
