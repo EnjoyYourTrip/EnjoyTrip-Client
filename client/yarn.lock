@@ -103,6 +103,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@microsoft/fetch-event-source@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz"
+  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -468,6 +473,13 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+argparse@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.npmjs.org/argparse/-/argparse-1.0.10.tgz"
+  integrity sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
+  dependencies:
+    sprintf-js "~1.0.2"
+
 argparse@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz"
@@ -482,6 +494,13 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
+
+autolinker@^3.11.0:
+  version "3.16.2"
+  resolved "https://registry.npmjs.org/autolinker/-/autolinker-3.16.2.tgz"
+  integrity sha512-JiYl7j2Z19F9NdTmirENSUUIIL/9MytEWtmzhfmsKPCp9E+G35Y0UNCMoM9tFigxT59qSc8Ml2dlZXOCVTYwuA==
+  dependencies:
+    tslib "^2.3.0"
 
 axios@^1.6.8:
   version "1.6.8"
@@ -551,6 +570,11 @@ bootstrap@^5.3.3:
   version "5.3.3"
   resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.3.tgz"
   integrity sha512-8HLCdWgyoMguSO9o+aH+iuZ+aht+mzW0u3HIMzVu7Srrpv7EBBxTnrFlSCskwdY1+EOFQSm7uMJhNQHkdPcmjg==
+
+botui@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.npmjs.org/botui/-/botui-1.1.3.tgz"
+  integrity sha512-jPg7nkkWDojSnYYO0jmXqOc6mevjgTMK2PSa/Tglf2jE0iPfRA8mJ/G43MCWVzycROfu6PWiHnCD2TOdpL4i/Q==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -792,6 +816,15 @@ debug@3.1.0:
   integrity sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
   dependencies:
     ms "2.0.0"
+
+deep-chat@^1.4.11:
+  version "1.4.11"
+  resolved "https://registry.npmjs.org/deep-chat/-/deep-chat-1.4.11.tgz"
+  integrity sha512-+I79+ZOMXpg3xAGKoaVFkuxF0+HJZmXLBz1hONTIIrALR08r7tnbw0g3rhS9T7dUeMzA84BbxV8HMco9pNQWjw==
+  dependencies:
+    "@microsoft/fetch-event-source" "^2.0.1"
+    remarkable "^2.0.1"
+    speech-to-element "^0.1.66"
 
 deep-is@^0.1.3:
   version "0.1.4"
@@ -2091,6 +2124,14 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
+remarkable@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/remarkable/-/remarkable-2.0.1.tgz"
+  integrity sha512-YJyMcOH5lrR+kZdmB0aJJ4+93bEojRZ1HGDn9Eagu6ibg7aVZhc3OWbbShRid+Q5eAfsEqWxpe+g5W5nYNfNiA==
+  dependencies:
+    argparse "^1.0.10"
+    autolinker "^3.11.0"
+
 require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz"
@@ -2309,6 +2350,16 @@ source-map@^0.6.0:
   resolved "https://registry.npmjs.org/source-map/-/source-map-0.6.1.tgz"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
+speech-to-element@^0.1.66:
+  version "0.1.66"
+  resolved "https://registry.npmjs.org/speech-to-element/-/speech-to-element-0.1.66.tgz"
+  integrity sha512-tHDZ8ttFCsXtQLgWHDDVVTGuiCGWqkxRoIGLygBbU0DUsod2Ho89fws7OeCHpGOeDL9s5rBVpEqj45BsEIKy+Q==
+
+sprintf-js@~1.0.2:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz"
+  integrity sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==
+
 statuses@2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/statuses/-/statuses-2.0.1.tgz"
@@ -2417,7 +2468,7 @@ toidentifier@1.0.1:
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-tslib@^2.6.2:
+tslib@^2.3.0, tslib@^2.6.2:
   version "2.6.2"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.2.tgz"
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
@@ -2492,6 +2543,16 @@ vite@^5.0.0, vite@^5.2.8:
     rollup "^4.13.0"
   optionalDependencies:
     fsevents "~2.3.3"
+
+vue-bot-ui@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.npmjs.org/vue-bot-ui/-/vue-bot-ui-0.2.8.tgz"
+  integrity sha512-xT01ZMIkaEItrbrHztTkIphjiEK3qbhZIcXYgIP5+FSxJo3/w4a/dMfaYlu7YE9PMLJX2U1WmD776m26S4SjHQ==
+
+vue-chat-bot@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/vue-chat-bot/-/vue-chat-bot-1.1.1.tgz"
+  integrity sha512-kVlJl9CtE8kvfXW7xfb31LxGWCLQfwejkMvzmkbtUpGrElOgR0SXsTQasdB2HguF9WVVGcRFW8Okmg6g0OBEKw==
 
 vue-cli-plugin-vuetify@~2.5.8:
   version "2.5.8"
