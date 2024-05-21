@@ -56,7 +56,12 @@ function getMyRecommend(memberId, success, fail) {
 
 // 찜 목록 조회
 function userlistRecommend(memberId, success, fail) {
-  local.get(`/hotplace/myHeartList/${memberId}`).then(success).catch(fail);
+  local
+    .get(`/hotplace/myHeartList/${memberId}`, {
+      headers: { 'ngrok-skip-browser-warning': '69420' },
+    })
+    .then(success)
+    .catch(fail);
 }
 
 function top3(success, fail) {

@@ -19,7 +19,7 @@
 
       <div class="row align-items-center justify-content-between">
         <div class="col-auto">
-          <button @click.prevent="goList()" class="btn btn-primary mt-3 mb-3">
+          <button @click.prevent="goList()" class="mt-3 mb-3">
             목록으로 돌아가기
           </button>
         </div>
@@ -220,16 +220,6 @@ onMounted(fetchPlans);
 <style>
 .text-green {
   color: #28a745;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn-primary:hover {
-  background-color: #0069d9;
-  border-color: #005cbf;
 }
 
 .container {

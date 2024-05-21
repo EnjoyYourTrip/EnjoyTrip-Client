@@ -3,9 +3,10 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { listHotplace, changeRecommend } from '@/api/hotplace.js';
 import Item from './HotplaceListItem.vue'; // Item.vue 컴포넌트 임포트
+import { useMemberStore } from '@/store/memberStore';
 
 const router = useRouter();
-
+const memberStore = useMemberStore();
 const hotplaces = ref([]);
 const currentPage = ref(1);
 const totalPage = ref(1);
@@ -18,7 +19,21 @@ const param = ref({
   word: '',
 });
 
-onMounted(() => {
+// 사용자 정보가 로드되었는지 확인하는 함수
+const waitForUserInfo = async () => {
+  while (!memberStore.userInfo) {
+    await new Promise(resolve => setTimeout(resolve, 10));
+  }
+  return memberStore.userInfo;
+};
+
+onMounted(async () => {
+  const userInfo = await waitForUserInfo();
+  if (userInfo) {
+    console.log('list의 memberId', userInfo.data.id);
+  } else {
+    console.log('null뜬다');
+  }
   getHotplaceList();
 });
 
@@ -42,7 +57,8 @@ const moveWrite = () => {
 };
 
 const handleLikeHotplace = hotplaceId => {
-  const memberId = 1; // 실제 사용자 ID로 대체해야 합니다.
+  const memberId = memberStore.userInfo.data.memberId; // 실제 사용자 ID로 대체해야 합니다.
+  console.log('idid', memberId);
   changeRecommend(
     hotplaceId,
     memberId,

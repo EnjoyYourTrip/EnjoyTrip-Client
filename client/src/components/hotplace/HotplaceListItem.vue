@@ -7,20 +7,19 @@ const props = defineProps({
     required: true,
   },
 });
-
 const emit = defineEmits(['likeHotplace']);
 
 // 좋아요 상태를 관리할 ref 변수
 const isLiked = ref(false);
 
-// 서버에서 받아온 좋아요 상태를 초기화 (필요한 경우)
+// 서버에서 받아온 좋아요 상태를 초기화
 isLiked.value = props.hotplace.isLiked;
 
 const urls = ({ saveFolder, saveFile }) => {
   if (!saveFolder || !saveFile) {
     return '';
   }
-  const url = `https://8655-121-147-32-101.ngrok-free.app/uploads/${saveFolder}/${saveFile}`;
+  const url = `https://8509-121-147-32-101.ngrok-free.app/uploads/${saveFolder}/${saveFile}`;
   return url;
 };
 
