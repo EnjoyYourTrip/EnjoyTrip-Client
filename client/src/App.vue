@@ -53,8 +53,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 0; /* Remove top margin */
+  padding: 0; /* Remove top padding */
 }
+
 .chat-container {
   position: fixed;
   right: 20px;
@@ -64,6 +66,7 @@ export default {
   flex-direction: column;
   align-items: flex-end; /* Align items to the right */
 }
+
 .deep-chat-wrapper {
   width: 350px;
   margin-bottom: 10px;
@@ -72,10 +75,12 @@ export default {
   overflow: hidden;
   background-color: #fff;
 }
+
 .deep-chat {
   width: 100%;
   height: 500px; /* Adjusted the height to 500px */
 }
+
 .chatbot-button {
   background-color: #4caf50;
   color: white;
@@ -92,19 +97,23 @@ export default {
   position: relative;
   bottom: 0;
 }
+
 .chatbot-button:hover {
   background-color: #45a049;
   transform: translateY(0); /* Remove the translate effect on hover */
 }
+
 * {
   font-family: 'CustomFont', sans-serif;
 }
+
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition:
     opacity 0.5s,
     transform 0.5s;
 }
+
 .slide-fade-enter,
 .slide-fade-leave-to /* .slide-fade-leave-active in <2.1.8 */ {
   opacity: 0;

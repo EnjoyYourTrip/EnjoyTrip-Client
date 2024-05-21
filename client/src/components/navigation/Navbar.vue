@@ -1,5 +1,6 @@
 <template>
-  <nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-3">
+  <nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-0">
+    <!-- Removed mb-3 -->
     <router-link to="/" class="navbar-brand">TripHelper</router-link>
     <button class="navbar-toggler" type="button" @click="toggleMenu">
       <span class="navbar-toggler-icon"></span>
@@ -54,7 +55,6 @@ const toggleMenu = () => {
 };
 
 const logout = () => {
-  console.log('여긴 네브바', memberStore);
   menuStore.logout();
   memberStore.userLogout(memberStore.userInfo.memberId);
   sessionStorage.removeItem('refreshToken');
