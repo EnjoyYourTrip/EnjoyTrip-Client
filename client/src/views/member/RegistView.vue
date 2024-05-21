@@ -11,6 +11,6 @@ import registForm from '@/components/member/RegistForm.vue';
 <style lang="scss" scoped>
 .regist-form-wrapper {
   position: relative;
-  top: -60px; /* Adjust this value as needed */
+  top: -40px; /* Adjust this value as needed */
 }
 </style>
