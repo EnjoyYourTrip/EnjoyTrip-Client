@@ -90,7 +90,7 @@
 
 .custom-carousel-btn:hover {
   background: none !important;
-  border: none !important;
+
   padding: 0 !important;
 }
 
@@ -98,7 +98,7 @@
   position: absolute;
   top: 50%;
   left: 10%;
-  transform: translateY(-50%);
+
   text-align: left;
   color: #fff;
 }
