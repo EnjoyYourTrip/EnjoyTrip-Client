@@ -2,7 +2,7 @@
   <div class="black-bg">
     <div class="white-bg">
       <div class="login-container">
-        <form @submit.prevent="login">
+        <form @submit.prevent="changePassword">
           <h2>새로운 비밀번호 설정</h2>
           <div class="input-group">
             <label for="id">토큰</label>
@@ -33,15 +33,15 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-// import { useRouter } from 'vue-router';
-// const router = useRouter();
+import { useRouter } from 'vue-router';
+import { sendToken } from '@/api/member';
+const router = useRouter();
 
 const passwordCheck = ref('');
 const password = ref('');
 const token = ref('');
 const passwordCheckMsg = ref('');
 const textColor2 = ref('#f57878');
-
 watch(
   () => passwordCheck.value,
   () => {
@@ -67,25 +67,25 @@ const changeColor = (message, colorRef) => {
 
 //제출시 서버로 토큰을 보내는 로직 구현
 
-// const changePassword = () => {
-//   if (password.value !== passwordCheck.value) {
-//     alert('비밀번호가 일치하지 않습니다.');
-//     return;
-//   }
-//   sendToken(
-//     token.value,
-//     password.value,
-//     () => {
-//       alert(
-//         '비밀번호가 성공적으로 변경되었습니다. 로그인 페이지로 이동합니다.',
-//       );
-//       router.push({ name: 'login' });
-//     },
-//     () => {
-//       alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
-//     },
-//   );
-// };
+const changePassword = () => {
+  if (password.value !== passwordCheck.value) {
+    alert('비밀번호가 일치하지 않습니다.');
+    return;
+  }
+  sendToken(
+    token.value,
+    password.value,
+    () => {
+      alert(
+        '비밀번호가 성공적으로 변경되었습니다. 로그인 페이지로 이동합니다.',
+      );
+      router.push({ name: 'login' });
+    },
+    () => {
+      alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
+    },
+  );
+};
 </script>
 
 <style scoped>

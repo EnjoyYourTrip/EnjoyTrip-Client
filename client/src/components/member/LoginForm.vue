@@ -20,42 +20,9 @@
           <button type="submit">로그인</button>
         </form>
         <div class="forgot-password">
-          <a href="#" @click.prevent="openForgotPasswordModal">비밀번호 찾기</a>
+          <a href="#" @click.prevent="goSearchPage">비밀번호 찾기</a>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div
-    v-if="showForgotPasswordModal"
-    class="modal-overlay"
-    @click.self="closeForgotPasswordModal"
-  >
-    <div class="modal">
-      <form @submit.prevent="submitForgotPassword">
-        <h2>비밀번호 찾기</h2>
-        <div class="input-group">
-          <label for="username">아이디</label>
-          <input
-            type="text"
-            id="username"
-            v-model="forgotPasswordForm.username"
-            required
-          />
-        </div>
-        <div class="input-group">
-          <label for="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            v-model="forgotPasswordForm.email"
-            required
-          />
-        </div>
-        <button type="submit" @click.prevent="openForgotPasswordModal">
-          비밀번호 찾기
-        </button>
-      </form>
     </div>
   </div>
 </template>
@@ -76,13 +43,6 @@ const loginUser = ref({
   id: '',
   password: '',
 });
-
-const forgotPasswordForm = ref({
-  username: '',
-  email: '',
-});
-
-const showForgotPasswordModal = ref(false);
 
 const { userLogin, getUserInfo } = memberStore;
 
@@ -108,19 +68,8 @@ const login = async () => {
   }
 };
 
-const openForgotPasswordModal = () => {
-  showForgotPasswordModal.value = true;
-};
-
-const closeForgotPasswordModal = () => {
-  showForgotPasswordModal.value = false;
-};
-
-const submitForgotPassword = () => {
-  // 비밀번호 찾기 로직 구현
-  console.log('비밀번호 찾기 요청:', forgotPasswordForm.value);
-  closeForgotPasswordModal();
-  alert('비밀번호 찾기 요청이 제출되었습니다.');
+const goSearchPage = () => {
+  router.push('/pwSearch');
 };
 </script>
 <style scoped>

@@ -92,8 +92,10 @@ const handleLikeHotplace = hotplaceId => {
 
 <template>
   <div class="hotplace-container">
-    <div class="toolbar">
-      <button @click="moveWrite" class="write-btn">핫플 등록</button>
+    <div class="header">
+      <h1>핫플레이스</h1>
+      <p>다른 사용자들이 추천하는 여행지인 핫 를레이스입니다.</p>
+      <button @click="moveWrite" class="learn-more-btn">핫플 등록하기</button>
     </div>
     <div class="hotplace-grid">
       <div
