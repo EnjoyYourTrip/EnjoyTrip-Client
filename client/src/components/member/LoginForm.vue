@@ -20,15 +20,45 @@
           <button type="submit">로그인</button>
         </form>
         <div class="forgot-password">
-          <router-link to="/pwSearch"
-            ><a href="#">비밀번호 찾기</a></router-link
-          >
+          <a href="#" @click.prevent="openForgotPasswordModal">비밀번호 찾기</a>
         </div>
       </div>
     </div>
   </div>
-</template>
 
+  <div
+    v-if="showForgotPasswordModal"
+    class="modal-overlay"
+    @click.self="closeForgotPasswordModal"
+  >
+    <div class="modal">
+      <form @submit.prevent="submitForgotPassword">
+        <h2>비밀번호 찾기</h2>
+        <div class="input-group">
+          <label for="username">아이디</label>
+          <input
+            type="text"
+            id="username"
+            v-model="forgotPasswordForm.username"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="email">이메일</label>
+          <input
+            type="email"
+            id="email"
+            v-model="forgotPasswordForm.email"
+            required
+          />
+        </div>
+        <button type="submit" @click.prevent="openForgotPasswordModal">
+          비밀번호 찾기
+        </button>
+      </form>
+    </div>
+  </div>
+</template>
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -46,6 +76,13 @@ const loginUser = ref({
   id: '',
   password: '',
 });
+
+const forgotPasswordForm = ref({
+  username: '',
+  email: '',
+});
+
+const showForgotPasswordModal = ref(false);
 
 const { userLogin, getUserInfo } = memberStore;
 
@@ -70,8 +107,22 @@ const login = async () => {
     alert('로그인에 실패했습니다.');
   }
 };
-</script>
 
+const openForgotPasswordModal = () => {
+  showForgotPasswordModal.value = true;
+};
+
+const closeForgotPasswordModal = () => {
+  showForgotPasswordModal.value = false;
+};
+
+const submitForgotPassword = () => {
+  // 비밀번호 찾기 로직 구현
+  console.log('비밀번호 찾기 요청:', forgotPasswordForm.value);
+  closeForgotPasswordModal();
+  alert('비밀번호 찾기 요청이 제출되었습니다.');
+};
+</script>
 <style scoped>
 body {
   margin: 0;
@@ -100,8 +151,30 @@ body {
   animation: modal-bg-entry 0.5s ease-out;
 }
 
+@keyframes modal-bg-entry {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .login-container {
   animation: slide-in 0.5s ease-out;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .input-group {
@@ -170,7 +243,5 @@ button:hover {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 90%;
-  max-width: 400px;
 }
 </style>

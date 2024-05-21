@@ -16,7 +16,6 @@ import HotplaceView from '@/views/HotPlaceView.vue';
 
 import PwSearch from '@/views/member/searchPwView.vue';
 import InputToken from '@/views/member/newPwView.vue';
-//네비게이션 가드 보류
 const onlyAuthUser = async (to, from, next) => {
   const memberStore = useMemberStore();
   let token = sessionStorage.getItem('accessToken');

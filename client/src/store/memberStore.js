@@ -20,11 +20,12 @@ export const useMemberStore = defineStore(
       await userConfirm(
         loginUser,
         async response => {
+          // async 키워드 추가
           console.log('response좀 보자', response);
           if (response.data.status === httpStatusCode.CREATE) {
-            const { data } = response.data;
-            const accessToken = data.accessToken;
-            const refreshToken = data.refreshToken;
+            let { data } = response.data;
+            let accessToken = data.accessToken;
+            let refreshToken = data.refreshToken;
             sessionStorage.setItem('accessToken', accessToken);
             sessionStorage.setItem('refreshToken', refreshToken);
 
@@ -33,10 +34,6 @@ export const useMemberStore = defineStore(
             isValidToken.value = true;
 
             console.log('sessionStorage에 담았다', isLogin.value);
-
-            // 로그인 후 사용자 정보 가져오기
-            await getUserInfo(accessToken);
-            console.log('로그인 후 userInfo:', userInfo.value); // userInfo가 설정되었는지 확인
           } else {
             console.log('로그인 실패했다');
             isLogin.value = false;
@@ -55,15 +52,16 @@ export const useMemberStore = defineStore(
     };
 
     const getUserInfo = async token => {
-      const decodeToken = jwtDecode(token);
+      let decodeToken = jwtDecode(token);
       console.log('2. decodeToken', decodeToken);
+      //여기서 에러?
       await findById(
         decodeToken.memberId,
         async response => {
           console.log('token 유효성 검사', response);
 
           if (response.status === 200) {
-            userInfo.value = response.data.data;
+            userInfo.value = response.data;
             isValidToken.value = true;
             console.log(
               '3. getUserInfo data ------------------------>> ',
@@ -95,15 +93,17 @@ export const useMemberStore = defineStore(
         JSON.stringify(userInfo.value),
         response => {
           if (response.status === 201) {
-            const accessToken = response.data.accessToken;
+            let accessToken = response.data.accessToken;
             console.log('재발급 완료 >> 새로운 토큰 : {}', accessToken);
             sessionStorage.setItem('accessToken', accessToken);
             isValidToken.value = true;
           }
         },
         async error => {
+          // HttpStatus.UNAUTHORIZE(401) : RefreshToken 기간 만료 >> 다시 로그인!!!!
           if (error.response.status === 'fail') {
             console.log('갱신 실패');
+            // 다시 로그인 전 DB에 저장된 RefreshToken 제거.
             await logout(
               userInfo.value.memberId,
               response => {
@@ -130,10 +130,11 @@ export const useMemberStore = defineStore(
     };
 
     const userLogout = async memberId => {
-      console.log(memberId);
+      console.log('안뜸?', memberId);
       await logout(
         memberId,
         response => {
+          console.log(`응답으로 옴 ${memberId}`);
           if (response.status === 200) {
             isLogin.value = false;
             userInfo.value = null;

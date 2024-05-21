@@ -45,7 +45,9 @@ async function tokenRegeneration(member, success, fail) {
 }
 
 async function logout(memberId, success, fail) {
+  console.log(`로그아웃 호출전 , ${memberId}`);
   await local.get(`/members/logout/${memberId}`).then(success).catch(fail);
+  console.log(`로그아웃 호출후 , ${memberId}`);
 }
 
 async function userRegist(user, success, fail) {

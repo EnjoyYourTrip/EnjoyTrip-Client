@@ -54,6 +54,7 @@ const toggleMenu = () => {
 };
 
 const logout = () => {
+  console.log('여긴 네브바', memberStore);
   menuStore.logout();
   memberStore.userLogout(memberStore.userInfo.memberId);
   sessionStorage.removeItem('refreshToken');
