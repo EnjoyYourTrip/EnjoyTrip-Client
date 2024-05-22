@@ -16,10 +16,10 @@
         <tbody>
           <QnAItem
             v-for="item in qna"
-            :key="item.id"
+            :key="item.questionId"
             :qna="item"
-            :id="item.id"
-            @click="goPage(item.id)"
+            :id="item.questionId"
+            @click="goPage(item.questionId)"
           />
         </tbody>
       </table>
@@ -42,7 +42,7 @@ const qna = ref([]);
 const fetchQna = async () => {
   const { data } = await getQnA();
   console.log(data);
-  qna.value = data;
+  qna.value = data.data.questions;
 };
 
 fetchQna();

@@ -8,9 +8,9 @@
       </button>
     </td>
     <td>{{ qna.title }}</td>
-    <td>{{ qna.member_id }}</td>
-    <td>{{ qna.created_date }}</td>
-    <td>{{ qna.last_modified_date }}</td>
+    <td>{{ qna.nickname }}</td>
+    <td>{{ qna.createdDate }}</td>
+    <td>{{ qna.lastModifiedDate }}</td>
   </tr>
 </template>
 

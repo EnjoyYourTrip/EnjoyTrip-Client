@@ -19,6 +19,8 @@ import router from './router/index.js';
 
 //pinia
 import { createPinia } from 'pinia';
+import mitt from 'mitt';
+let emitter = mitt();
 const pinia = createPinia();
 
 pinia.use(piniaPersist);
@@ -27,4 +29,5 @@ const vuetify = createVuetify({
   directives,
 });
 
-createApp(App).use(router).use(vuetify).use(pinia).mount('#app');
+let app = createApp(App).use(router).use(vuetify).use(pinia).mount('#app');
+// app.config.globalProperties.emitter = emitter;

@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { writeHotplace, writeFileHotplace } from '@/api/hotplace.js';
 import { useMemberStore } from '@/store/memberStore';
+import FilterBox from '@/components/hotplace/FilterBox.vue';
 const memberStore = useMemberStore();
 const router = useRouter();
 const memberId = memberStore.userInfo.data.memberId;
@@ -14,6 +15,37 @@ const hotplace = ref({
   address: '',
   heart: 0, // default 값 설정
 });
+//게시물 필터
+const filters = [
+  'aden',
+  '_1977',
+  'brannan',
+  'brooklyn',
+  'clarendon',
+  'earlybird',
+  'gingham',
+  'hudson',
+  'inkwell',
+  'kelvin',
+  'lark',
+  'lofi',
+  'maven',
+  'mayfair',
+  'moon',
+  'nashville',
+  'perpetua',
+  'reyes',
+  'rise',
+  'slumber',
+  'stinson',
+  'toaster',
+  'valencia',
+  'walden',
+  'willow',
+  'xpro2',
+];
+const selectedFilter = ''; // 선택한 필터
+
 const hotplaceId = ref(0);
 
 // 이미지 객체
@@ -32,7 +64,11 @@ const onInputImg = e => {
   }
   console.log('게시물에 대한 memberId', hotplace.value.memberId);
 };
-
+// onMounted(() => {
+//   this.emitter.on('clickFilter', s => {
+//     this.selectedFilter = s;
+//   });
+// });
 // 등록하기 버튼을 누르면 실행되는 함수
 const write = async () => {
   console.log('작성할 핫플 글 -> ', hotplace.value);
@@ -157,10 +193,21 @@ const moveList = () => {
                 height="350px"
                 class="preview-image"
                 cover
+                :class="selectedFilter"
               ></v-img>
             </v-card>
           </v-card-text>
         </v-card>
+        <div class="filters" v-if="image.preview">
+          <FilterBox
+            :image="image.preview"
+            :filter="filter"
+            v-for="(filter, i) in filters"
+            :key="i"
+          >
+            <template v-slot:a> {{ filter }}</template>
+          </FilterBox>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -222,5 +269,33 @@ const moveList = () => {
 
 .v-card-text {
   padding-top: 20px;
+}
+
+.filters {
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+.filter-1 {
+  width: 100px;
+  height: 100px;
+  background-color: cornflowerblue;
+  margin: 10px 10px 10px auto;
+  padding: 8px;
+  display: inline-block;
+  color: white;
+  background-size: cover;
+}
+.filters::-webkit-scrollbar {
+  height: 5px;
+}
+.filters::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.filters::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+.filters::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>
