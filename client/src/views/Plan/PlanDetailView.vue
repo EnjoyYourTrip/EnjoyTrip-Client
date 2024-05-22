@@ -13,16 +13,23 @@
           <h2 class="mt-5">
             <b class="text-green">{{ plans.title }}</b>
           </h2>
-          <!-- 내용 overview-->
+        </div>
+      </div>
+
+      <div class="row align-items-center justify-content-between">
+        <div class="col-auto">
+          <button @click.prevent="goList()" class="mt-3 mb-3">
+            목록으로 돌아가기
+          </button>
           <v-dialog>
             <template v-slot:activator="{ props }">
-              <v-btn
+              <button
                 v-bind="props"
-                class="detail-btn custom-btn"
                 @click="showDetail(attraction.contentId)"
+                class="mx-2"
               >
                 내용보기
-              </v-btn>
+              </button>
             </template>
             <template v-slot:default="{ isActive }">
               <v-card title="내용">
@@ -37,17 +44,9 @@
             </template>
           </v-dialog>
         </div>
-      </div>
-
-      <div class="row align-items-center justify-content-between">
-        <div class="col-auto">
-          <button @click.prevent="goList()" class="mt-3 mb-3">
-            목록으로 돌아가기
-          </button>
-        </div>
         <div class="col-auto text-right">
-          <p class="nickname mb-0">{{ plans.nickname }}</p>
-          <p class="created-date mb-0">{{ formatDate(plans.createdDate) }}</p>
+          <h5>작성자: {{ plans.nickname }}</h5>
+          <h5>작성일자:{{ formatDate(plans.createdDate) }}</h5>
         </div>
       </div>
 
