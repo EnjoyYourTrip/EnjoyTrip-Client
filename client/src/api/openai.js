@@ -41,3 +41,37 @@ export const generateTravelPlan = async (content, selectedAttractions) => {
 
   return response.data.choices[0].message.content
 }
+
+// import OpenAI from 'openai'
+
+// const openai = new OpenAI({
+//   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+//   dangerouslyAllowBrowser: true
+// })
+
+// export const generateTravelPlan = async (content, selectedAttractions) => {
+//   console.log('API Key:', import.meta.env.VITE_OPENAI_API_KEY)
+//   console.log('Content:', content)
+//   console.log('Selected Attractions:', selectedAttractions)
+
+//   const attractionNames = selectedAttractions.map((attraction) => attraction.title).join(', ')
+//   const prompt = `내가 여행을 갈 관광지명은 다음과 같아: ${attractionNames}. 너가 이 여행지들을 모두 이용하여 여행계획을 작성해줘`
+
+//   try {
+//     const response = await openai.chat.completions.create({
+//       messages: [
+//         {
+//           role: 'user',
+//           content: prompt
+//         }
+//       ],
+//       model: 'gpt-3.5-turbo',
+//       max_tokens: 1500
+//     })
+
+//     return response.choices[0].message.content
+//   } catch (error) {
+//     console.error('Error generating travel plan:', error)
+//     throw error
+//   }
+// }
