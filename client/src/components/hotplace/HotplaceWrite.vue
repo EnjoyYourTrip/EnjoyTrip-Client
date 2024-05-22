@@ -68,7 +68,8 @@ const onInputImg = e => {
 };
 onMounted(() => {
   emitter.on('clickFilter', s => {
-    hotplace.selectedFilter = s;
+    // s가 null이거나 undefined인 경우 'basic'을 사용
+    hotplace.selectedFilter = s || 'basic';
     console.log('필터 클릭됨', hotplace.selectedFilter);
   });
 });
