@@ -43,7 +43,7 @@ const fetchPost = async () => {
 fetchPost();
 const goListPage = () => router.push({ name: 'QnAList' });
 const goEditPage = () => router.push({ name: 'QnAEdit', params: { id } });
-const goPrevious = () => console.log('Go to previous post');
+const goPrevious = () => router.push({ name: `QnADetail`, params: { id } });
 const goNext = () => console.log('Go to next post');
 const deletePost = () => {
   deleteQnA(id)

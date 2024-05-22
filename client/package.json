@@ -27,6 +27,7 @@
     "pinia-plugin-persist": "^1.0.0",
     "sweetalert2": "^11.11.0",
     "vue": "^3.4.21",
+    "vue-advanced-chat": "^2.1.0",
     "vue-bot-ui": "^0.2.8",
     "vue-chat-bot": "^1.1.1",
     "vue-router": "^4.3.2",

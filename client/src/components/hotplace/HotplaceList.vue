@@ -21,18 +21,19 @@ const param = ref({
 });
 
 // 사용자 정보가 로드되었는지 확인하는 함수
-const waitForUserInfo = async () => {
-  while (!memberStore.userInfo) {
-    await new Promise(resolve => setTimeout(resolve, 10));
-  }
-  return memberStore.userInfo;
-};
+// const waitForUserInfo = async () => {
+//   while (!memberStore.userInfo) {
+//     await new Promise(resolve => setTimeout(resolve, 10));
+//   }
+//   return memberStore.userInfo;
+// };
 
 const getHotplaceList = async () => {
   const userInfo = memberStore.userInfo;
   if (userInfo && userInfo.data && userInfo.data.memberId) {
     param.value.memberId = userInfo.data.memberId;
   }
+  console.log('param', param.value); // 새로고침했는데 여기 콘솔이 안찍힘
   listHotplace(
     param.value,
     response => {
@@ -55,12 +56,12 @@ const getHotplaceList = async () => {
 };
 
 onMounted(async () => {
-  const userInfo = await waitForUserInfo();
-  if (userInfo) {
-    console.log('list의 memberId', userInfo.data.memberId);
-  } else {
-    console.log('null뜬다');
-  }
+  // const userInfo = await waitForUserInfo();
+  // if (userInfo) {
+  //   console.log('list의 memberId', userInfo.data.memberId);
+  // } else {
+  //   console.log('null뜬다');
+  // }
   getHotplaceList(); // 사용자 정보가 없더라도 리스트를 불러옴
 });
 

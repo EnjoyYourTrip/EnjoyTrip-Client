@@ -2,12 +2,13 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { writeHotplace, writeFileHotplace } from '@/api/hotplace.js';
-
+import { useMemberStore } from '@/store/memberStore';
+const memberStore = useMemberStore();
 const router = useRouter();
-
+const memberId = memberStore.userInfo.data.memberId;
 // 핫플 객체
 const hotplace = ref({
-  memberId: 1,
+  memberId: null,
   title: '',
   content: '',
   address: '',
@@ -23,11 +24,13 @@ const image = ref({
 
 // 파일을 첨부하면 실행되는 함수
 const onInputImg = e => {
+  hotplace.value.memberId = memberId;
   const target = e.target;
   if (target.files && target.files[0]) {
     image.value.file = target.files[0];
     image.value.preview = URL.createObjectURL(target.files[0]);
   }
+  console.log('게시물에 대한 memberId', hotplace.value.memberId);
 };
 
 // 등록하기 버튼을 누르면 실행되는 함수
@@ -78,7 +81,7 @@ const moveList = () => {
   >
     <div class="row">
       <div class="col-9">
-        <h3 style="font-weight: bolder; margin-bottom: 30px">핫플을 올리자</h3>
+        <h3 style="font-weight: bolder; margin-bottom: 30px">핫플 등록</h3>
         <div class="col-lg-10 text-start">
           <form @submit.prevent="write">
             <div class="mb-3">
