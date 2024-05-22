@@ -2,6 +2,7 @@
   <div class="outer-container">
     <div class="inner-container">
       <h1 class="my-4 text-center">여행계획 목록</h1>
+      <p>다른 사람이 작성한 여행계획을 살펴보세요</p>
       <div class="text-end mb-3">
         <router-link to="/createPlan">
           <button class="btn btn-success">여행계획 생성하기</button>
@@ -17,17 +18,30 @@
       </template>
 
       <template v-else>
-        <AppGrid :items="plans" col-class="col-12 col-md-3 col-lg-3">
-          <template #default="{ item }">
-            <PlanItem
-              :title="item.title"
-              :image="item.firstImage"
-              :created_date="item.createdDate"
-              :nickname="item.nickname"
-              @click="goPage(item.itineraryId)"
-            ></PlanItem>
-          </template>
-        </AppGrid>
+        <div class="row g-4">
+          <div
+            class="col-12 col-md-6 col-lg-3"
+            v-for="item in plans"
+            :key="item.itineraryId"
+          >
+            <div class="card h-100">
+              <img :src="item.firstImage" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-text">{{ item.nickname }}</p>
+                <p class="card-text">
+                  <small class="text-muted">{{ item.createdDate }}</small>
+                </p>
+                <button
+                  class="btn btn-primary"
+                  @click="goPage(item.itineraryId)"
+                >
+                  보기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </template>
 
       <template v-if="previewId">
@@ -43,7 +57,6 @@
 <script setup>
 import PlanItem from '@/components/plan/PlanItem.vue';
 import PlanDetailView from '@/views/plan/PlanDetailView.vue';
-import AppGrid from '@/components/common/AppGrid.vue';
 import AppLoading from '@/components/common/AppLoading.vue';
 import AppError from '@/components/common/AppError.vue';
 import AppCard from '@/components/common/AppCard.vue';
@@ -87,17 +100,17 @@ const goPage = id => {
 <style scoped>
 .outer-container {
   display: grid;
-  grid-template-columns: 1fr minmax(auto, 800px) 1fr; /* Adjusted to 800px */
-  background-color: #f2f2f2; /* Light grey background */
+  grid-template-columns: 1fr minmax(auto, 1600px) 1fr;
+  background-color: #f2f2f2;
   min-height: 100vh;
 }
 
 .inner-container {
   grid-column: 2;
-  background: #ffffff; /* White background for the inner container */
+  background: #ffffff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px; /* Optional: adds slightly rounded corners */
+  border-radius: 8px;
 }
 
 .text-center {
@@ -116,5 +129,47 @@ const goPage = id => {
 .btn-success:hover {
   background-color: #218838;
   border-color: #1e7e34;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.col-lg-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.card {
+  transition: transform 0.3s ease-in-out;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* 카드의 너비를 100%로 설정 */
+  height: 250px; /* 카드의 높이를 250px로 설정 */
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  object-fit: cover;
+  height: 140px;
+  width: 100%;
 }
 </style>

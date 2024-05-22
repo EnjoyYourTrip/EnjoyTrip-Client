@@ -72,7 +72,7 @@
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import { getIterary, createPlan } from '@/api/map';
+import { getOverview, createPlan } from '@/api/map';
 
 const attractions = ref([]);
 const overview = ref('');
@@ -108,7 +108,7 @@ const showDetail = async contentId => {
   // console.log(content)
   // 자세히 버튼 클릭 시 호출되는 함수
   try {
-    const response = await getIterary(contentId); // API 호출 예시
+    const response = await getOverview(contentId); // API 호출 예시
     console.log('오버뷰', response.data.data);
     overview.value = response.data.data; // 받은 데이터를 overview에 저장
   } catch (error) {

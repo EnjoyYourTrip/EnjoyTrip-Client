@@ -134,7 +134,7 @@
       "content": "맞나",
       "created_date": "2024-05-18",
       "member_id": "김싸피",
-      "has_response": true,
+      "has_response": false,
       "last_modified_date": "2024-05-18",
       "id": 3
     },
@@ -146,6 +146,15 @@
       "has_response": false,
       "last_modified_date": "2024-05-18",
       "id": 4
+    },
+    {
+      "title": "대 중 현",
+      "content": "123",
+      "created_date": "2024-05-22",
+      "member_id": "김싸피",
+      "has_response": true,
+      "last_modified_date": "2024-05-22",
+      "id": 5
     }
   ],
   "answer": [
@@ -160,8 +169,8 @@
       "id": 5
     },
     {
-      "content": "아니 그저 대중현일 뿐",
-      "postId": "3",
+      "content": "123",
+      "postId": "5",
       "id": 6
     }
   ],

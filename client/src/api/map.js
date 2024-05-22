@@ -43,14 +43,20 @@ export function createPlan(
 
 //생성된 여행 계획 전체 조회
 export function getPlanList() {
-  console.log('이게 호출되긴해?');
   return local.get('/itinerary/overview', {
     headers: { 'ngrok-skip-browser-warning': '69420' },
   });
 }
 //여행계획 상세보기 정보 받아오기
-export function getIterary(itineraryId) {
+export function getOverview(itineraryId) {
   return local.get(`/attraction/overview/${itineraryId}`, {
+    headers: { 'ngrok-skip-browser-warning': '69420' }, // 이거 헤더 씌우는거 더 공부해서 정리해놓기
+  });
+}
+
+//여행계획 상세보기 정보 받아오기
+export function getIterary(itineraryId) {
+  return local.get(`/itinerary/${itineraryId}/details`, {
     headers: { 'ngrok-skip-browser-warning': '69420' }, // 이거 헤더 씌우는거 더 공부해서 정리해놓기
   });
 }
