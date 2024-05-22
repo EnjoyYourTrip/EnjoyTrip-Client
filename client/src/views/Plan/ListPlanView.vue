@@ -32,12 +32,7 @@
                 <p class="card-text">
                   <small class="text-muted">{{ item.createdDate }}</small>
                 </p>
-                <button
-                  class="btn btn-primary"
-                  @click="goPage(item.itineraryId)"
-                >
-                  보기
-                </button>
+                <button @click="goPage(item.itineraryId)">보기</button>
               </div>
             </div>
           </div>
@@ -55,7 +50,7 @@
 </template>
 
 <script setup>
-import PlanItem from '@/components/plan/PlanItem.vue';
+// import PlanItem from '@/components/plan/PlanItem.vue';
 import PlanDetailView from '@/views/plan/PlanDetailView.vue';
 import AppLoading from '@/components/common/AppLoading.vue';
 import AppError from '@/components/common/AppError.vue';
