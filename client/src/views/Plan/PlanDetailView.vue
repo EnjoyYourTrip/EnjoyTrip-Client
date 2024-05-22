@@ -13,7 +13,29 @@
           <h2 class="mt-5">
             <b class="text-green">{{ plans.title }}</b>
           </h2>
-          <p>{{ plans.content }}</p>
+          <!-- 내용 overview-->
+          <v-dialog>
+            <template v-slot:activator="{ props }">
+              <v-btn
+                v-bind="props"
+                class="detail-btn custom-btn"
+                @click="showDetail(attraction.contentId)"
+              >
+                내용보기
+              </v-btn>
+            </template>
+            <template v-slot:default="{ isActive }">
+              <v-card title="내용">
+                <v-card-text>
+                  {{ plans.content }}
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn text="닫기" @click="isActive.value = false"></v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
         </div>
       </div>
 

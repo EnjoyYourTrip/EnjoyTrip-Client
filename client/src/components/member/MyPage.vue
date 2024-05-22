@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useMemberStore } from '@/store/memberStore';
 import { userlistRecommend } from '@/api/hotplace';
 import 'vuetify/styles'; // Vuetify styles

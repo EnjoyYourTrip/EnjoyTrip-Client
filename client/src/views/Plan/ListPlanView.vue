@@ -28,6 +28,7 @@
               <img :src="item.firstImage" class="card-img-top" alt="..." />
               <div class="card-body">
                 <h5 class="card-title">{{ item.title }}</h5>
+
                 <p class="card-text">{{ item.nickname }}</p>
                 <p class="card-text">
                   <small class="text-muted">{{ item.createdDate }}</small>
@@ -69,7 +70,7 @@ const fetchPlans = async () => {
   try {
     const { data } = await getPlanList();
     if (data && data.data) {
-      plans.value = data.data;
+      plans.value = data.data.sort((a, b) => b.itineraryId - a.itineraryId);
     } else {
       throw new Error('Unexpected response format');
     }
