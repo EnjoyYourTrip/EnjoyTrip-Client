@@ -19,8 +19,8 @@ const urls = ({ saveFolder, saveFile }) => {
   if (!saveFolder || !saveFile) {
     return '';
   }
-  const url = `http://86e1-121-147-32-101.ngrok-free.app/uploads/${saveFolder}/${saveFile}`;
-  // const url = `${import.meta.env.VITE_VUE_API_URL}/uploads/${saveFolder}/${saveFile}`;
+  // const url = `http://86e1-121-147-32-101.ngrok-free.app/uploads/${saveFolder}/${saveFile}`;
+  const url = `${import.meta.env.VITE_VUE_API_URL}/uploads/${saveFolder}/${saveFile}`;
   console.log('서버 파일 url', url);
   return url;
 };
