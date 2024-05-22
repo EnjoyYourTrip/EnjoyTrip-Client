@@ -75,87 +75,152 @@ const moveList = () => {
 </script>
 
 <template>
-  <div
-    class="container"
-    style="margin-left: 10px; margin-top: 50px; margin-bottom: 85px"
-  >
-    <div class="row">
-      <div class="col-9">
-        <h3 style="font-weight: bolder; margin-bottom: 30px">핫플 등록</h3>
-        <div class="col-lg-10 text-start">
-          <form @submit.prevent="write">
-            <div class="mb-3">
-              <label for="subject" class="form-label">장소 : </label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="hotplace.title"
-                placeholder="장소..."
-              />
-            </div>
-            <div class="mb-3">
-              <label for="content" class="form-label">후기 : </label>
-              <textarea
-                class="form-control"
-                v-model="hotplace.content"
-                rows="10"
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="subject" class="form-label">주소 : </label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="hotplace.address"
-                placeholder="주소..."
-              />
-            </div>
-            <div class="file-section input-line">
-              <div class="file-top"></div>
-              <input
-                id="write-file"
-                class="file-input"
-                ref="file"
-                type="file"
-                @change="onInputImg"
-                placeholder="첨부된 파일이 없습니다."
-              />
-            </div>
-            <div class="col-auto text-center">
-              <v-btn variant="tonal" @click="write" color="#0A82FF"
-                >등록하기</v-btn
-              >
-              &nbsp;&nbsp;<v-btn
-                variant="tonal"
-                @click="moveList"
-                color="#FF607F"
-                >뒤로가기</v-btn
-              >
-            </div>
-          </form>
-        </div>
-      </div>
-      <div
-        class="col-3"
-        style="flex-direction: column; margin-top: 25px; margin-left: -100px"
-      >
-        <h3 style="font-weight: bolder; margin-bottom: 40px">사진 미리보기</h3>
-        <v-card v-if="image.preview" class="mx-auto">
-          <v-img
-            :src="image.preview"
-            height="350px"
-            style="
-              aspect-ratio: 1;
-              object-fit: cover;
-              border: 2px solid #dcdcdc;
-              padding: 10px;
-            "
-            cover
-          ></v-img>
+  <v-container class="my-5">
+    <v-row>
+      <v-col cols="12" md="8">
+        <v-card class="pa-5" outlined>
+          <v-card-title>
+            <h3 class="font-weight-bold">핫플 등록</h3>
+          </v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="write">
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="hotplace.title"
+                    label="장소"
+                    placeholder="장소..."
+                    dense
+                    hide-details
+                    class="mb-4 input-field custom-underline"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="hotplace.content"
+                    label="후기"
+                    placeholder="후기..."
+                    rows="5"
+                    dense
+                    hide-details
+                    class="mb-4 input-field custom-underline"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="hotplace.address"
+                    label="주소"
+                    placeholder="주소..."
+                    dense
+                    hide-details
+                    class="mb-4 input-field custom-underline"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <v-file-input
+                    @change="onInputImg"
+                    label="파일 첨부"
+                    accept="image/*"
+                    dense
+                    hide-details
+                    class="mb-4 input-field custom-underline"
+                  ></v-file-input>
+                </v-col>
+              </v-row>
+              <div class="text-center">
+                <v-btn @click="write" color="#0A82FF" class="mr-4 action-btn"
+                  >등록하기</v-btn
+                >
+                <v-btn @click="moveList" color="#FF607F" class="action-btn"
+                  >뒤로가기</v-btn
+                >
+              </div>
+            </v-form>
+          </v-card-text>
         </v-card>
-      </div>
-    </div>
-  </div>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-card class="pa-5" outlined>
+          <v-card-title>
+            <h3 class="font-weight-bold">사진 미리보기</h3>
+          </v-card-title>
+          <v-card-text>
+            <v-card v-if="image.preview" class="mx-auto image-card">
+              <v-img
+                :src="image.preview"
+                height="350px"
+                class="preview-image"
+                cover
+              ></v-img>
+            </v-card>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<style scoped></style>
+<style scoped>
+.font-weight-bold {
+  font-weight: bolder;
+}
+
+.input-field {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.custom-underline .v-input__control .v-input__slot:before,
+.custom-underline .v-input__control .v-input__slot:after {
+  content: none;
+}
+
+.custom-underline {
+  border-bottom: 2px solid #dcdcdc;
+}
+
+.action-btn {
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+.image-card {
+  transition: all 0.3s ease;
+  border: 2px solid #dcdcdc;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.preview-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.image-card:hover .preview-image {
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+.v-card {
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.v-card-title {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.v-card-text {
+  padding-top: 20px;
+}
+</style>

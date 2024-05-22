@@ -61,11 +61,12 @@
               >
                 <v-card class="recommendation-content">
                   <v-img
-                    :src="`https://3e2b-121-147-32-101.ngrok-free.app/uploads/${place.saveFolder}/${place.saveFile}`"
+                    :src="`https://86e1-121-147-32-101.ngrok-free.app/uploads/${place.saveFolder}/${place.saveFile}`"
                     alt="hotplace image"
                     class="recommendation-image"
                     height="200px"
-                    contain
+                    width="100%"
+                    cover
                   ></v-img>
                   <v-card-title>{{ place.title }}</v-card-title>
                   <v-card-subtitle>{{ place.address }}</v-card-subtitle>
@@ -157,7 +158,6 @@ const fetchUserRecommendations = async memberId => {
 }
 
 .recommendation-image {
-  border-radius: 8px;
   width: 100%;
   height: 200px;
   object-fit: cover;
