@@ -72,7 +72,7 @@
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import { createPlan } from '@/api/map';
+import { getIterary, createPlan } from '@/api/map';
 
 const attractions = ref([]);
 const overview = ref('');
@@ -103,7 +103,18 @@ watch(
 const removePlanList = () => {
   attractions.value = [];
 };
-
+// 관광지 정보 상세보기 함수
+const showDetail = async contentId => {
+  // console.log(content)
+  // 자세히 버튼 클릭 시 호출되는 함수
+  try {
+    const response = await getIterary(contentId); // API 호출 예시
+    console.log('오버뷰', response.data.data);
+    overview.value = response.data.data; // 받은 데이터를 overview에 저장
+  } catch (error) {
+    console.error('Error fetching attraction detail:', error);
+  }
+};
 // 여행 계획 추가 버튼을 누르면 실행되는 함수
 const addPlanList = () => {
   const itineraryDetailList = attractions.value.map(attraction => ({

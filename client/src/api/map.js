@@ -50,7 +50,7 @@ export function getPlanList() {
 }
 //여행계획 상세보기 정보 받아오기
 export function getIterary(itineraryId) {
-  return local.get(`/itinerary/${itineraryId}/details`, {
+  return local.get(`/attraction/overview/${itineraryId}`, {
     headers: { 'ngrok-skip-browser-warning': '69420' }, // 이거 헤더 씌우는거 더 공부해서 정리해놓기
   });
 }
