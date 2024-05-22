@@ -156,7 +156,7 @@ const initializeMap = () => {
   const options = {
     /*globals kakao */
     center: new kakao.maps.LatLng(avgLat, avgLng),
-    level: 10,
+    level: 12,
   };
   map = new kakao.maps.Map(container, options);
 
