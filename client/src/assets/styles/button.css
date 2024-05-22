@@ -13,7 +13,7 @@ button {
 }
 
 button:hover {
-  background-color: #218838; /* 호버 상태에서는 조금 더 어두운 초록색 */
+  
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강조 */
   transform: translateY(-2px); /* 호버 시 약간 위로 올라가는 효과 */
 }

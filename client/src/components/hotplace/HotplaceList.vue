@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import VSelect from '@/components/common/VSelect.vue';
 import { listHotplace, changeRecommend } from '@/api/hotplace.js';
 import Item from './HotplaceListItem.vue'; // Item.vue 컴포넌트 임포트
 import { useMemberStore } from '@/store/memberStore';
@@ -12,6 +13,19 @@ const currentPage = ref(1);
 const totalPage = ref(1);
 const VITE_ARTICLE_LIST_SIZE = 20;
 
+// 검색
+const selectOption = ref([
+  { text: '검색어', value: '' },
+  { text: '제목', value: 'title' },
+  { text: '작성자', value: 'user_id' },
+  { text: '주소', value: 'address' },
+]);
+// VSelect emit 함수
+const changeKey = val => {
+  console.log('HotPlaceList에서 선택한 조건 : ' + val);
+  param.value.key = val;
+};
+
 const param = ref({
   pgno: currentPage.value,
   spp: VITE_ARTICLE_LIST_SIZE,
@@ -20,20 +34,12 @@ const param = ref({
   memberId: null,
 });
 
-// 사용자 정보가 로드되었는지 확인하는 함수
-// const waitForUserInfo = async () => {
-//   while (!memberStore.userInfo) {
-//     await new Promise(resolve => setTimeout(resolve, 10));
-//   }
-//   return memberStore.userInfo;
-// };
-
 const getHotplaceList = async () => {
   const userInfo = memberStore.userInfo;
   if (userInfo && userInfo.data && userInfo.data.memberId) {
     param.value.memberId = userInfo.data.memberId;
   }
-  console.log('param', param.value); // 새로고침했는데 여기 콘솔이 안찍힘
+  console.log('param', param.value);
   listHotplace(
     param.value,
     response => {
@@ -56,13 +62,7 @@ const getHotplaceList = async () => {
 };
 
 onMounted(async () => {
-  // const userInfo = await waitForUserInfo();
-  // if (userInfo) {
-  //   console.log('list의 memberId', userInfo.data.memberId);
-  // } else {
-  //   console.log('null뜬다');
-  // }
-  getHotplaceList(); // 사용자 정보가 없더라도 리스트를 불러옴
+  getHotplaceList();
 });
 
 const moveWrite = () => {
@@ -82,7 +82,7 @@ const handleLikeHotplace = hotplaceId => {
     response => {
       console.log('좋아요를 눌렀을 때 response', response);
       console.log('Successfully liked hotplace', hotplaceId);
-      getHotplaceList(); // 리스트를 새로고침하여 좋아요 수 업데이트
+      getHotplaceList();
     },
     error => {
       console.log('Error liking hotplace', error);
@@ -95,7 +95,29 @@ const handleLikeHotplace = hotplaceId => {
   <div class="hotplace-container">
     <div class="header">
       <h1>핫플레이스</h1>
-      <p>다른 사용자들이 추천하는 여행지인 핫 를레이스입니다.</p>
+      <p>다른 사용자들이 추천하는 여행지인 핫 플레이스입니다.</p>
+    </div>
+    <div class="search-and-button">
+      <form class="d-flex search-form">
+        <VSelect
+          :selectOption="selectOption"
+          @onKeySelect="changeKey"
+          class="v-select"
+          :styles="{ menu: { 'max-height': '150px' } }"
+        />
+        <div class="input-group input-group-sm search-input-group">
+          <input
+            type="text"
+            class="form-control"
+            v-model="param.word"
+            placeholder="검색어"
+          />
+          &nbsp;
+          <v-btn variant="tonal" class="search-btn" @click="getHotplaceList"
+            >검색</v-btn
+          >
+        </div>
+      </form>
       <button @click="moveWrite" class="learn-more-btn">핫플 등록하기</button>
     </div>
     <div class="hotplace-grid">
@@ -115,13 +137,19 @@ const handleLikeHotplace = hotplaceId => {
   padding: 20px;
 }
 
-.toolbar {
-  display: flex;
-  justify-content: flex-start; /* Left-align the button */
+.header {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.write-btn {
+.search-and-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.learn-more-btn {
   color: white;
   text-transform: none;
   font-weight: bold;
@@ -131,8 +159,23 @@ const handleLikeHotplace = hotplaceId => {
   cursor: pointer;
 }
 
-.write-btn:hover {
-  background-color: #086bc4;
+.search-form {
+  display: flex;
+  align-items: center;
+  width: 70%;
+  max-width: 500px;
+}
+
+.v-select {
+  flex: 1;
+  margin-right: 10px;
+  min-width: 100px;
+}
+
+.search-input-group {
+  flex: 2;
+  display: flex;
+  align-items: center;
 }
 
 .hotplace-grid {
@@ -140,6 +183,7 @@ const handleLikeHotplace = hotplaceId => {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   justify-items: center;
+  margin-top: 20px;
 }
 
 .hotplace-item {

@@ -61,7 +61,7 @@
               >
                 <v-card class="recommendation-content">
                   <v-img
-                    :src="`https://86e1-121-147-32-101.ngrok-free.app/uploads/${place.saveFolder}/${place.saveFile}`"
+                    :src="`http://localhost:80/uploads/${place.saveFolder}/${place.saveFile}`"
                     alt="hotplace image"
                     class="recommendation-image"
                     height="200px"
