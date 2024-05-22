@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { emitter } from '@/util/eventBus';
 export default {
   name: 'filterbox',
   methods: {
@@ -23,9 +24,9 @@ export default {
               2. this.emitter.on()으로 수신하면 됩니다.
            
            */
-    // fire() {
-    //   this.emitter.emit('clickFilter', this.필터);
-    // },
+    fire() {
+      emitter.emit('clickFilter', this.filter);
+    },
   },
   props: {
     image: String,

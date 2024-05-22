@@ -41,7 +41,7 @@ const handleLike = () => {
             saveFile: props.hotplace.saveFile,
           })
         "
-        class="hotplace-img"
+        class="hotplace-img hotplace.selectedFilter"
         :alt="props.hotplace.title"
       />
       <div class="hotplace-overlay">

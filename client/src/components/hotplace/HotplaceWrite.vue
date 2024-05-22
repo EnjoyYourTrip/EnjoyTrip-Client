@@ -1,19 +1,22 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { writeHotplace, writeFileHotplace } from '@/api/hotplace.js';
 import { useMemberStore } from '@/store/memberStore';
 import FilterBox from '@/components/hotplace/FilterBox.vue';
+import { emitter } from '@/util/eventBus';
+
 const memberStore = useMemberStore();
 const router = useRouter();
 const memberId = memberStore.userInfo.data.memberId;
 // 핫플 객체
-const hotplace = ref({
+const hotplace = reactive({
   memberId: null,
   title: '',
   content: '',
   address: '',
   heart: 0, // default 값 설정
+  selectedFilter: '', // 필터 변수 넣기
 });
 //게시물 필터
 const filters = [
@@ -44,7 +47,6 @@ const filters = [
   'willow',
   'xpro2',
 ];
-const selectedFilter = ''; // 선택한 필터
 
 const hotplaceId = ref(0);
 
@@ -56,24 +58,25 @@ const image = ref({
 
 // 파일을 첨부하면 실행되는 함수
 const onInputImg = e => {
-  hotplace.value.memberId = memberId;
+  hotplace.memberId = memberId;
   const target = e.target;
   if (target.files && target.files[0]) {
     image.value.file = target.files[0];
     image.value.preview = URL.createObjectURL(target.files[0]);
   }
-  console.log('게시물에 대한 memberId', hotplace.value.memberId);
+  console.log('게시물에 대한 memberId', hotplace.memberId);
 };
-// onMounted(() => {
-//   this.emitter.on('clickFilter', s => {
-//     this.selectedFilter = s;
-//   });
-// });
+onMounted(() => {
+  emitter.on('clickFilter', s => {
+    hotplace.selectedFilter = s;
+    console.log('필터 클릭됨', hotplace.selectedFilter);
+  });
+});
 // 등록하기 버튼을 누르면 실행되는 함수
 const write = async () => {
-  console.log('작성할 핫플 글 -> ', hotplace.value);
+  console.log('작성할 핫플 글 -> ', hotplace);
   await writeHotplace(
-    hotplace.value,
+    hotplace,
     ({ data }) => {
       console.log('write한 핫플 번호 ->', data);
       hotplaceId.value = data;
@@ -193,7 +196,7 @@ const moveList = () => {
                 height="350px"
                 class="preview-image"
                 cover
-                :class="selectedFilter"
+                :class="hotplace.selectedFilter"
               ></v-img>
             </v-card>
           </v-card-text>
