@@ -10,6 +10,7 @@ export function getQnA(page = 1, size = 10) {
 
 //게시글 상세 조회
 export function getQnAById(id) {
+  console.log('cors 그만해 ㅠㅠㅠ', id);
   return local.get(`/question/${id}`);
 }
 

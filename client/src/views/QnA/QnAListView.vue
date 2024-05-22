@@ -122,10 +122,14 @@ button {
   padding: 10px 20px;
   margin: 0 10px;
   border-radius: 5px;
-  background-color: #5b9847;
+  background-color: #8abb79;
   border: 1px solid #dee2e6;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e2e6ea;
 }
 
 button:disabled {
