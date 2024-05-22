@@ -8,6 +8,7 @@
           class="form-control text-area-custom"
           placeholder="작성 내용을 입력해주세요."
         ></textarea>
+        <button @click="generatePlan" class="btn btn-primary mt-3">여행계획 생성</button>
       </div>
       <!-- 지도 검색 구역 -->
       <div class="col-md-6 d-flex flex-column align-items-center">
@@ -76,6 +77,7 @@
 import { onMounted, ref, watch } from 'vue';
 import MyAttraction from '@/components/plan/MyAttraction.vue';
 import { attractionList } from '@/api/map';
+import { generateTravelPlan } from '@/api/openai';
 
 var map;
 const markers = ref([]);
@@ -89,6 +91,7 @@ const selected = ref({
 });
 const contentText = ref('');
 const titleText = ref('');
+const selectedAttractions = ref([]);
 
 const categories = [
   { code: 12, name: '관광지' },
@@ -250,6 +253,9 @@ const createMarkers = attractionsData => {
     });
     kakao.maps.event.addListener(marker, 'click', () => {
       attractionObject.value = attraction;
+       if (!selectedAttractions.value.some(a => a.contentId === attraction.contentId)) {
+        selectedAttractions.value.push(attraction); // 클릭 시 선택된 관광지에 추가
+      }
     });
   });
 };
@@ -257,6 +263,16 @@ const createMarkers = attractionsData => {
 const deleteMarkers = () => {
   if (markers.value.length > 0) {
     markers.value.forEach(marker => marker.setMap(null));
+  }
+};
+
+// GPT API 호출 함수
+const generatePlan = async () => {
+  try {
+    const result = await generateTravelPlan(titleText.value, selectedAttractions.value);
+    contentText.value = result;
+  } catch (error) {
+    console.error('Error generating travel plan:', error);
   }
 };
 </script>
