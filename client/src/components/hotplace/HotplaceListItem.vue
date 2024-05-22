@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
 
 const props = defineProps({
   hotplace: {
@@ -8,7 +8,9 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['likeHotplace']);
-
+onMounted(() => {
+  console.log('화면에 뿌릴 객체들', props.hotplace);
+});
 // 좋아요 상태를 관리할 ref 변수
 const isLiked = ref(false);
 
@@ -41,7 +43,8 @@ const handleLike = () => {
             saveFile: props.hotplace.saveFile,
           })
         "
-        class="hotplace-img hotplace.selectedFilter"
+        class="hotplace-img"
+        :class="props.hotplace.selectedFilter"
         :alt="props.hotplace.title"
       />
       <div class="hotplace-overlay">

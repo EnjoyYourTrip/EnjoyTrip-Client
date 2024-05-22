@@ -2,9 +2,10 @@
 import { localAxios } from '@/util/http-commons';
 // const TestURL = 'http://localhost:5000/qna';
 const local = localAxios();
-//게시글 전체 조회
-export function getQnA() {
-  return local.get('/question');
+
+// 게시글 전체 조회 (페이지네이션 추가)
+export function getQnA(page = 1, size = 10) {
+  return localAxios().get(`/question?page=${page}&size=${size}`);
 }
 
 //게시글 상세 조회

@@ -2,6 +2,7 @@
   <div class="qna-container">
     <h2>QnA 목록</h2>
     <hr class="my-4" />
+    <button type="button" @click="goCreate" class="mt-3">글 작성하기</button>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -24,7 +25,13 @@
         </tbody>
       </table>
     </div>
-    <button type="button" @click="goCreate" class="mt-3">글 작성하기</button>
+    <div class="pagination">
+      <button @click="backPage()" :disabled="currentPage === 1">이전</button>
+      <span>{{ currentPage }}</span>
+      <button @click="frontPage()" :disabled="currentPage >= totalPage">
+        다음
+      </button>
+    </div>
   </div>
 </template>
 
@@ -38,9 +45,10 @@ import '@/assets/styles/table.css';
 const router = useRouter();
 
 const qna = ref([]);
-
+var currentPage = ref(1);
+const pageSize = 10;
 const fetchQna = async () => {
-  const { data } = await getQnA();
+  const { data } = await getQnA(currentPage.value, pageSize);
   console.log(data);
   qna.value = data.data.questions;
 };
@@ -58,41 +66,69 @@ const goPage = id => {
     params: { id },
   });
 };
-</script>
 
+//페이징
+const frontPage = () => {
+  currentPage.value = currentPage.value + 1;
+  fetchQna();
+};
+const backPage = () => {
+  currentPage.value = currentPage.value - 1;
+  fetchQna();
+};
+</script>
 <style scoped>
 .qna-container {
-  margin-top: 20px; /* 상단 마진 추가 */
+  margin-top: 20px;
 }
 
 .table {
-  width: 100%; /* 테이블 전체 너비를 고정 */
-  table-layout: fixed; /* 테이블 레이아웃을 고정 */
+  width: 100%;
+  table-layout: fixed;
 }
 
 th,
 td {
-  text-align: center; /* 모든 열의 텍스트를 중앙 정렬 */
-  vertical-align: middle; /* 셀의 내용을 수직 중앙에 위치 */
-  padding: 8px; /* 적절한 패딩을 추가하여 내용이 너무 셀 가장자리에 붙지 않도록 */
+  text-align: center;
+  vertical-align: middle;
+  padding: 8px;
 }
 
 th:nth-child(1),
 td:nth-child(1) {
-  width: 15%; /* 첫 번째 열의 너비를 15%로 설정 */
+  width: 15%;
 }
-
 th:nth-child(2),
 td:nth-child(2) {
-  width: 35%; /* 두 번째 열의 너비를 35%로 설정 */
+  width: 35%;
 }
-
 th:nth-child(3),
 td:nth-child(3),
 th:nth-child(4),
 td:nth-child(4),
 th:nth-child(5),
 td:nth-child(5) {
-  width: 15%; /* 세 번째, 네 번째, 다섯 번째 열의 너비를 15%로 설정 */
+  width: 15%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px;
+  background-color: #5b9847;
+  border: 1px solid #dee2e6;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 </style>
