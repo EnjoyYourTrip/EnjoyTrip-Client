@@ -42,9 +42,13 @@ export function updateAnswerInDb(id, data) {
   return local.patch(`/answer/${id}`, data);
 }
 // 답변 삭제
-export function deleteAnswerFromDb(id) {
-  return local.delete(`/answer/${id}`);
+// 답변 삭제
+export function deleteAnswerFromDb(id, memberId) {
+  return local.delete(`/answer/${id}`, {
+    params: { memberId },
+  });
 }
+
 // src/api/qna.js
 
 // 게시물의 답변 상태 업데이트

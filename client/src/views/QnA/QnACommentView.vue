@@ -1,22 +1,33 @@
 <template>
-  <v-container class="pa-3" v-if="role == 'admin'">
-    <div v-if="Object.keys(answer).length > 0">
+  <v-container class="pa-3">
+    <div v-if="answer && Object.keys(answer).length > 0">
       <h3>답변</h3>
       <p>{{ answer.content }}</p>
-      <v-btn color="red" @click="deleteAnswer(answer.answerId)"
-        >답변 삭제</v-btn
+      <v-btn
+        v-if="role == 'ADMIN'"
+        color="red"
+        @click="
+          deleteAnswer(answer.answerId, memberStore.userInfo.data.memberId)
+        "
       >
+        답변 삭제
+      </v-btn>
     </div>
     <div v-else>
-      <v-text-field
-        v-model="newAnswer"
-        label="답변을 작성하세요"
-        outlined
-        dense
-        class="mb-2"
-        color="green"
-      ></v-text-field>
-      <v-btn color="green" @click="submitAnswer">답변 작성</v-btn>
+      <template v-if="role == 'ADMIN'">
+        <v-text-field
+          v-model="newAnswer"
+          label="답변을 작성하세요"
+          outlined
+          dense
+          class="mb-2"
+          color="green"
+        ></v-text-field>
+        <v-btn color="green" @click="submitAnswer">답변 작성</v-btn>
+      </template>
+      <template v-else>
+        <p>아직 답변이 작성되지 않았습니다.</p>
+      </template>
     </div>
   </v-container>
 </template>
@@ -28,27 +39,31 @@ import { getAnswersByQnAId, createAnswer, deleteAnswerFromDb } from '@/api/qna';
 import { useMemberStore } from '@/store/memberStore';
 const route = useRoute();
 const questionId = route.params.id;
-const answer = ref({});
+const answer = ref(null);
 const newAnswer = ref('');
 const memberStore = useMemberStore();
 const role = ref('');
+
 onMounted(async () => {
   await loadAnswers();
   role.value = memberStore.userInfo.data.role;
-  console.log('현재 궈한', role.value);
+  console.log('현재 권한', role.value);
 });
 
 async function loadAnswers() {
-  console.log('호출');
+  console.log('호출', questionId);
   try {
     const response = await getAnswersByQnAId(questionId);
-    console.log('댓글', response.data.data);
-    if (response.data) {
+    console.log('댓글123', response);
+    if (response.data && response.data.data) {
       answer.value = response.data.data;
       console.log('댓글', answer.value);
+    } else {
+      answer.value = null; // 댓글이 없는 경우
     }
   } catch (error) {
     console.error('답변 로드 실패:', error);
+    answer.value = null;
   }
 }
 
@@ -63,18 +78,17 @@ async function submitAnswer() {
       questionId: questionId,
       memberId: memberStore.userInfo.data.memberId,
     };
-    console.log('memberStore (댓글)', memberStore.userInfo.data);
     console.log('댓글생성에 보낼 데이터', data);
-    if (memberStore.userInfo.data.role == 'admin') {
+    if (memberStore.userInfo.data.role == 'ADMIN') {
       const response = await createAnswer(data);
       if (response.status === 201) {
         const responseData = {
-          id: response.data.id,
+          answerId: response.data.id, // answerId로 수정
           content: response.data.content,
           questionId: response.data.questionId,
         };
-        answer.value = responseData;
-        newAnswer.value = '';
+        answer.value = responseData; // answer 상태 업데이트
+        newAnswer.value = ''; // 입력 필드 비우기
       }
     } else {
       alert('관리자만 답변할 수 있습니다.');
@@ -84,14 +98,12 @@ async function submitAnswer() {
   }
 }
 
-async function deleteAnswer(answerId) {
+async function deleteAnswer(answerId, memberId) {
+  console.log('삭제할 id', answerId, memberId);
   try {
-    const response = await deleteAnswerFromDb(answerId);
+    const response = await deleteAnswerFromDb(answerId, memberId);
     if (response.status === 200) {
-      const index = answer.value.findIndex(a => a.id === answerId);
-      if (index !== -1) {
-        answer.value.splice(index, 1);
-      }
+      answer.value = null;
     }
   } catch (error) {
     console.error('답변 삭제 실패:', error);
