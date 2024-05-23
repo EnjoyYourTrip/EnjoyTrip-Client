@@ -1,7 +1,7 @@
 <template>
   <nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-0">
     <!-- Removed mb-3 -->
-    <router-link to="/" class="navbar-brand">TripHelper</router-link>
+    <router-link to="/" class="navbar-brand"><i class="fa-solid fa-plane-departure"></i> TripHelper</router-link>
     <button class="navbar-toggler" type="button" @click="toggleMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
