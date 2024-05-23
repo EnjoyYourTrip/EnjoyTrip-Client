@@ -29,7 +29,6 @@ import QnACommentView from './QnACommentView.vue';
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
-// const id = route.params.id;
 // const props = defineProps({
 //   id: Number,
 // });
@@ -38,7 +37,8 @@ const post = ref({});
 
 const fetchPost = async () => {
   const { data } = await getQnAById(id);
-  post.value = { ...data };
+  console.log('------', data);
+  post.value = { ...data.data }; // 에러 수정 : data -> data.data
 };
 fetchPost();
 const goListPage = () => router.push({ name: 'QnAList' });

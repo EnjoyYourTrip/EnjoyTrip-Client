@@ -1,11 +1,11 @@
 <template>
-  <v-container class="pa-3">
-    <div v-if="answers.length">
-      <div v-for="answer in answers" :key="answer.id">
-        <h3>답변</h3>
-        <p>{{ answer.content }}</p>
-        <v-btn color="red" @click="deleteAnswer(answer.id)">답변 삭제</v-btn>
-      </div>
+  <v-container class="pa-3" v-if="role == 'admin'">
+    <div v-if="Object.keys(answer).length > 0">
+      <h3>답변</h3>
+      <p>{{ answer.content }}</p>
+      <v-btn color="red" @click="deleteAnswer(answer.answerId)"
+        >답변 삭제</v-btn
+      >
     </div>
     <div v-else>
       <v-text-field
@@ -24,27 +24,28 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import {
-  getAnswersByQnAId,
-  createAnswer,
-  deleteAnswerFromDb,
-  updateQnAResponseStatus,
-} from '@/api/qna';
-
+import { getAnswersByQnAId, createAnswer, deleteAnswerFromDb } from '@/api/qna';
+import { useMemberStore } from '@/store/memberStore';
 const route = useRoute();
-const qnaId = route.params.id;
-const answers = ref([]);
+const questionId = route.params.id;
+const answer = ref({});
 const newAnswer = ref('');
-
+const memberStore = useMemberStore();
+const role = ref('');
 onMounted(async () => {
   await loadAnswers();
+  role.value = memberStore.userInfo.data.role;
+  console.log('현재 궈한', role.value);
 });
 
 async function loadAnswers() {
+  console.log('호출');
   try {
-    const response = await getAnswersByQnAId(qnaId);
+    const response = await getAnswersByQnAId(questionId);
+    console.log('댓글', response.data.data);
     if (response.data) {
-      answers.value = response.data;
+      answer.value = response.data.data;
+      console.log('댓글', answer.value);
     }
   } catch (error) {
     console.error('답변 로드 실패:', error);
@@ -59,18 +60,24 @@ async function submitAnswer() {
   try {
     const data = {
       content: newAnswer.value,
-      postId: qnaId,
+      questionId: questionId,
+      memberId: memberStore.userInfo.data.memberId,
     };
-    const response = await createAnswer(qnaId, data);
-    if (response.status === 201) {
-      const responseData = {
-        id: response.data.id,
-        content: response.data.content,
-        postId: response.data.postId,
-      };
-      answers.value.push(responseData);
-      newAnswer.value = '';
-      await updateQnAResponseStatus(qnaId, true);
+    console.log('memberStore (댓글)', memberStore.userInfo.data);
+    console.log('댓글생성에 보낼 데이터', data);
+    if (memberStore.userInfo.data.role == 'admin') {
+      const response = await createAnswer(data);
+      if (response.status === 201) {
+        const responseData = {
+          id: response.data.id,
+          content: response.data.content,
+          questionId: response.data.questionId,
+        };
+        answer.value = responseData;
+        newAnswer.value = '';
+      }
+    } else {
+      alert('관리자만 답변할 수 있습니다.');
     }
   } catch (error) {
     console.error('답변 등록 실패:', error);
@@ -81,12 +88,9 @@ async function deleteAnswer(answerId) {
   try {
     const response = await deleteAnswerFromDb(answerId);
     if (response.status === 200) {
-      const index = answers.value.findIndex(a => a.id === answerId);
+      const index = answer.value.findIndex(a => a.id === answerId);
       if (index !== -1) {
-        answers.value.splice(index, 1);
-      }
-      if (answers.value.length === 0) {
-        await updateQnAResponseStatus(qnaId, false);
+        answer.value.splice(index, 1);
       }
     }
   } catch (error) {

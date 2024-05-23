@@ -16,6 +16,7 @@ import HotplaceView from '@/views/HotPlaceView.vue';
 
 import PwSearch from '@/views/member/searchPwView.vue';
 import InputToken from '@/views/member/newPwView.vue';
+import UpdateMember from '@/views/member/updateMember.vue';
 const onlyAuthUser = async (to, from, next) => {
   const memberStore = useMemberStore();
   let token = sessionStorage.getItem('accessToken');
@@ -52,6 +53,11 @@ const routes = [
     name: 'user-mypage',
     beforeEnter: onlyAuthUser, //마이페이지 전에 로그인 여부파악
     component: UserMypage,
+  },
+  {
+    path: '/updateMember',
+    name: 'memberUpdate',
+    component: UpdateMember,
   },
   {
     path: '/regist',
