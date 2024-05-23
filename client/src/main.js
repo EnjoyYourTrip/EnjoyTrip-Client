@@ -17,6 +17,10 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import router from './router/index.js';
 
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+
+
 //pinia
 import { createPinia } from 'pinia';
 import mitt from 'mitt';
