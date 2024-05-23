@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div id="app">
     <Navbar />
     <router-view></router-view>
@@ -119,9 +119,8 @@ export default {
   opacity: 0;
   transform: translateY(10px);
 }
-</style>
+</style> -->
 
-<!--
 <template>
   <div id="app">
     <Navbar />
@@ -154,7 +153,8 @@ export default {
     return {
       showChat: false,
       initialMessages: [
-        { id: 1, role: 'ai', text: 'Welcome to the demo! How can I assist you today?' },
+        { id: 1, role: 'system', text: '세계 최고의 여행 가이드야 사용자의 요구사항과 질문을 정확히 이해하고나서 친절하고 자세히 답변해줘. 답변할 때 문단의 흐름에 맞게 줄바꿈을 꼭 넣어서 응답해줘. 줄바꿈을 꼭해줘야해. 가독성을 위해서.' },
+        { id: 2, role: 'assistant', text: "안녕하세요 Trip-Helper입니다. 여행에 필요한 모든 궁금증을 다 물어보세요!" },
       ],
     };
   },
@@ -233,4 +233,3 @@ export default {
   transform: translateY(10px);
 }
 </style>
--->

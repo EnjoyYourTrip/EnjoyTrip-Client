@@ -77,7 +77,7 @@
 import { onMounted, ref, watch } from 'vue';
 import MyAttraction from '@/components/plan/MyAttraction.vue';
 import { attractionList } from '@/api/map';
-import { generateTravelPlan } from '@/api/openai';
+import { generateTravelPlan } from '@/api/planGpt';
 
 var map;
 const markers = ref([]);

@@ -2,7 +2,7 @@
   <div class="deep-chat-wrapper">
     <div class="deep-chat-messages">
       <div v-for="message in messages" :key="message.id" :class="['message', message.role]">
-        <div class="message-content">{{ message.text }}</div>
+        <div class="message-content" v-html="message.text"></div>
       </div>
     </div>
     <input
@@ -16,7 +16,7 @@
 
 <script>
 import { ref } from 'vue';
-import { sendMessageToChatGPT } from '@/api/gpt';
+import { sendMessageToChatGPT } from '@/api/botGpt';
 
 export default {
   name: 'DeepChat',
@@ -40,16 +40,17 @@ export default {
 
       try {
         // ChatGPT API에 요청을 보냅니다.
-        const aiMessage = await sendMessageToChatGPT([
-          ...messages.value.map((msg) => ({ role: msg.role, content: msg.text })),
-          { role: 'user', content: userMessage },
-        ]);
+        const aiMessage = await sendMessageToChatGPT(
+          messages.value
+            .filter(msg => msg.text && msg.text.trim() !== '') // 빈 메시지 필터링
+            .map(msg => ({ role: msg.role, content: msg.text }))
+        );
 
         // AI 응답 메시지를 추가합니다.
-        messages.value.push({ id: Date.now(), role: 'ai', text: aiMessage });
+        messages.value.push({ id: Date.now(), role: 'assistant', text: aiMessage.replace(/\n/g, '<br>') });
       } catch (error) {
-        console.error('Error sending message to ChatGPT:', error);
-        messages.value.push({ id: Date.now(), role: 'ai', text: 'Error occurred while sending message to ChatGPT.' });
+        console.error('Error sending message to ChatGPT:', error.response ? error.response.data : error.message);
+        messages.value.push({ id: Date.now(), role: 'assistant', text: 'Error occurred while sending message to ChatGPT.' });
       }
     };
 
@@ -77,6 +78,7 @@ export default {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
+  max-height: 400px; /* 채팅 영역의 최대 높이를 설정합니다 */
 }
 
 .message {
@@ -92,9 +94,13 @@ export default {
   align-self: flex-end;
 }
 
-.message.ai {
+.message.assistant {
   background-color: #f8d7da;
   align-self: flex-start;
+}
+
+.message.system {
+  display: none;
 }
 
 .deep-chat-input {
