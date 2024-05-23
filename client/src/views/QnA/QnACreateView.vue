@@ -38,24 +38,25 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { createQnA } from '@/api/qna';
+import { useMemberStore } from '@/store/memberStore';
 const router = useRouter();
-
+const memberStore = useMemberStore();
 const form = ref({
   title: null,
   content: null,
 });
-const currentDate = new Date().toISOString().substring(0, 10);
+// const currentDate = new Date().toISOString().substring(0, 10);
 const save = () => {
   const data = {
     //서버 연결 전에 데이터 형식에 맞게 수정하렴
     ...form.value,
-    created_date: currentDate, // 날짜와 시간을 기록
-    member_id: '김싸피',
-    has_response: false,
-    last_modified_date: currentDate,
+    memberId: memberStore.userInfo.data.memberId,
+    hasResponse: false,
   };
+  console.log('data', data);
   createQnA(data)
     .then(() => {
+      console.log('생성됐나');
       router.push({ name: 'QnAList' }); // 성공 시 QnA 목록 페이지로 이동
     })
     .catch(error => {
