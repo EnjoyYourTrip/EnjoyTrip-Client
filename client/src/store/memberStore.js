@@ -148,10 +148,10 @@ export const useMemberStore = defineStore(
           console.log(error);
         },
       );
-      if (sessionStorage.getItem('accessToken') !== null) {
-        getUserInfo(sessionStorage.getItem('accessToken'));
-      }
     };
+    if (sessionStorage.getItem('accessToken') !== null) {
+      getUserInfo(sessionStorage.getItem('accessToken'));
+    }
 
     return {
       isLogin,
