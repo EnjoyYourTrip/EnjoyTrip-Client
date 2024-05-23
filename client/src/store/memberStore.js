@@ -149,17 +149,10 @@ export const useMemberStore = defineStore(
         },
       );
     };
-<<<<<<< HEAD
     if (sessionStorage.getItem('accessToken') !== null) {
       getUserInfo(sessionStorage.getItem('accessToken'));
     }
 
-=======
-    //만약 accessToken이 살아있으면 userInfo를 다시 저장
-    if (sessionStorage.getItem('accessToken') !== null) {
-      getUserInfo(sessionStorage.getItem('accessToken'));
-    }
->>>>>>> 2d3044d2f4f0a8767de1b7118fe4e766b0aafd7f
     return {
       isLogin,
       isLoginError,
