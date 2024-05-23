@@ -118,14 +118,16 @@ export default {
 }
 
 .message.user {
-  background-color: #d1e7dd;
+  background-color: #007bff;
+  color: #fff;
   align-self: flex-end;
-  margin-right: 10px;
+  margin-left: 90px;
   text-align: right;
 }
 
 .message.assistant {
-  background-color: #f8d7da;
+  background-color: #e0e0e0;
+  color: #000;
   align-self: flex-start;
   margin-left: 10px;
   text-align: left;
