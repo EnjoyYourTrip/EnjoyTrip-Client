@@ -25,9 +25,8 @@
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title class="title">
-                    Email: {{ memberStore.userInfo.data.email }}@{{
-                      memberStore.userInfo.data.emailDomain
-                    }}
+                    Email: {{ memberStore.userInfo.data.email
+                    }}{{ memberStore.userInfo.data.emailDomain }}
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -43,6 +42,11 @@
               </v-list-item>
             </v-list>
           </v-card-text>
+
+          <v-card-actions class="justify-end">
+            <v-btn color="primary" @click="editProfile">회원정보 수정</v-btn>
+            <v-btn color="error" @click="deleteAccount">회원 탈퇴</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -85,11 +89,13 @@
 import { ref, onMounted } from 'vue';
 import { useMemberStore } from '@/store/memberStore';
 import { userlistRecommend } from '@/api/hotplace';
+import { useRouter } from 'vue-router';
+import { userDelete } from '@/api/member';
 import 'vuetify/styles'; // Vuetify styles
 
 const memberStore = useMemberStore();
 const userRecommendList = ref([]);
-
+const router = useRouter();
 onMounted(() => {
   if (memberStore.userInfo) {
     console.log('memberId', memberStore.userInfo.data.id);
@@ -109,6 +115,16 @@ const fetchUserRecommendations = async memberId => {
       console.error('Failed to fetch recommendations:', error);
     },
   );
+};
+
+const editProfile = () => {
+  router.push({ name: 'memberUpdate' });
+};
+const deleteAccount = async () => {
+  await userDelete(memberStore.userInfo.data.memberId);
+  //로그아웃 후 메인화면으로 이동
+  memberStore.userLogout();
+  router.push({ name: 'home' });
 };
 </script>
 

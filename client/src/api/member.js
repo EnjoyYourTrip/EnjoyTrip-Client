@@ -64,8 +64,8 @@ async function findPwd(memberId, success, fail) {
   await local.get(`/members/${memberId}`).then(success).catch(fail);
 }
 
-async function userModify(user, success, fail) {
-  await local.put(`/members/${user.id}`, user).then(success).catch(fail);
+async function userModify(memberId, Member, success, fail) {
+  await local.patch(`/members/${memberId}`, Member).then(success).catch(fail);
 }
 
 async function userList(success, fail) {

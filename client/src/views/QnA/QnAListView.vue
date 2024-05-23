@@ -51,6 +51,7 @@ const fetchQna = async () => {
   const { data } = await getQnA(currentPage.value, pageSize);
   console.log(data);
   qna.value = data.data.questions;
+  console.log('각 게시물 ', qna.value);
 };
 
 fetchQna();

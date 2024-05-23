@@ -42,7 +42,7 @@ export const useMenuStore = defineStore(
       strategies: [
         {
           key: 'menuStore', // 로컬 스토리지에 저장할 키 이름
-          storage: localStorage, // 상태를 저장할 스토리지 유형 (여기서는 localStorage)
+          storage: sessionStorage, // 상태를 저장할 스토리지 유형 (여기서는 sessionStorage)
         },
       ],
     },

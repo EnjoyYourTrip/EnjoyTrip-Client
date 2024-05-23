@@ -55,10 +55,13 @@ const toggleMenu = () => {
 };
 
 const logout = () => {
+  //로그아웃할 때 memberId가 null 되는 오류
+  console.log('로그아웃할 때 넘길 memberId', memberStore);
   menuStore.logout();
   memberStore.userLogout(memberStore.userInfo.memberId);
   sessionStorage.removeItem('refreshToken');
   sessionStorage.removeItem('accessToken');
+  sessionStorage.removeItem('menuStore');
   alert('로그아웃 되었습니다.');
   router.push({ name: 'home' });
 };

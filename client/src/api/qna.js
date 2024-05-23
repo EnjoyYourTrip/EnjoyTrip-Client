@@ -10,7 +10,6 @@ export function getQnA(page = 1, size = 10) {
 
 //게시글 상세 조회
 export function getQnAById(id) {
-  console.log('cors 그만해 ㅠㅠㅠ', id);
   return local.get(`/question/${id}`);
 }
 
@@ -29,13 +28,13 @@ export function deleteQnA(id) {
 }
 
 // 댓글 가져오기
-export function getAnswersByQnAId(qnaId) {
-  return local.get(`/answer?postId=${qnaId}`);
+export function getAnswersByQnAId(questionId) {
+  return local.get(`/answer/${questionId}`);
 }
 
 // 댓글 등록
-export function createAnswer(qnaId, data) {
-  return local.post(`/answer`, { ...data, postId: qnaId });
+export function createAnswer(data) {
+  return local.post(`/answer`, { ...data });
 }
 
 // 답변 수정
@@ -49,8 +48,8 @@ export function deleteAnswerFromDb(id) {
 // src/api/qna.js
 
 // 게시물의 답변 상태 업데이트
-export function updateQnAResponseStatus(id, hasResponse) {
-  return local.patch(`/answer/${id}`, {
-    has_response: hasResponse,
-  });
-}
+// export function updateQnAResponseStatus(id, hasResponse) {
+//   return local.patch(`/answer/${id}`, {
+//     has_response: hasResponse,
+//   });
+// }

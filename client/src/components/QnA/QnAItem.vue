@@ -2,9 +2,9 @@
   <tr>
     <td>
       <button
-        :class="qna.has_response ? 'response-complete' : 'response-incomplete'"
+        :class="qna.hasResponse ? 'response-complete' : 'response-incomplete'"
       >
-        {{ qna.has_response ? '답변 완료' : '미완료' }}
+        {{ qna.hasResponse ? '답변 완료' : '미완료' }}
       </button>
     </td>
     <td>{{ qna.title }}</td>
