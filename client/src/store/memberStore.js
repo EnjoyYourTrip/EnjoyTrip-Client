@@ -5,12 +5,12 @@ import { jwtDecode } from 'jwt-decode';
 
 import { userConfirm, findById, tokenRegeneration, logout } from '@/api/member';
 import { httpStatusCode } from '@/util/http-status';
-
+import { useMenuStore } from '@/store/menuStore';
 export const useMemberStore = defineStore(
   'memberStore',
   () => {
     const router = useRouter();
-
+    const menuStore = useMenuStore();
     const isLogin = ref(false);
     const isLoginError = ref(false);
     const userInfo = ref(null);
@@ -139,7 +139,10 @@ export const useMemberStore = defineStore(
             isLogin.value = false;
             userInfo.value = null;
             isValidToken.value = false;
-            sessionStorage.removeItem('memberStore');
+            sessionStorage.removeItem('refreshToken');
+            sessionStorage.removeItem('accessToken');
+            sessionStorage.removeItem('menuStore');
+            menuStore.logout();
           } else {
             console.error('유저 정보 없음!!!!');
           }

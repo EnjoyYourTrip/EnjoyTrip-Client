@@ -121,9 +121,9 @@ const editProfile = () => {
   router.push({ name: 'memberUpdate' });
 };
 const deleteAccount = async () => {
-  await userDelete(memberStore.userInfo.data.memberId);
-  //로그아웃 후 메인화면으로 이동
-  memberStore.userLogout();
+  await userDelete(memberStore.userInfo.data.memberId); // 삭제
+  alert('회원이 탈퇴되었습니다.');
+  memberStore.userLogout(memberStore.userInfo.data.memberId); //삭제했으면  로그아웃하여 세션을 비움
   router.push({ name: 'home' });
 };
 </script>
